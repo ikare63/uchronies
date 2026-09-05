@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-05T20:07:38.448Z",
+  "updatedAt": "2026-09-05T20:53:51.095Z",
   "games": [
     {
       "id": "lan1",
@@ -37,8 +37,8 @@
     {
       "id": "grand-dessein",
       "title": "Grand Dessein",
-      "period": "1661–1715",
-      "description": "Après Mazarin, dirigez la monarchie de Louis XIV et redessinez l’équilibre européen.",
+      "period": "1477-1519",
+      "description": "Charles le Téméraire survit à Nancy. À la tête d’une Bourgogne qui refuse de disparaître, redessinez l’Europe entre France, Empire et Habsbourg.",
       "file": "grand-dessein.html",
       "thumbnail": "miniatures/grand-dessein.jpg",
       "tags": [
@@ -47,7 +47,7 @@
       "published": true,
       "order": 30,
       "addedAt": "2026-09-03T00:00:00.000Z",
-      "updatedAt": "2026-09-05T20:07:38.448Z"
+      "updatedAt": "2026-09-05T20:53:51.095Z"
     },
     {
       "id": "roma-aeterna",

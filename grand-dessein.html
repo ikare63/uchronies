@@ -1,8 +1,7 @@
 <!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<html lang="fr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Le Grand Dessein — 1477–1519</title>
 <style>
 :root{
@@ -54,14 +53,14 @@ body{background:#16100e!important}.app{padding:7px!important;gap:7px!important;b
 </style>
 <style id="gd-eight-gauges-v4">.gaugegrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;flex:0 0 auto}.gaugecell{min-width:0;border:1px solid rgba(156,126,77,.55);background:#e7d1a4;border-radius:5px;padding:3px 5px}.gaugecell>div{display:flex;justify-content:space-between;gap:4px;font:700 .45rem var(--display);white-space:nowrap}.gaugecell>div span{overflow:hidden;text-overflow:ellipsis}.gaugecell i{display:block;height:3px;background:#bca373;border-radius:5px;overflow:hidden;margin-top:2px}.gaugecell em{display:block;height:100%;background:#8f3043;border-radius:5px}@media(max-width:720px){.gaugegrid{gap:2px}.gaugecell{padding:2px 3px}.gaugecell>div{font-size:.36rem}.gaugecell i{height:2px}}
 </style>
-</head>
+<meta name="uchronie-format" content="1"><meta name="uchronie-id" content="grand-dessein"><meta name="uchronie-title" content="Grand Dessein"><meta name="uchronie-period" content="1477-1519"><meta name="uchronie-description" content="Charles le Téméraire survit à Nancy. À la tête d’une Bourgogne qui refuse de disparaître, redessinez l’Europe entre France, Empire et Habsbourg."><meta name="uchronie-tags" content="Monarchie"><meta name="uchronie-cover" content="miniatures/grand-dessein.jpg"></head>
 <body>
 <div class="app">
 <header class="top"><div class="crossmark"></div><div class="brand"><div class="k">1477 — 1519</div><h1>LE GRAND DESSEIN</h1><div class="sub">Entre France et Empire, faites naître un État qui n’aurait jamais dû exister.</div></div><div class="actions"><button class="ib" onclick="openMap()">Carte</button><button class="ib" onclick="openDossier()">Dossier</button><button class="ib" onclick="openJournal()">Journal</button><button class="ib" onclick="resetGame()">Nouvelle</button></div></header>
 <section id="start" class="screen start paper">
  <div class="date">5 janvier 1477 • Nancy</div><h2>Charles le Téméraire n’est pas encore mort.</h2>
  <p class="lead">Vous entrez au Grand Conseil bourguignon au moment où l’armée du duc affronte les Lorrains et les Suisses devant Nancy. Si Charles survit, ses possessions — de Dijon à la mer du Nord — peuvent devenir un véritable État. Mais il faudra relier les territoires, dompter ou convaincre les villes, choisir entre France et Empire, organiser la succession et survivre aux guerres qui annoncent l’Europe moderne.</p>
- <div class="form"><label>Nom<input id="nameInput" value="" placeholder="Votre nom"/></label><label>Origine<select id="originInput"><option>Bourgogne</option><option>Flandre</option><option>Brabant</option><option>Franche-Comté</option><option>Luxembourg</option><option>Hollande</option></select></label><label>Profession<select id="jobInput"><option>Juriste</option><option>Noble d’épée</option><option>Marchand</option><option>Diplomate</option><option>Clerc</option><option>Capitaine</option></select></label><label>Sensibilité<select id="factionInput" onchange="updateFactionIntro()"><option value="central">Centralisateur bourguignon</option><option value="estates">Partisan des États</option><option value="merchant">Marchand des Pays-Bas</option><option value="dynastic">Dynastique de cour</option></select></label></div>
+ <div class="form"><label>Nom<input id="nameInput" value="" placeholder="Votre nom"></label><label>Origine<select id="originInput"><option>Bourgogne</option><option>Flandre</option><option>Brabant</option><option>Franche-Comté</option><option>Luxembourg</option><option>Hollande</option></select></label><label>Profession<select id="jobInput"><option>Juriste</option><option>Noble d’épée</option><option>Marchand</option><option>Diplomate</option><option>Clerc</option><option>Capitaine</option></select></label><label>Sensibilité<select id="factionInput" onchange="updateFactionIntro()"><option value="central">Centralisateur bourguignon</option><option value="estates">Partisan des États</option><option value="merchant">Marchand des Pays-Bas</option><option value="dynastic">Dynastique de cour</option></select></label></div>
  <div class="faction-wrap"><div id="fdesc" class="fdesc"></div><div class="fgrid"><div class="fchip"><b>Centralisateur bourguignon</b>Une monnaie, une armée, une administration et une couronne pour transformer l’assemblage dynastique en État.</div><div class="fchip"><b>Partisan des États</b>Privilèges provinciaux, consentement fiscal et institutions communes plutôt qu’un pouvoir ducal absolu.</div><div class="fchip"><b>Marchand des Pays-Bas</b>Commerce, villes, ports et stabilité : Gand, Bruges, Anvers et Amsterdam comptent autant que Dijon.</div><div class="fchip"><b>Dynastique de cour</b>Prestige, mariages, noblesse, Empire et droits de la maison de Bourgogne avant les innovations institutionnelles.</div></div></div>
  <div class="startbtns"><button class="btn" onclick="startGame()">Entrer dans le Grand Conseil</button><button class="btn alt" onclick="resumeGame()">Reprendre</button></div>
 </section>
