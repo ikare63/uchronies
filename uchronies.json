@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-05T20:07:38.448Z",
+  "updatedAt": "2026-09-05T20:29:50.695Z",
   "games": [
     {
       "id": "lan1",
@@ -55,7 +55,7 @@
       "period": "476–2026",
       "description": "Et si l’Empire romain d’Occident avait survécu jusqu’à l’époque contemporaine ?",
       "file": "roma-aeterna.html",
-      "thumbnail": "",
+      "thumbnail": "miniatures/roma-aeterna.jpg",
       "tags": [
         "Antiquité",
         "Politique"
@@ -63,7 +63,7 @@
       "published": true,
       "order": 50,
       "addedAt": "2026-09-03T00:00:00.000Z",
-      "updatedAt": "2026-09-05T18:00:00.000Z"
+      "updatedAt": "2026-09-05T20:29:50.695Z"
     },
     {
       "id": "13-sous-la-couronne-v24",
