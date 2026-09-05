@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Roma Æterna — Uchronie romaine</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Marcellus&display=swap');
+:root{
+  --ink:#2b251d;--muted:#6c6255;--paper:#efe4c7;--paper2:#e1cfaa;--line:#9b825b;
+  --roman:#a84435;--roman2:#7c2f29;--gold:#c19a49;--sea:#aac4c4;--lost:#70685f;
+  --fed:#b77f40;--contested:#c7a84d;--good:#3f6a4c;--bad:#8a3732;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#17130f;color:var(--ink);font-family:"Cormorant Garamond",serif;overflow:hidden}
+button{font:inherit}
+.app{height:100dvh;display:flex;flex-direction:column;background:
+ radial-gradient(circle at 20% 10%,rgba(255,255,255,.22),transparent 25%),
+ linear-gradient(135deg,var(--paper),#e8d8b7 55%,var(--paper2))}
+.topbar{height:54px;min-height:54px;display:flex;align-items:center;gap:12px;padding:7px 14px;border-bottom:1px solid rgba(67,52,33,.35);background:rgba(238,225,196,.92);backdrop-filter:blur(8px)}
+.brand{font-family:Marcellus,serif;font-weight:700;letter-spacing:.12em;font-size:.95rem;white-space:nowrap}
+.brand small{display:block;font:600 .58rem "Cormorant Garamond";letter-spacing:.16em;color:var(--muted)}
+.spacer{flex:1}
+.mini{border:1px solid rgba(77,61,38,.35);background:rgba(255,255,255,.25);border-radius:999px;padding:5px 9px;font-size:.68rem;color:#473f34}
+.iconbtn{width:34px;height:34px;border:1px solid rgba(77,61,38,.35);background:rgba(255,255,255,.22);border-radius:9px;cursor:pointer}
+.main{flex:1;min-height:0;padding:10px;display:grid;grid-template-columns:minmax(330px,.9fr) minmax(430px,1.25fr);gap:10px}
+.panel{min-height:0;border:1px solid rgba(83,65,38,.38);border-radius:16px;background:rgba(250,244,227,.72);box-shadow:0 12px 32px rgba(32,23,13,.12);overflow:hidden}
+.visual{display:flex;flex-direction:column;min-height:0}
+.visual-head{padding:12px 14px 7px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.eyebrow{font:700 .61rem Marcellus;letter-spacing:.15em;text-transform:uppercase;color:var(--roman2)}
+.visual h2{margin:1px 0 0;font-family:Marcellus;font-size:1.25rem}
+.mapwrap{position:relative;flex:1;min-height:180px;margin:0 10px 8px;border-radius:13px;overflow:hidden;border:1px solid rgba(68,84,76,.24);background:linear-gradient(#bdd0cd,#9ebaba)}
+.mapwrap svg{width:100%;height:100%;display:block}
+.country-base{fill:#d9cfb7;stroke:rgba(91,83,69,.52);stroke-width:.65;vector-effect:non-scaling-stroke}
+.region path{stroke:#f4ead3;stroke-width:1.35;transition:fill .35s,opacity .35s;vector-effect:non-scaling-stroke;filter:drop-shadow(0 1px 1px rgba(0,0,0,.12))}
+.region.roman path{fill:var(--roman)}
+.region.federated path{fill:var(--fed)}
+.region.contested path{fill:var(--contested)}
+.region.lost path{fill:var(--lost);opacity:.72}
+.region.independent path{fill:#8a775c}
+.rlabel{font:700 8.5px Marcellus;fill:#fff;text-anchor:middle;paint-order:stroke;stroke:rgba(35,28,20,.72);stroke-width:2.2px;stroke-linejoin:round;pointer-events:none;letter-spacing:.02em}
+.sea-label{font:700 13px Marcellus;fill:rgba(45,66,70,.35);letter-spacing:.17em;text-anchor:middle;pointer-events:none}
+.seal{position:absolute;right:10px;bottom:9px;width:58px;height:58px;border-radius:50%;background:rgba(246,232,194,.9);border:2px solid #8a6740;display:grid;place-items:center;font:700 1.5rem Marcellus;color:var(--roman2);box-shadow:0 3px 10px rgba(0,0,0,.16)}
+.legend{display:flex;gap:8px;flex-wrap:wrap;padding:0 13px 11px;color:#5a5146;font-size:.65rem}
+.legend span:before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.lroman:before{background:var(--roman)}.lfed:before{background:var(--fed)}.lcont:before{background:var(--contested)}.llost:before{background:var(--lost)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:8px 10px 10px;border-top:1px solid rgba(83,65,38,.25);background:rgba(232,216,182,.55)}
+.stat{min-width:0}.stat b{display:flex;justify-content:space-between;font:700 .58rem Marcellus;letter-spacing:.03em}.bar{height:5px;background:rgba(70,54,34,.14);border-radius:99px;overflow:hidden;margin-top:3px}.bar i{display:block;height:100%;background:#7c4b3d;border-radius:99px}
+.game{display:flex;flex-direction:column;min-height:0}
+.eventhead{padding:13px 15px 8px;border-bottom:1px solid rgba(83,65,38,.25)}
+.date{font:700 .62rem Marcellus;letter-spacing:.14em;color:var(--roman2);text-transform:uppercase}
+.eventhead h1{font-family:Marcellus;margin:3px 0 4px;font-size:clamp(1.2rem,2.1vw,1.75rem);line-height:1.06}
+.chapter{color:var(--muted);font-size:.72rem}
+.copy{padding:10px 15px 7px;overflow:auto;scrollbar-width:thin;flex:0 1 auto;max-height:32%}
+.copy p{margin:0 0 7px;font-size:.9rem;line-height:1.26}
+.history{border-left:3px solid var(--gold);padding:7px 9px;background:rgba(193,154,73,.11);font-size:.79rem!important;color:#544a3b}
+.choices{padding:7px 12px 12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;overflow:auto;min-height:0;flex:1}
+.choice{position:relative;text-align:left;border:1px solid rgba(85,65,38,.32);background:rgba(255,252,244,.65);border-radius:11px;padding:9px 10px 8px;cursor:pointer;transition:.15s;min-height:88px}
+.choice:hover{transform:translateY(-1px);background:#fff9e9;border-color:#8a633d}.choice:active{transform:none}
+.choice:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.choice strong{display:block;font:700 .77rem Marcellus;line-height:1.15;margin-bottom:4px;color:#332b21}
+.choice .desc{display:block;font-size:.72rem;line-height:1.16;color:#5f5548}
+.tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}.tag{font-size:.55rem;border:1px solid rgba(82,62,39,.25);border-radius:99px;padding:2px 5px;color:#675c4d;background:rgba(238,224,190,.65)}
+.req{display:block;color:var(--bad);font-size:.56rem;margin-top:5px}
+.footerline{height:28px;display:flex;align-items:center;gap:8px;padding:0 14px;border-top:1px solid rgba(83,65,38,.22);font-size:.62rem;color:#665d50;background:rgba(230,214,181,.45)}
+.progress{height:4px;flex:1;background:rgba(78,61,39,.14);border-radius:99px;overflow:hidden}.progress i{display:block;height:100%;background:var(--roman);transition:.3s}
+.overlay{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:16px;background:
+ radial-gradient(circle at 50% 25%,rgba(147,71,50,.34),transparent 26%),
+ linear-gradient(150deg,#21170f,#3e2b1b 55%,#17110d);color:#f4ead3}
+.card{width:min(760px,96vw);max-height:92dvh;overflow:auto;border:1px solid rgba(228,198,135,.4);border-radius:22px;padding:clamp(20px,4vw,38px);background:linear-gradient(145deg,rgba(50,37,24,.96),rgba(31,24,17,.97));box-shadow:0 28px 80px rgba(0,0,0,.5)}
+.card .romanmark{font:700 .72rem Marcellus;letter-spacing:.28em;color:#d7b96f}.card h1{font:700 clamp(2rem,8vw,4.8rem) Marcellus;margin:8px 0 4px;line-height:.9;letter-spacing:.03em}.card h2{font-family:Marcellus;margin:6px 0 12px}.card p{color:#ded1b7;line-height:1.35}.card .lead{font-size:1.05rem}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.primary,.secondary{border-radius:11px;padding:10px 14px;cursor:pointer;font:700 .76rem Marcellus;letter-spacing:.03em}
+.primary{background:#b04c39;color:#fff4dc;border:1px solid #d48c6f}.secondary{background:transparent;color:#ecd9b7;border:1px solid rgba(236,217,183,.38)}
+.hidden{display:none!important}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}.rule{border:1px solid rgba(233,210,163,.18);border-radius:11px;padding:9px;background:rgba(255,255,255,.03)}.rule b{font:700 .68rem Marcellus;color:#edd6aa}.rule span{display:block;font-size:.7rem;color:#cdbc9b;margin-top:3px}
+.endgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}.endbox{border:1px solid rgba(233,210,163,.2);border-radius:12px;padding:12px;background:rgba(255,255,255,.03)}.endbox h3{font:700 .75rem Marcellus;margin:0 0 7px;color:#ecd5a8}.endbox ul{margin:0;padding-left:17px;color:#dacbaa;font-size:.76rem}.profiles{display:grid;gap:6px}.profile{display:grid;grid-template-columns:1fr 42px;gap:8px;align-items:center;font-size:.74rem}.profile i{height:5px;background:#795a3c;display:block;border-radius:99px}.profile i span{display:block;height:100%;background:#d2ae61;border-radius:99px}
+.logpanel{position:fixed;z-index:15;right:10px;top:64px;bottom:10px;width:min(390px,92vw);background:#f1e7ce;border:1px solid #8e7653;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column}
+.loghead{padding:10px 12px;border-bottom:1px solid #b9a37b;display:flex;align-items:center;justify-content:space-between;font:700 .75rem Marcellus}.logbody{overflow:auto;padding:10px}.logitem{border-left:2px solid #a56b43;padding:2px 0 8px 9px;margin-bottom:8px}.logitem b{font:700 .64rem Marcellus}.logitem p{font-size:.7rem;margin:2px 0;color:#5d5245}
+.toast{position:fixed;left:50%;bottom:38px;transform:translateX(-50%);z-index:30;background:#2f271f;color:#f4e5c5;border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px 11px;font-size:.72rem;box-shadow:0 7px 22px rgba(0,0,0,.3)}
+@media(max-width:820px){
+ .topbar{height:48px;min-height:48px;padding:5px 8px}.mini{display:none}.brand{font-size:.82rem}
+ .main{padding:6px;grid-template-columns:1fr;grid-template-rows:37% 63%;gap:6px}
+ .visual-head{padding:7px 9px 4px}.visual h2{font-size:.9rem}.mapwrap{min-height:90px;margin:0 6px 4px}.legend{display:none}
+ .stats{padding:4px 6px 5px;gap:4px}.stat b{font-size:.48rem}.bar{height:4px}
+ .eventhead{padding:7px 9px 5px}.eventhead h1{font-size:1.05rem}.chapter{font-size:.6rem}.date{font-size:.55rem}
+ .copy{padding:6px 9px 4px;max-height:28%}.copy p{font-size:.72rem;line-height:1.15;margin-bottom:4px}.history{font-size:.64rem!important;padding:5px 7px}
+ .choices{padding:4px 6px 6px;gap:5px}.choice{min-height:70px;padding:6px 7px}.choice strong{font-size:.65rem}.choice .desc{font-size:.6rem}.tags{margin-top:4px}.tag{font-size:.48rem}
+ .footerline{height:22px;padding:0 8px;font-size:.53rem}
+ .rules{grid-template-columns:1fr}.endgrid{grid-template-columns:1fr}.card{padding:20px}
+}
+</style>
+
+<style id="urbs-coherence-locks-v2">.choice:disabled{opacity:.58!important;filter:grayscale(.22)}.choice:disabled:after{content:" 🔒";font-size:.62rem}.req{font-weight:700}.capital-alert{color:var(--roman2);font-weight:700}</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">ROMA ÆTERNA<small>ROME NE TOMBE QUE SI VOUS LA LAISSEZ TOMBER</small></div>
+    <div class="spacer"></div>
+    <span class="mini" id="routeBadge">Imperium Romanum</span>
+    <span class="mini" id="capitalBadge">Capitale · Roma</span>
+    <button class="iconbtn" id="logBtn" title="Chronologie">☰</button>
+  </header>
+
+  <main class="main">
+    <section class="panel visual">
+      <div class="visual-head">
+        <div><div class="eyebrow">État du monde</div><h2 id="mapTitle">L’Empire en 180</h2></div>
+        <div class="eyebrow" id="territoryCount">11 provinces</div>
+      </div>
+      <div class="mapwrap">
+        <svg viewBox="0 0 760 360" preserveAspectRatio="xMidYMid meet" aria-label="Carte géographique de l’Europe et de la Méditerranée">
+<rect width="760" height="360" fill="#a9c1c0"/>
+<g class="base-land">
+<path class="country-base" d="M 44.5,339.9 L 44.2,341.4 L 44.2,353.2 L 0.4,352.8 L 0.6,360.0 L 0.0,360.0 L 0.0,352.0 L 3.8,351.5 L 8.1,345.4 L 19.3,344.6 L 24.1,345.6 L 30.2,345.6 L 34.5,343.8 L 42.7,343.5 L 42.4,339.3 L 44.5,339.3 L 44.5,339.9 Z"><title>W. Sahara</title></path><path class="country-base" d="M 753.8,210.2 L 745.7,211.7 L 743.4,209.9 L 725.3,205.4 L 705.6,203.8 L 694.4,202.2 L 692.7,203.3 L 675.7,195.1 L 660.5,191.5 L 649.0,185.7 L 658.7,184.1 L 669.8,175.7 L 662.3,171.7 L 682.0,167.6 L 681.6,165.3 L 669.6,167.0 L 670.1,162.4 L 676.9,159.5 L 689.8,158.8 L 691.9,155.3 L 689.0,149.5 L 694.4,143.9 L 694.3,140.8 L 674.6,137.3 L 666.8,137.4 L 658.6,132.3 L 648.3,134.0 L 631.4,130.2 L 631.7,128.0 L 627.0,123.2 L 616.3,122.7 L 615.2,119.2 L 618.6,116.9 L 610.0,110.5 L 596.2,111.6 L 592.2,111.0 L 588.8,113.6 L 583.8,113.2 L 583.8,113.2 L 580.5,105.8 L 577.4,102.0 L 580.0,100.9 L 590.7,101.3 L 595.9,98.8 L 592.1,95.6 L 583.1,93.6 L 583.9,91.4 L 578.5,89.3 L 570.1,81.4 L 573.0,78.1 L 571.7,72.4 L 558.6,69.4 L 551.6,70.9 L 549.7,67.8 L 535.7,64.7 L 531.4,57.3 L 530.3,51.1 L 523.8,48.1 L 529.6,44.0 L 525.6,31.6 L 535.1,23.8 L 533.1,21.4 L 533.1,21.4 L 548.2,13.8 L 534.3,7.1 L 534.3,7.1 L 545.4,0.0 L 760.0,0.0 L 760.0,211.2 L 753.8,210.2 Z M 438.6,87.4 L 422.1,86.1 L 425.2,80.8 L 443.6,76.8 L 457.5,78.9 L 463.4,80.9 L 462.0,84.2 L 463.1,87.2 L 438.6,87.4 Z M 609.3,175.9 L 618.8,178.1 L 623.1,178.5 L 624.8,180.5 L 626.8,180.8 L 626.9,181.6 L 633.5,184.0 L 647.1,183.4 L 644.5,187.0 L 629.9,188.7 L 611.8,194.4 L 604.4,192.4 L 607.3,187.8 L 592.7,184.9 L 595.1,183.0 L 607.8,179.6 L 605.8,178.4 L 609.3,175.9 Z"><title>Russia</title></path><path class="country-base" d="M 324.0,12.5 L 312.9,22.0 L 307.0,29.8 L 298.1,21.5 L 271.8,37.1 L 254.0,40.2 L 235.5,33.4 L 230.8,18.8 L 228.3,0.0 L 327.3,0.0 L 324.0,12.5 Z"><title>Norway</title></path><path class="country-base" d="M 248.8,145.0 L 268.0,147.0 L 261.2,154.2 L 259.6,161.6 L 255.9,163.4 L 249.8,162.5 L 250.2,165.1 L 240.5,170.8 L 240.3,175.4 L 246.7,173.8 L 251.2,178.2 L 250.7,181.1 L 254.6,184.8 L 250.0,187.8 L 253.4,195.4 L 260.7,196.6 L 259.1,200.8 L 247.1,206.2 L 220.8,203.7 L 201.3,206.8 L 199.8,212.5 L 184.4,213.7 L 169.4,209.4 L 164.5,211.5 L 140.0,207.1 L 134.6,203.4 L 141.5,197.6 L 144.1,178.0 L 130.3,167.4 L 120.5,162.2 L 100.1,158.2 L 98.8,150.5 L 116.1,148.2 L 138.4,151.0 L 134.2,138.9 L 146.8,143.5 L 177.9,135.1 L 181.9,126.1 L 193.5,123.9 L 195.4,127.7 L 201.6,127.9 L 207.8,132.3 L 217.1,137.5 L 224.0,136.6 L 235.7,141.5 L 238.6,142.5 L 242.5,142.2 L 248.8,145.0 Z M 285.2,207.4 L 287.5,215.5 L 283.1,222.7 L 277.0,220.8 L 273.9,214.5 L 276.6,211.0 L 285.2,207.4 Z"><title>France</title></path><path class="country-base" d="M 0.4,352.8 L 44.2,353.2 L 44.2,341.4 L 93.8,360.0 L 0.6,360.0 L 0.4,352.8 Z"><title>Mauritania</title></path><path class="country-base" d="M 633.9,301.2 L 629.1,300.0 L 626.3,305.5 L 629.7,306.4 L 626.3,307.6 L 625.7,309.7 L 632.0,308.6 L 632.3,311.8 L 625.6,324.7 L 624.3,322.6 L 616.9,310.8 L 616.9,310.8 L 616.9,310.8 L 620.8,308.1 L 619.8,307.7 L 623.4,303.8 L 626.1,297.6 L 628.0,295.5 L 628.3,295.4 L 632.8,295.4 L 634.0,294.0 L 637.6,293.9 L 637.8,297.3 L 636.0,298.5 L 636.3,298.6 L 633.9,301.2 Z"><title>Israel</title></path><path class="country-base" d="M 634.0,294.0 L 632.8,295.4 L 628.3,295.4 L 633.1,288.6 L 639.7,282.7 L 640.0,282.4 L 646.0,282.8 L 648.2,286.1 L 640.9,289.3 L 637.6,293.9 L 634.0,294.0 Z"><title>Lebanon</title></path><path class="country-base" d="M 625.7,309.7 L 626.3,307.6 L 629.7,306.4 L 626.3,305.5 L 629.1,300.0 L 633.9,301.2 L 633.9,306.2 L 632.0,308.6 L 625.7,309.7 Z"><title>Palestine</title></path><path class="country-base" d="M 280.7,303.6 L 272.5,300.3 L 272.4,298.3 L 261.5,293.3 L 260.3,287.0 L 268.5,282.3 L 271.7,275.3 L 269.6,267.0 L 272.3,262.6 L 286.8,259.1 L 296.1,260.1 L 295.7,264.5 L 307.1,261.3 L 308.0,263.0 L 301.3,267.3 L 301.2,271.2 L 305.9,273.4 L 304.1,280.8 L 295.3,285.0 L 297.9,289.6 L 304.8,289.8 L 308.1,293.7 L 313.2,295.0 L 312.4,301.4 L 305.9,303.8 L 301.8,306.4 L 292.7,309.5 L 294.1,312.9 L 292.9,316.3 L 286.4,318.2 L 280.7,303.6 Z"><title>Tunisia</title></path><path class="country-base" d="M 44.5,339.9 L 44.5,339.3 L 44.3,330.0 L 65.9,324.1 L 79.2,322.9 L 90.1,320.7 L 95.2,316.7 L 110.8,313.4 L 111.4,307.4 L 119.1,306.7 L 125.1,303.7 L 142.6,302.3 L 145.0,299.1 L 141.5,297.3 L 136.9,288.5 L 136.1,283.4 L 131.1,277.9 L 143.9,273.2 L 158.3,271.8 L 166.7,268.2 L 179.6,265.6 L 202.2,264.0 L 224.2,263.3 L 230.9,264.6 L 243.5,261.2 L 257.7,261.1 L 263.2,263.1 L 272.3,262.6 L 269.6,267.0 L 271.7,275.3 L 268.5,282.3 L 260.3,287.0 L 261.5,293.3 L 272.4,298.3 L 272.5,300.3 L 280.7,303.6 L 286.4,318.2 L 290.7,325.3 L 291.5,329.0 L 289.1,335.5 L 290.1,339.1 L 288.4,343.4 L 289.6,348.3 L 284.3,351.5 L 292.1,357.2 L 292.6,360.0 L 93.8,360.0 L 44.2,341.4 L 44.5,339.9 Z"><title>Algeria</title></path><path class="country-base" d="M 636.3,298.6 L 651.1,301.9 L 677.2,293.0 L 682.6,303.1 L 680.1,304.3 L 653.4,308.5 L 666.7,316.6 L 662.2,318.0 L 660.0,320.7 L 649.9,321.8 L 646.7,324.7 L 640.9,327.1 L 626.1,325.9 L 625.6,324.7 L 632.3,311.8 L 632.0,308.6 L 633.9,306.2 L 633.9,301.2 L 636.3,298.6 Z"><title>Jordan</title></path><path class="country-base" d="M 677.2,293.0 L 706.7,284.3 L 711.8,274.0 L 710.5,267.7 L 717.8,265.6 L 724.7,260.1 L 730.4,258.8 L 745.9,259.9 L 750.6,262.1 L 757.0,260.6 L 760.0,264.3 L 760.0,327.4 L 756.1,327.3 L 718.5,311.1 L 698.7,305.3 L 682.6,303.1 L 677.2,293.0 Z"><title>Iraq</title></path><path class="country-base" d="M 757.0,260.6 L 757.0,260.6 L 749.7,253.6 L 752.3,250.8 L 748.1,240.6 L 757.3,238.0 L 759.4,241.4 L 760.0,241.8 L 760.0,264.3 L 757.0,260.6 Z"><title>Iran</title></path><path class="country-base" d="M 636.0,298.5 L 637.8,297.3 L 637.6,293.9 L 640.9,289.3 L 648.2,286.1 L 646.0,282.8 L 640.0,282.4 L 638.7,275.9 L 642.0,272.3 L 645.6,270.4 L 649.1,268.6 L 649.9,263.7 L 654.2,265.4 L 668.9,263.0 L 676.0,264.6 L 687.0,264.6 L 702.3,261.3 L 709.5,261.5 L 724.7,260.1 L 717.8,265.6 L 710.5,267.7 L 711.8,274.0 L 706.7,284.3 L 677.2,293.0 L 651.1,301.9 L 636.3,298.6 L 636.0,298.5 Z"><title>Syria</title></path><path class="country-base" d="M 757.3,238.0 L 752.0,235.4 L 742.1,233.1 L 743.4,228.6 L 741.1,225.4 L 759.6,223.9 L 760.0,224.3 L 760.0,237.8 L 757.3,238.0 Z"><title>Armenia</title></path><path class="country-base" d="M 312.9,22.0 L 324.0,12.5 L 327.3,0.0 L 392.9,0.0 L 397.8,5.2 L 410.5,13.0 L 398.3,28.5 L 384.4,31.7 L 379.3,53.7 L 371.7,65.5 L 355.6,64.3 L 348.0,74.2 L 332.6,74.7 L 328.3,63.0 L 317.2,48.5 L 307.0,29.8 L 312.9,22.0 Z"><title>Sweden</title></path><path class="country-base" d="M 549.7,67.8 L 551.6,70.9 L 558.6,69.4 L 571.7,72.4 L 573.0,78.1 L 570.1,81.4 L 578.5,89.3 L 583.9,91.4 L 583.1,93.6 L 592.1,95.6 L 595.9,98.8 L 590.7,101.3 L 580.0,100.9 L 577.4,102.0 L 580.5,105.8 L 583.8,113.2 L 583.8,113.2 L 572.4,113.8 L 568.3,116.3 L 567.4,121.9 L 562.1,120.9 L 550.1,121.4 L 546.6,118.8 L 541.6,120.7 L 536.6,119.1 L 526.1,118.9 L 511.2,116.2 L 497.7,115.3 L 487.4,115.6 L 480.1,118.6 L 473.7,119.1 L 473.4,114.0 L 469.3,108.8 L 477.3,106.4 L 477.4,101.8 L 473.7,97.4 L 473.1,92.2 L 486.0,92.3 L 500.5,87.8 L 503.6,81.0 L 514.5,77.1 L 513.3,71.6 L 521.4,69.5 L 535.7,64.7 L 549.7,67.8 Z"><title>Belarus</title></path><path class="country-base" d="M 588.8,113.6 L 592.2,111.0 L 596.2,111.6 L 610.0,110.5 L 618.6,116.9 L 615.2,119.2 L 616.3,122.7 L 627.0,123.2 L 631.7,128.0 L 631.4,130.2 L 648.3,134.0 L 658.6,132.3 L 666.8,137.4 L 674.6,137.3 L 694.3,140.8 L 694.4,143.9 L 689.0,149.5 L 691.9,155.3 L 689.8,158.8 L 676.9,159.5 L 670.1,162.4 L 669.6,167.0 L 659.0,167.8 L 650.1,171.1 L 637.6,171.6 L 626.2,175.4 L 626.8,180.8 L 624.8,180.5 L 623.1,178.5 L 618.8,178.1 L 609.3,175.9 L 605.8,178.4 L 604.0,177.3 L 583.3,174.8 L 582.3,171.0 L 570.0,172.3 L 565.0,177.8 L 554.7,185.2 L 548.7,183.5 L 542.4,185.1 L 536.4,183.3 L 539.8,182.2 L 542.1,178.8 L 545.8,175.5 L 544.8,173.7 L 547.6,172.9 L 548.9,174.3 L 556.8,174.6 L 560.3,173.9 L 557.8,172.9 L 558.8,171.3 L 554.1,168.8 L 552.2,164.5 L 547.3,162.8 L 548.3,159.3 L 542.3,156.5 L 536.8,156.1 L 527.0,152.8 L 518.1,153.9 L 514.9,155.4 L 509.3,155.4 L 505.9,157.8 L 496.1,158.8 L 491.6,160.4 L 485.4,157.9 L 476.8,157.9 L 468.6,156.7 L 462.8,158.9 L 461.9,156.1 L 454.5,153.3 L 457.1,149.0 L 460.8,146.3 L 463.7,146.9 L 460.2,142.1 L 472.4,133.1 L 479.0,131.8 L 480.4,128.8 L 473.7,119.1 L 480.1,118.6 L 487.4,115.6 L 497.7,115.3 L 511.2,116.2 L 526.1,118.9 L 536.6,119.1 L 541.6,120.7 L 546.6,118.8 L 550.1,121.4 L 562.1,120.9 L 567.4,121.9 L 568.3,116.3 L 572.4,113.8 L 583.8,113.2 L 588.8,113.6 Z"><title>Ukraine</title></path><path class="country-base" d="M 473.7,97.4 L 477.4,101.8 L 477.3,106.4 L 469.3,108.8 L 473.4,114.0 L 473.7,119.1 L 480.4,128.8 L 479.0,131.8 L 472.4,133.1 L 460.2,142.1 L 463.7,146.9 L 460.8,146.3 L 448.1,142.2 L 438.5,143.7 L 432.2,142.6 L 424.3,144.9 L 417.6,141.1 L 412.1,142.5 L 411.4,141.9 L 405.2,136.6 L 395.3,135.9 L 394.1,132.5 L 384.9,131.3 L 382.9,134.1 L 375.7,131.9 L 376.5,128.8 L 366.5,127.9 L 360.2,124.3 L 354.8,117.2 L 355.8,113.3 L 352.5,107.2 L 347.7,103.1 L 351.4,100.0 L 348.3,94.0 L 357.4,90.5 L 378.2,85.0 L 395.0,80.9 L 408.3,83.0 L 409.3,85.9 L 422.1,86.1 L 438.6,87.4 L 463.1,87.2 L 469.9,88.5 L 473.1,92.2 L 473.7,97.4 Z"><title>Poland</title></path><path class="country-base" d="M 385.4,160.7 L 377.9,160.7 L 380.5,162.9 L 376.0,169.5 L 373.5,171.2 L 361.8,171.5 L 355.1,173.8 L 344.1,173.0 L 325.0,170.4 L 322.0,166.8 L 308.9,168.6 L 307.3,170.6 L 299.2,169.1 L 292.4,168.8 L 286.4,167.0 L 288.4,164.5 L 287.9,162.6 L 291.9,162.1 L 298.7,164.9 L 300.6,162.2 L 312.4,162.6 L 321.9,160.8 L 328.3,161.1 L 332.4,163.2 L 333.7,161.5 L 331.8,154.7 L 336.6,153.4 L 341.3,148.5 L 351.2,151.9 L 358.7,147.6 L 363.4,146.8 L 373.7,150.0 L 380.0,149.5 L 386.1,151.5 L 385.1,152.8 L 386.4,156.4 L 385.4,160.7 Z"><title>Austria</title></path><path class="country-base" d="M 461.9,156.1 L 462.8,158.9 L 454.7,161.1 L 448.4,168.1 L 440.3,175.0 L 429.6,176.9 L 421.3,176.4 L 411.1,179.1 L 411.1,179.1 L 406.1,180.6 L 395.1,178.6 L 385.1,174.3 L 380.9,173.1 L 378.3,169.6 L 376.0,169.5 L 380.5,162.9 L 377.9,160.7 L 385.4,160.7 L 386.4,156.4 L 393.2,159.1 L 398.1,160.2 L 409.3,158.9 L 410.4,156.9 L 415.7,156.5 L 422.2,154.9 L 423.6,155.6 L 429.9,154.3 L 433.0,151.8 L 437.4,151.2 L 451.6,154.4 L 454.5,153.3 L 461.9,156.1 Z"><title>Hungary</title></path><path class="country-base" d="M 518.1,153.9 L 527.0,152.8 L 536.8,156.1 L 542.3,156.5 L 548.3,159.3 L 547.3,162.8 L 552.2,164.5 L 554.1,168.8 L 558.8,171.3 L 557.8,172.9 L 560.3,173.9 L 556.8,174.6 L 548.9,174.3 L 547.6,172.9 L 544.8,173.7 L 545.8,175.5 L 542.1,178.8 L 539.8,182.2 L 536.4,183.3 L 534.1,178.7 L 535.5,174.4 L 535.0,170.0 L 527.3,163.9 L 523.1,159.5 L 519.0,156.4 L 514.9,155.4 L 518.1,153.9 Z"><title>Moldova</title></path><path class="country-base" d="M 542.4,185.1 L 548.7,183.5 L 554.7,185.2 L 555.0,187.7 L 548.6,189.9 L 544.5,188.9 L 540.8,200.7 L 532.9,199.7 L 523.2,196.2 L 507.5,198.4 L 500.9,200.9 L 481.3,200.4 L 471.1,198.9 L 465.9,199.6 L 462.1,195.6 L 459.7,193.9 L 462.7,192.2 L 459.5,191.0 L 455.3,193.2 L 447.5,190.4 L 446.4,186.3 L 438.3,184.0 L 436.8,180.8 L 429.6,176.9 L 440.3,175.0 L 448.4,168.1 L 454.7,161.1 L 462.8,158.9 L 468.6,156.7 L 476.8,157.9 L 485.4,157.9 L 491.6,160.4 L 496.1,158.8 L 505.9,157.8 L 509.3,155.4 L 514.9,155.4 L 519.0,156.4 L 523.1,159.5 L 527.3,163.9 L 535.0,170.0 L 535.5,174.4 L 534.1,178.7 L 536.4,183.3 L 542.4,185.1 Z"><title>Romania</title></path><path class="country-base" d="M 514.5,77.1 L 503.6,81.0 L 500.5,87.8 L 486.0,92.3 L 473.1,92.2 L 469.9,88.5 L 463.1,87.2 L 462.0,84.2 L 463.4,80.9 L 457.5,78.9 L 443.6,76.8 L 440.7,66.4 L 456.0,62.6 L 478.4,63.4 L 491.5,62.2 L 493.3,64.8 L 500.4,65.6 L 513.3,71.6 L 514.5,77.1 Z"><title>Lithuania</title></path><path class="country-base" d="M 530.3,51.1 L 531.4,57.3 L 535.7,64.7 L 521.4,69.5 L 513.3,71.6 L 500.4,65.6 L 493.3,64.8 L 491.5,62.2 L 478.4,63.4 L 456.0,62.6 L 440.7,66.4 L 441.2,57.0 L 447.8,48.9 L 460.3,44.5 L 470.9,54.1 L 481.6,53.9 L 484.2,43.9 L 495.5,41.6 L 501.4,43.2 L 512.8,48.1 L 523.8,48.1 L 530.3,51.1 Z"><title>Latvia</title></path><path class="country-base" d="M 533.1,21.4 L 535.1,23.8 L 525.6,31.6 L 529.6,44.0 L 523.8,48.1 L 512.8,48.1 L 501.4,43.2 L 495.5,41.6 L 484.2,43.9 L 485.7,36.2 L 480.8,37.8 L 472.4,33.1 L 471.2,25.3 L 488.1,21.5 L 504.9,19.5 L 519.3,21.8 L 533.1,21.4 L 533.1,21.4 L 533.1,21.4 Z"><title>Estonia</title></path><path class="country-base" d="M 351.4,100.0 L 347.7,103.1 L 352.5,107.2 L 355.8,113.3 L 354.8,117.2 L 360.2,124.3 L 354.3,125.5 L 350.8,124.2 L 347.4,126.3 L 337.8,128.4 L 332.9,131.2 L 323.2,133.6 L 325.5,136.8 L 326.9,141.3 L 333.8,143.9 L 341.3,148.5 L 336.6,153.4 L 331.8,154.7 L 333.7,161.5 L 332.4,163.2 L 328.3,161.1 L 321.9,160.8 L 312.4,162.6 L 300.6,162.2 L 298.7,164.9 L 291.9,162.1 L 287.9,162.6 L 273.6,159.5 L 270.9,161.7 L 259.6,161.6 L 261.2,154.2 L 268.0,147.0 L 248.8,145.0 L 242.5,142.2 L 243.2,137.5 L 240.6,135.1 L 242.1,127.7 L 239.8,116.0 L 247.9,116.0 L 251.2,111.7 L 254.6,101.2 L 252.1,97.2 L 254.7,94.8 L 265.8,94.1 L 268.3,96.7 L 277.3,90.9 L 274.3,86.4 L 273.7,79.6 L 283.8,81.2 L 292.3,79.3 L 292.5,84.0 L 306.0,86.8 L 305.9,91.0 L 319.4,88.8 L 326.9,85.5 L 342.0,90.2 L 348.3,94.0 L 351.4,100.0 Z"><title>Germany</title></path><path class="country-base" d="M 465.9,199.6 L 471.1,198.9 L 481.3,200.4 L 500.9,200.9 L 507.5,198.4 L 523.2,196.2 L 532.9,199.7 L 540.8,200.7 L 533.9,204.7 L 529.0,211.5 L 533.3,216.9 L 521.8,215.6 L 508.2,218.5 L 508.1,223.2 L 496.0,224.1 L 486.6,220.8 L 475.9,223.4 L 466.0,223.1 L 465.1,216.9 L 458.4,213.9 L 460.6,212.6 L 459.2,211.5 L 461.4,208.4 L 466.5,205.5 L 460.0,201.3 L 458.8,197.8 L 462.1,195.6 L 465.9,199.6 Z"><title>Bulgaria</title></path><path class="country-base" d="M 508.9,279.3 L 489.7,280.0 L 489.8,278.6 L 473.5,277.0 L 476.0,273.3 L 483.3,276.2 L 493.7,275.7 L 503.6,276.3 L 503.3,277.8 L 510.5,276.8 L 508.9,279.3 Z M 475.9,223.4 L 486.6,220.8 L 496.0,224.1 L 508.1,223.2 L 508.2,218.5 L 514.7,221.0 L 510.6,226.8 L 507.4,227.9 L 499.3,227.6 L 492.3,226.7 L 476.2,229.1 L 485.4,234.3 L 478.7,235.7 L 471.2,235.8 L 464.2,231.1 L 461.7,233.1 L 464.7,238.5 L 471.3,242.7 L 466.3,244.7 L 473.7,248.8 L 480.3,251.4 L 480.5,256.4 L 468.2,254.0 L 472.1,258.5 L 463.7,259.5 L 468.7,267.1 L 459.9,267.3 L 448.9,263.5 L 443.9,256.5 L 441.6,250.6 L 436.4,246.5 L 429.6,241.4 L 428.7,238.8 L 434.9,234.4 L 435.7,231.4 L 440.0,230.1 L 440.3,227.7 L 449.0,226.9 L 454.1,224.8 L 461.3,225.0 L 463.5,223.4 L 466.0,223.1 L 475.9,223.4 Z"><title>Greece</title></path><path class="country-base" d="M 750.6,262.1 L 745.9,259.9 L 730.4,258.8 L 724.7,260.1 L 709.5,261.5 L 702.3,261.3 L 687.0,264.6 L 676.0,264.6 L 668.9,263.0 L 654.2,265.4 L 649.9,263.7 L 649.1,268.6 L 645.6,270.4 L 642.0,272.3 L 637.1,268.4 L 642.1,265.2 L 634.0,265.9 L 622.9,263.9 L 613.7,268.9 L 593.5,269.9 L 582.7,265.2 L 568.3,264.9 L 565.2,268.5 L 556.0,269.5 L 543.1,264.9 L 528.5,265.1 L 520.7,256.4 L 510.9,251.5 L 517.4,244.6 L 508.9,240.3 L 523.7,231.6 L 544.3,231.2 L 549.9,224.2 L 575.3,225.4 L 591.3,219.4 L 606.8,216.7 L 628.9,216.5 L 652.2,223.1 L 671.3,226.7 L 686.8,225.3 L 698.3,226.1 L 714.1,221.3 L 728.3,220.8 L 741.1,225.4 L 743.4,228.6 L 742.1,233.1 L 752.0,235.4 L 757.3,238.0 L 748.1,240.6 L 752.3,250.8 L 749.7,253.6 L 757.0,260.6 L 757.0,260.6 L 750.6,262.1 Z M 521.8,215.6 L 533.3,216.9 L 534.9,220.5 L 546.5,223.5 L 544.1,225.7 L 528.3,226.2 L 522.6,229.1 L 511.4,234.0 L 507.2,229.8 L 507.4,227.9 L 510.6,226.8 L 514.7,221.0 L 508.2,218.5 L 521.8,215.6 Z"><title>Turkey</title></path><path class="country-base" d="M 440.0,230.1 L 435.7,231.4 L 434.9,234.4 L 428.7,238.8 L 426.4,238.2 L 426.1,236.2 L 418.7,233.1 L 417.6,228.7 L 418.7,222.4 L 420.5,219.5 L 418.3,218.1 L 418.3,218.1 L 417.4,215.1 L 423.2,210.4 L 424.0,212.2 L 427.6,211.4 L 430.5,213.9 L 433.6,214.9 L 434.5,218.3 L 434.5,218.3 L 432.8,221.5 L 434.7,225.4 L 440.3,227.7 L 440.0,230.1 Z"><title>Albania</title></path><path class="country-base" d="M 385.1,174.3 L 395.1,178.6 L 406.1,180.6 L 411.1,179.1 L 414.3,182.9 L 418.5,185.8 L 413.4,189.5 L 407.4,187.3 L 398.2,187.4 L 386.7,185.8 L 380.5,186.0 L 377.6,188.1 L 372.8,185.8 L 370.0,189.9 L 376.5,194.5 L 379.4,197.5 L 385.5,201.1 L 390.6,203.2 L 395.7,207.2 L 407.5,210.8 L 406.0,212.4 L 406.0,212.4 L 393.5,208.9 L 385.7,205.5 L 373.5,202.6 L 362.3,195.5 L 365.0,194.8 L 358.9,190.7 L 358.7,187.3 L 350.1,185.8 L 346.0,190.0 L 342.1,186.7 L 342.4,183.3 L 342.9,183.1 L 352.2,183.5 L 354.6,181.8 L 359.1,183.4 L 364.4,183.6 L 364.3,180.8 L 369.0,179.8 L 370.2,175.8 L 380.9,173.1 L 385.1,174.3 Z"><title>Croatia</title></path><path class="country-base" d="M 288.4,164.5 L 286.4,167.0 L 292.4,168.8 L 299.2,169.1 L 298.2,173.3 L 292.3,175.0 L 282.4,173.7 L 279.6,177.8 L 273.2,178.1 L 270.9,176.5 L 263.4,179.9 L 257.0,180.4 L 251.2,178.2 L 246.7,173.8 L 240.3,175.4 L 240.5,170.8 L 250.2,165.1 L 249.8,162.5 L 255.9,163.4 L 259.6,161.6 L 270.9,161.7 L 273.6,159.5 L 287.9,162.6 L 288.4,164.5 Z"><title>Switzerland</title></path><path class="country-base" d="M 243.2,137.5 L 242.5,142.2 L 238.6,142.5 L 235.7,141.5 L 237.1,135.5 L 240.6,135.1 L 243.2,137.5 Z"><title>Luxembourg</title></path><path class="country-base" d="M 240.6,135.1 L 237.1,135.5 L 235.7,141.5 L 224.0,136.6 L 217.1,137.5 L 207.8,132.3 L 201.6,127.9 L 195.4,127.7 L 193.5,123.9 L 204.2,121.7 L 204.2,121.7 L 204.2,121.7 L 214.0,122.5 L 226.3,120.2 L 234.8,125.1 L 242.1,127.7 L 240.6,135.1 Z"><title>Belgium</title></path><path class="country-base" d="M 254.6,101.2 L 251.2,111.7 L 247.9,116.0 L 239.8,116.0 L 242.1,127.7 L 234.8,125.1 L 226.3,120.2 L 214.0,122.5 L 204.2,121.7 L 204.2,121.7 L 211.1,118.6 L 222.7,101.8 L 241.0,96.9 L 252.1,97.2 L 254.6,101.2 Z"><title>Netherlands</title></path><path class="country-base" d="M 44.4,215.7 L 49.8,214.3 L 53.2,218.9 L 61.0,218.9 L 63.3,217.7 L 71.1,218.0 L 74.8,222.7 L 68.7,225.2 L 68.5,232.4 L 66.3,233.7 L 65.8,238.0 L 60.0,238.8 L 65.4,244.2 L 61.7,250.0 L 66.3,252.7 L 64.4,255.1 L 59.5,258.4 L 60.6,261.3 L 55.3,263.5 L 48.2,262.3 L 41.3,263.3 L 43.4,256.4 L 42.1,251.0 L 36.2,250.2 L 33.0,246.8 L 34.0,240.9 L 39.4,237.6 L 40.3,233.9 L 43.1,228.4 L 42.8,224.5 L 40.1,221.2 L 39.5,218.0 L 44.4,215.7 Z"><title>Portugal</title></path><path class="country-base" d="M 59.5,258.4 L 64.4,255.1 L 66.3,252.7 L 61.7,250.0 L 65.4,244.2 L 60.0,238.8 L 65.8,238.0 L 66.3,233.7 L 68.5,232.4 L 68.7,225.2 L 74.8,222.7 L 71.1,218.0 L 63.3,217.7 L 61.0,218.9 L 53.2,218.9 L 49.8,214.3 L 44.4,215.7 L 39.5,218.0 L 40.2,211.3 L 34.8,207.2 L 53.6,200.3 L 69.9,202.0 L 87.8,202.0 L 102.0,203.6 L 113.1,203.1 L 134.6,203.4 L 140.0,207.1 L 164.5,211.5 L 169.4,209.4 L 184.4,213.7 L 199.8,212.5 L 200.5,217.9 L 187.9,224.1 L 170.8,226.1 L 169.6,229.2 L 161.4,234.3 L 156.3,241.6 L 161.5,246.8 L 153.8,250.7 L 150.9,256.5 L 140.8,258.2 L 131.4,265.0 L 114.5,265.1 L 101.7,264.9 L 93.4,268.0 L 88.3,271.2 L 81.8,270.5 L 76.8,267.6 L 73.1,262.6 L 60.6,261.3 L 59.5,258.4 Z"><title>Spain</title></path><path class="country-base" d="M 79.6,101.1 L 69.5,111.3 L 45.8,118.0 L 27.0,116.3 L 37.8,104.4 L 30.8,92.5 L 49.0,83.2 L 59.0,77.5 L 61.8,84.0 L 59.0,90.4 L 67.3,90.3 L 77.4,92.7 L 79.6,101.1 Z"><title>Ireland</title></path><path class="country-base" d="M 307.3,170.6 L 308.9,168.6 L 322.0,166.8 L 325.0,170.4 L 344.1,173.0 L 342.6,178.0 L 345.8,182.2 L 335.2,180.8 L 324.4,184.3 L 325.1,189.2 L 323.5,192.0 L 327.9,197.0 L 340.4,201.8 L 347.1,209.7 L 361.9,217.3 L 372.3,217.3 L 375.6,219.4 L 371.9,221.2 L 383.8,224.6 L 393.6,227.4 L 405.0,232.2 L 406.4,233.9 L 403.9,237.1 L 396.5,232.9 L 384.9,231.4 L 379.3,237.3 L 389.0,240.6 L 387.4,245.3 L 381.8,245.8 L 374.7,253.5 L 369.1,254.1 L 369.2,251.4 L 371.9,246.7 L 374.8,244.7 L 369.6,239.5 L 365.5,235.0 L 360.0,233.8 L 356.0,229.9 L 347.5,228.2 L 341.7,224.5 L 331.8,223.9 L 321.4,219.7 L 309.2,213.6 L 300.2,208.1 L 296.0,198.6 L 289.4,197.5 L 278.5,194.3 L 272.4,195.6 L 264.7,200.1 L 259.1,200.8 L 260.7,196.6 L 253.4,195.4 L 250.0,187.8 L 254.6,184.8 L 250.7,181.1 L 251.2,178.2 L 257.0,180.4 L 263.4,179.9 L 270.9,176.5 L 273.2,178.1 L 279.6,177.8 L 282.4,173.7 L 292.3,175.0 L 298.2,173.3 L 299.2,169.1 L 307.3,170.6 Z M 366.9,251.3 L 362.1,258.2 L 364.1,260.9 L 361.3,265.4 L 351.1,262.2 L 344.4,261.2 L 325.7,256.8 L 327.6,252.2 L 343.2,253.0 L 356.8,252.1 L 366.9,251.3 Z M 282.8,224.3 L 290.8,230.8 L 288.9,242.8 L 282.9,242.3 L 277.4,245.3 L 272.4,242.9 L 271.8,231.9 L 268.8,226.7 L 276.1,227.2 L 282.8,224.3 Z"><title>Italy</title></path><path class="country-base" d="M 283.8,81.2 L 273.7,79.6 L 268.3,72.8 L 267.9,60.1 L 270.1,56.6 L 273.9,52.8 L 285.7,52.0 L 290.3,48.4 L 301.1,44.8 L 300.6,51.4 L 296.7,55.6 L 298.3,59.2 L 305.5,61.1 L 302.2,65.8 L 298.3,64.5 L 288.7,73.4 L 292.3,79.3 L 283.8,81.2 Z M 329.2,71.7 L 321.2,81.6 L 307.2,74.7 L 305.4,69.6 L 324.9,65.4 L 329.2,71.7 Z"><title>Denmark</title></path><path class="country-base" d="M 67.3,90.3 L 59.0,90.4 L 61.8,84.0 L 59.0,77.5 L 70.2,77.0 L 84.5,84.5 L 77.4,92.7 L 67.3,90.3 Z M 118.8,98.1 L 120.7,91.3 L 111.8,84.0 L 111.6,83.8 L 95.4,81.7 L 92.2,78.4 L 97.1,72.9 L 92.7,69.5 L 85.5,75.3 L 84.7,63.4 L 78.0,56.9 L 82.8,43.6 L 93.2,32.9 L 103.8,33.9 L 119.9,32.8 L 105.7,47.1 L 119.3,45.3 L 133.9,45.4 L 130.4,55.9 L 118.4,67.2 L 132.2,67.9 L 133.3,69.3 L 145.1,83.7 L 154.3,85.6 L 162.5,99.1 L 166.3,103.7 L 182.4,105.9 L 180.8,113.2 L 174.0,116.5 L 179.3,122.3 L 167.3,128.1 L 149.5,128.0 L 126.8,131.0 L 120.6,128.8 L 111.8,134.0 L 99.4,132.7 L 90.1,136.9 L 83.0,134.7 L 102.5,123.2 L 114.5,120.8 L 114.4,120.8 L 93.5,118.9 L 89.8,114.4 L 103.7,110.9 L 96.4,104.7 L 98.9,97.1 L 118.7,98.1 L 118.8,98.1 Z"><title>United Kingdom</title></path><path class="country-base" d="M 759.6,223.9 L 760.0,223.8 L 760.0,224.3 L 759.6,223.9 Z M 759.4,241.4 L 757.3,238.0 L 760.0,237.8 L 760.0,241.8 L 759.4,241.4 Z"><title>Azerbaijan</title></path><path class="country-base" d="M 694.4,202.2 L 705.6,203.8 L 725.3,205.4 L 743.4,209.9 L 745.7,211.7 L 753.8,210.2 L 760.0,211.2 L 760.0,223.8 L 759.6,223.9 L 741.1,225.4 L 728.3,220.8 L 714.1,221.3 L 716.0,217.3 L 712.7,210.8 L 705.0,207.3 L 697.6,206.2 L 692.7,203.3 L 694.4,202.2 Z"><title>Georgia</title></path><path class="country-base" d="M 355.1,173.8 L 361.8,171.5 L 373.5,171.2 L 376.0,169.5 L 378.3,169.6 L 380.9,173.1 L 370.2,175.8 L 369.0,179.8 L 364.3,180.8 L 364.4,183.6 L 359.1,183.4 L 354.6,181.8 L 352.2,183.5 L 342.9,183.1 L 345.8,182.2 L 342.6,178.0 L 344.1,173.0 L 355.1,173.8 Z"><title>Slovenia</title></path><path class="country-base" d="M 534.3,7.1 L 534.3,7.1 L 534.3,7.1 L 510.1,8.2 L 486.6,13.4 L 464.9,16.3 L 457.2,8.7 L 444.3,4.0 L 445.1,0.0 L 545.4,0.0 L 534.3,7.1 Z"><title>Finland</title></path><path class="country-base" d="M 457.1,149.0 L 454.5,153.3 L 451.6,154.4 L 437.4,151.2 L 433.0,151.8 L 429.9,154.3 L 423.6,155.6 L 422.2,154.9 L 415.7,156.5 L 410.4,156.9 L 409.3,158.9 L 398.1,160.2 L 393.2,159.1 L 386.4,156.4 L 385.1,152.8 L 386.1,151.5 L 388.0,149.1 L 393.9,149.3 L 398.5,148.2 L 398.8,147.2 L 401.4,146.7 L 402.3,144.3 L 405.3,143.8 L 407.4,141.9 L 411.4,141.9 L 412.1,142.5 L 417.6,141.1 L 424.3,144.9 L 432.2,142.6 L 438.5,143.7 L 448.1,142.2 L 460.8,146.3 L 457.1,149.0 Z"><title>Slovakia</title></path><path class="country-base" d="M 366.5,127.9 L 376.5,128.8 L 375.7,131.9 L 382.9,134.1 L 384.9,131.3 L 394.1,132.5 L 395.3,135.9 L 405.2,136.6 L 411.4,141.9 L 407.4,141.9 L 405.3,143.8 L 402.3,144.3 L 401.4,146.7 L 398.8,147.2 L 398.5,148.2 L 393.9,149.3 L 388.0,149.1 L 386.1,151.5 L 380.0,149.5 L 373.7,150.0 L 363.4,146.8 L 358.7,147.6 L 351.2,151.9 L 341.3,148.5 L 333.8,143.9 L 326.9,141.3 L 325.5,136.8 L 323.2,133.6 L 332.9,131.2 L 337.8,128.4 L 347.4,126.3 L 350.8,124.2 L 354.3,125.5 L 360.2,124.3 L 366.5,127.9 Z"><title>Czechia</title></path><path class="country-base" d="M 640.9,327.1 L 646.7,324.7 L 649.9,321.8 L 660.0,320.7 L 662.2,318.0 L 666.7,316.6 L 653.4,308.5 L 680.1,304.3 L 682.6,303.1 L 698.7,305.3 L 718.5,311.1 L 756.1,327.3 L 760.0,327.4 L 760.0,360.0 L 655.9,360.0 L 656.1,359.3 L 652.4,355.4 L 648.5,353.6 L 643.3,347.8 L 635.2,341.5 L 628.4,336.1 L 621.8,336.2 L 623.8,331.8 L 624.4,329.0 L 626.1,325.9 L 640.9,327.1 Z"><title>Saudi Arabia</title></path><path class="country-base" d="M 597.4,278.1 L 599.3,276.1 L 608.9,276.2 L 621.0,273.6 L 612.0,277.3 L 613.0,278.9 L 611.6,278.6 L 609.0,279.2 L 607.0,279.0 L 606.3,279.3 L 606.1,278.5 L 605.1,278.0 L 602.5,277.9 L 598.9,278.6 L 596.4,278.2 L 597.4,278.1 Z"><title>N. Cyprus</title></path><path class="country-base" d="M 598.9,278.6 L 602.5,277.9 L 605.1,278.0 L 606.1,278.5 L 606.3,279.3 L 607.0,279.0 L 609.0,279.2 L 611.6,278.6 L 613.0,278.9 L 613.4,279.5 L 599.7,283.0 L 593.2,281.9 L 590.1,278.5 L 596.4,278.2 L 598.9,278.6 Z"><title>Cyprus</title></path><path class="country-base" d="M 136.1,283.4 L 136.9,288.5 L 141.5,297.3 L 145.0,299.1 L 142.6,302.3 L 125.1,303.7 L 119.1,306.7 L 111.4,307.4 L 110.8,313.4 L 95.2,316.7 L 90.1,320.7 L 79.2,322.9 L 65.9,324.1 L 44.3,330.0 L 44.5,339.3 L 42.4,339.3 L 42.7,343.5 L 34.5,343.8 L 30.2,345.6 L 24.1,345.6 L 19.3,344.6 L 8.1,345.4 L 3.8,351.5 L 0.0,352.0 L 0.0,335.8 L 4.1,335.5 L 14.7,330.0 L 21.3,327.9 L 32.5,321.2 L 29.1,311.2 L 34.2,304.1 L 36.0,299.8 L 44.6,294.2 L 57.9,290.4 L 67.8,286.9 L 76.7,278.1 L 80.9,272.9 L 90.7,272.9 L 98.8,276.5 L 111.5,275.9 L 125.3,277.8 L 131.1,277.9 L 136.1,283.4 Z"><title>Morocco</title></path><path class="country-base" d="M 493.3,354.7 L 493.3,326.8 L 489.3,320.3 L 492.8,315.4 L 490.7,311.9 L 495.5,308.0 L 513.3,307.8 L 526.1,310.0 L 539.3,312.4 L 545.5,313.7 L 555.8,311.1 L 561.3,308.7 L 573.0,308.1 L 582.5,309.1 L 586.1,313.1 L 589.2,310.5 L 599.9,312.4 L 610.3,312.9 L 616.9,310.8 L 616.9,310.8 L 624.3,322.6 L 625.6,324.7 L 621.9,327.9 L 619.0,333.9 L 615.4,338.0 L 612.3,339.4 L 607.8,336.9 L 601.8,333.3 L 592.3,321.9 L 590.9,322.6 L 596.5,331.0 L 604.7,339.0 L 614.7,351.2 L 619.7,355.4 L 623.9,359.7 L 624.3,360.0 L 493.3,360.0 L 493.3,354.7 Z"><title>Egypt</title></path><path class="country-base" d="M 292.1,357.2 L 284.3,351.5 L 289.6,348.3 L 288.4,343.4 L 290.1,339.1 L 289.1,335.5 L 291.5,329.0 L 290.7,325.3 L 286.4,318.2 L 292.9,316.3 L 294.1,312.9 L 292.7,309.5 L 301.8,306.4 L 305.9,303.8 L 312.4,301.4 L 313.2,295.0 L 328.8,297.9 L 334.4,297.2 L 345.6,298.6 L 363.3,302.2 L 369.5,309.5 L 381.5,311.1 L 400.3,314.5 L 414.5,318.5 L 421.0,316.5 L 427.4,312.7 L 424.3,306.5 L 428.5,302.5 L 438.1,298.6 L 447.2,297.5 L 465.3,299.2 L 469.8,302.9 L 474.8,302.9 L 479.0,304.3 L 492.3,305.3 L 495.5,308.0 L 490.7,311.9 L 492.8,315.4 L 489.3,320.3 L 493.3,326.8 L 493.3,354.7 L 493.3,360.0 L 292.6,360.0 L 292.1,357.2 Z"><title>Libya</title></path><path class="country-base" d="M 395.7,207.2 L 390.6,203.2 L 385.5,201.1 L 379.4,197.5 L 376.5,194.5 L 370.0,189.9 L 372.8,185.8 L 377.6,188.1 L 380.5,186.0 L 386.7,185.8 L 398.2,187.4 L 407.4,187.3 L 413.4,189.5 L 413.4,189.5 L 418.2,189.4 L 414.9,193.8 L 421.3,197.5 L 419.4,202.0 L 416.2,202.5 L 413.8,203.3 L 409.4,205.6 L 407.5,210.8 L 395.7,207.2 Z"><title>Bosnia and Herz.</title></path><path class="country-base" d="M 465.1,216.9 L 466.0,223.1 L 463.5,223.4 L 461.3,225.0 L 454.1,224.8 L 449.0,226.9 L 440.3,227.7 L 434.7,225.4 L 432.8,221.5 L 434.5,218.3 L 434.5,218.3 L 436.2,218.4 L 436.8,216.4 L 444.7,215.0 L 447.7,214.6 L 452.2,214.1 L 458.4,213.9 L 465.1,216.9 Z"><title>Macedonia</title></path><path class="country-base" d="M 411.1,179.1 L 421.3,176.4 L 429.6,176.9 L 436.8,180.8 L 438.3,184.0 L 446.4,186.3 L 447.5,190.4 L 455.3,193.2 L 459.5,191.0 L 462.7,192.2 L 459.7,193.9 L 462.1,195.6 L 458.8,197.8 L 460.0,201.3 L 466.5,205.5 L 461.4,208.4 L 459.2,211.5 L 460.6,212.6 L 458.4,213.9 L 452.2,214.1 L 447.7,214.6 L 447.2,213.9 L 448.8,212.8 L 450.3,210.5 L 448.4,210.5 L 445.8,208.8 L 443.7,208.3 L 441.9,206.8 L 439.4,206.2 L 437.5,204.9 L 435.1,205.4 L 433.3,208.6 L 430.1,209.3 L 431.2,208.4 L 426.1,206.5 L 421.7,205.4 L 419.8,204.1 L 416.2,202.5 L 419.4,202.0 L 421.3,197.5 L 414.9,193.8 L 418.2,189.4 L 413.4,189.5 L 413.4,189.5 L 418.5,185.8 L 414.3,182.9 L 411.1,179.1 L 411.1,179.1 Z"><title>Serbia</title></path><path class="country-base" d="M 424.0,212.2 L 423.2,210.4 L 417.4,215.1 L 418.3,218.1 L 415.5,217.3 L 411.8,214.3 L 406.0,212.4 L 407.5,210.8 L 409.4,205.6 L 413.8,203.3 L 416.2,202.5 L 419.8,204.1 L 421.7,205.4 L 426.1,206.5 L 431.2,208.4 L 430.1,209.3 L 427.6,211.4 L 424.0,212.2 Z"><title>Montenegro</title></path><path class="country-base" d="M 433.6,214.9 L 430.5,213.9 L 427.6,211.4 L 430.1,209.3 L 433.3,208.6 L 435.1,205.4 L 437.5,204.9 L 439.4,206.2 L 441.9,206.8 L 443.7,208.3 L 445.8,208.8 L 448.4,210.5 L 450.3,210.5 L 448.8,212.8 L 447.2,213.9 L 447.7,214.6 L 444.7,215.0 L 436.8,216.4 L 436.2,218.4 L 434.5,218.3 L 433.6,214.9 Z"><title>Kosovo</title></path>
+</g>
+<g id="regions">
+<g id="Britannia" class="region roman"><path d="M 111.8,84.0 L 111.6,83.8 L 95.4,81.7 L 92.2,78.4 L 97.1,72.9 L 92.7,69.5 L 85.5,75.3 L 84.7,63.4 L 78.0,56.9 L 82.8,43.6 L 93.2,32.9 L 103.8,33.9 L 119.9,32.8 L 105.7,47.1 L 119.3,45.3 L 133.9,45.4 L 130.4,55.9 L 118.4,67.2 L 132.2,67.9 L 133.3,69.3 L 145.1,83.7 L 154.3,85.6 L 162.5,99.1 L 166.3,103.7 L 182.4,105.9 L 180.8,113.2 L 174.0,116.5 L 179.3,122.3 L 167.3,128.1 L 149.5,128.0 L 126.8,131.0 L 120.6,128.8 L 111.8,134.0 L 99.4,132.7 L 90.1,136.9 L 83.0,134.7 L 102.5,123.2 L 114.5,120.8 L 114.4,120.8 L 93.5,118.9 L 89.8,114.4 L 103.7,110.9 L 96.4,104.7 L 98.9,97.1 L 118.7,98.1 L 118.8,98.1 L 120.7,91.3 L 111.8,84.0 Z M 61.8,84.0 L 59.0,77.5 L 70.2,77.0 L 84.5,84.5 L 77.4,92.7 L 67.3,90.3 L 59.0,90.4 L 61.8,84.0 Z"/></g><g id="Gallia" class="region roman"><path d="M 273.9,214.5 L 276.6,211.0 L 285.2,207.4 L 287.5,215.5 L 283.1,222.7 L 277.0,220.8 L 273.9,214.5 Z M 273.6,159.5 L 287.9,162.6 L 288.4,164.5 L 286.4,167.0 L 292.4,168.8 L 299.2,169.1 L 298.2,173.3 L 292.3,175.0 L 282.4,173.7 L 279.6,177.8 L 273.2,178.1 L 270.9,176.5 L 263.4,179.9 L 257.0,180.4 L 251.2,178.2 L 250.7,181.1 L 254.6,184.8 L 250.0,187.8 L 253.4,195.4 L 260.7,196.6 L 259.1,200.8 L 247.1,206.2 L 220.8,203.7 L 201.3,206.8 L 199.8,212.5 L 184.4,213.7 L 169.4,209.4 L 164.5,211.5 L 140.0,207.1 L 134.6,203.4 L 141.5,197.6 L 144.1,178.0 L 130.3,167.4 L 120.5,162.2 L 100.1,158.2 L 98.8,150.5 L 116.1,148.2 L 138.4,151.0 L 134.2,138.9 L 146.8,143.5 L 177.9,135.1 L 181.9,126.1 L 193.5,123.9 L 204.2,121.7 L 204.2,121.7 L 211.1,118.6 L 222.7,101.8 L 241.0,96.9 L 252.1,97.2 L 254.6,101.2 L 251.2,111.7 L 247.9,116.0 L 239.8,116.0 L 242.1,127.7 L 240.6,135.1 L 243.2,137.5 L 242.5,142.2 L 248.8,145.0 L 268.0,147.0 L 261.2,154.2 L 259.6,161.6 L 270.9,161.7 L 273.6,159.5 Z"/></g><g id="Hispania" class="region roman"><path d="M 55.3,263.5 L 48.2,262.3 L 41.3,263.3 L 43.4,256.4 L 42.1,251.0 L 36.2,250.2 L 33.0,246.8 L 34.0,240.9 L 39.4,237.6 L 40.3,233.9 L 43.1,228.4 L 42.8,224.5 L 40.1,221.2 L 39.5,218.0 L 40.2,211.3 L 34.8,207.2 L 53.6,200.3 L 69.9,202.0 L 87.8,202.0 L 102.0,203.6 L 113.1,203.1 L 134.6,203.4 L 140.0,207.1 L 164.5,211.5 L 169.4,209.4 L 184.4,213.7 L 199.8,212.5 L 200.5,217.9 L 187.9,224.1 L 170.8,226.1 L 169.6,229.2 L 161.4,234.3 L 156.3,241.6 L 161.5,246.8 L 153.8,250.7 L 150.9,256.5 L 140.8,258.2 L 131.4,265.0 L 114.5,265.1 L 101.7,264.9 L 93.4,268.0 L 88.3,271.2 L 81.8,270.5 L 76.8,267.6 L 73.1,262.6 L 60.6,261.3 L 55.3,263.5 Z"/></g><g id="Italia" class="region roman"><path d="M 364.1,260.9 L 361.3,265.4 L 351.1,262.2 L 344.4,261.2 L 325.7,256.8 L 327.6,252.2 L 343.2,253.0 L 356.8,252.1 L 366.9,251.3 L 362.1,258.2 L 364.1,260.9 Z M 277.4,245.3 L 272.4,242.9 L 271.8,231.9 L 268.8,226.7 L 276.1,227.2 L 282.8,224.3 L 290.8,230.8 L 288.9,242.8 L 282.9,242.3 L 277.4,245.3 Z M 344.1,173.0 L 342.6,178.0 L 345.8,182.2 L 335.2,180.8 L 324.4,184.3 L 325.1,189.2 L 323.5,192.0 L 327.9,197.0 L 340.4,201.8 L 347.1,209.7 L 361.9,217.3 L 372.3,217.3 L 375.6,219.4 L 371.9,221.2 L 383.8,224.6 L 393.6,227.4 L 405.0,232.2 L 406.4,233.9 L 403.9,237.1 L 396.5,232.9 L 384.9,231.4 L 379.3,237.3 L 389.0,240.6 L 387.4,245.3 L 381.8,245.8 L 374.7,253.5 L 369.1,254.1 L 369.2,251.4 L 371.9,246.7 L 374.8,244.7 L 369.6,239.5 L 365.5,235.0 L 360.0,233.8 L 356.0,229.9 L 347.5,228.2 L 341.7,224.5 L 331.8,223.9 L 321.4,219.7 L 309.2,213.6 L 300.2,208.1 L 296.0,198.6 L 289.4,197.5 L 278.5,194.3 L 272.4,195.6 L 264.7,200.1 L 259.1,200.8 L 260.7,196.6 L 253.4,195.4 L 250.0,187.8 L 254.6,184.8 L 250.7,181.1 L 251.2,178.2 L 257.0,180.4 L 263.4,179.9 L 270.9,176.5 L 273.2,178.1 L 279.6,177.8 L 282.4,173.7 L 292.3,175.0 L 298.2,173.3 L 299.2,169.1 L 307.3,170.6 L 308.9,168.6 L 322.0,166.8 L 325.0,170.4 L 344.1,173.0 Z"/></g><g id="Africa" class="region roman"><path d="M 328.8,297.9 L 334.4,297.2 L 345.6,298.6 L 363.3,302.2 L 369.5,309.5 L 381.5,311.1 L 400.0,314.5 L 400.0,328.7 L 291.4,328.7 L 133.3,328.7 L 133.3,303.0 L 142.6,302.3 L 145.0,299.1 L 141.5,297.3 L 136.9,288.5 L 136.1,283.4 L 133.3,280.4 L 133.3,277.1 L 143.9,273.2 L 158.3,271.8 L 166.7,268.2 L 179.6,265.6 L 202.2,264.0 L 224.2,263.3 L 230.9,264.6 L 243.5,261.2 L 257.7,261.1 L 263.2,263.1 L 272.3,262.6 L 286.8,259.1 L 296.1,260.1 L 295.7,264.5 L 307.1,261.3 L 308.0,263.0 L 301.3,267.3 L 301.2,271.2 L 305.9,273.4 L 304.1,280.8 L 295.3,285.0 L 297.9,289.6 L 304.8,289.8 L 308.1,293.7 L 313.2,295.0 L 328.8,297.9 Z"/></g><g id="Illyricum" class="region roman"><path d="M 434.9,234.4 L 428.7,238.8 L 426.4,238.2 L 426.1,236.2 L 418.7,233.1 L 417.6,228.7 L 418.7,222.4 L 420.5,219.5 L 418.3,218.1 L 418.3,218.1 L 415.5,217.3 L 411.8,214.3 L 406.0,212.4 L 406.0,212.4 L 393.5,208.9 L 385.7,205.5 L 373.5,202.6 L 362.3,195.5 L 365.0,194.8 L 358.9,190.7 L 358.7,187.3 L 350.1,185.8 L 346.0,190.0 L 342.1,186.7 L 342.4,183.3 L 342.9,183.1 L 345.8,182.2 L 342.6,178.0 L 344.1,173.0 L 355.1,173.8 L 361.8,171.5 L 373.5,171.2 L 376.0,169.5 L 378.3,169.6 L 380.9,173.1 L 385.1,174.3 L 395.1,178.6 L 406.1,180.6 L 411.1,179.1 L 411.1,179.1 L 421.3,176.4 L 429.6,176.9 L 436.8,180.8 L 438.3,184.0 L 446.4,186.3 L 447.5,190.4 L 455.3,193.2 L 459.5,191.0 L 462.7,192.2 L 459.7,193.9 L 462.1,195.6 L 458.8,197.8 L 460.0,201.3 L 466.5,205.5 L 461.4,208.4 L 459.2,211.5 L 460.6,212.6 L 458.4,213.9 L 452.2,214.1 L 447.7,214.6 L 447.2,213.9 L 448.8,212.8 L 450.3,210.5 L 448.4,210.5 L 445.8,208.8 L 443.7,208.3 L 441.9,206.8 L 439.4,206.2 L 437.5,204.9 L 435.1,205.4 L 433.3,208.6 L 430.1,209.3 L 427.6,211.4 L 430.5,213.9 L 433.6,214.9 L 434.5,218.3 L 434.5,218.3 L 432.8,221.5 L 434.7,225.4 L 440.3,227.7 L 440.0,230.1 L 435.7,231.4 L 434.9,234.4 Z"/></g><g id="Graecia" class="region roman"><path d="M 489.8,278.6 L 473.5,277.0 L 476.0,273.3 L 483.3,276.2 L 493.7,275.7 L 503.6,276.3 L 503.3,277.8 L 510.5,276.8 L 508.9,279.3 L 489.7,280.0 L 489.8,278.6 Z M 508.1,223.2 L 508.2,218.5 L 514.7,221.0 L 510.6,226.8 L 507.4,227.9 L 499.3,227.6 L 492.3,226.7 L 476.2,229.1 L 485.4,234.3 L 478.7,235.7 L 471.2,235.8 L 464.2,231.1 L 461.7,233.1 L 464.7,238.5 L 471.3,242.7 L 466.3,244.7 L 473.7,248.8 L 480.3,251.4 L 480.5,256.4 L 468.2,254.0 L 472.1,258.5 L 463.7,259.5 L 468.7,267.1 L 459.9,267.3 L 448.9,263.5 L 443.9,256.5 L 441.6,250.6 L 436.4,246.5 L 429.6,241.4 L 428.7,238.8 L 434.9,234.4 L 435.7,231.4 L 440.0,230.1 L 440.3,227.7 L 434.7,225.4 L 432.8,221.5 L 434.5,218.3 L 434.5,218.3 L 436.2,218.4 L 436.8,216.4 L 444.7,215.0 L 447.7,214.6 L 452.2,214.1 L 458.4,213.9 L 465.1,216.9 L 466.0,223.1 L 475.9,223.4 L 486.6,220.8 L 496.0,224.1 L 508.1,223.2 Z"/></g><g id="Anatolia" class="region roman"><path d="M 730.4,258.8 L 724.7,260.1 L 709.5,261.5 L 702.3,261.3 L 687.0,264.6 L 676.0,264.6 L 668.9,263.0 L 654.2,265.4 L 649.9,263.7 L 649.1,268.6 L 645.6,270.4 L 642.0,272.3 L 637.1,268.4 L 642.1,265.2 L 634.0,265.9 L 622.9,263.9 L 613.7,268.9 L 593.5,269.9 L 582.7,265.2 L 568.3,264.9 L 565.2,268.5 L 556.0,269.5 L 543.1,264.9 L 528.5,265.1 L 520.7,256.4 L 510.9,251.5 L 517.4,244.6 L 508.9,240.3 L 523.7,231.6 L 544.3,231.2 L 549.9,224.2 L 575.3,225.4 L 591.3,219.4 L 606.8,216.7 L 628.9,216.5 L 652.2,223.1 L 671.3,226.7 L 686.8,225.3 L 698.3,226.1 L 714.1,221.3 L 728.3,220.8 L 741.1,225.4 L 743.4,228.6 L 742.1,233.1 L 752.0,235.4 L 757.3,238.0 L 748.1,240.6 L 752.3,250.8 L 749.7,253.6 L 757.0,260.6 L 757.0,260.6 L 750.6,262.1 L 745.9,259.9 L 730.4,258.8 Z M 534.9,220.5 L 546.5,223.5 L 544.1,225.7 L 528.3,226.2 L 522.6,229.1 L 511.4,234.0 L 507.2,229.8 L 507.4,227.9 L 510.6,226.8 L 514.7,221.0 L 508.2,218.5 L 521.8,215.6 L 533.3,216.9 L 534.9,220.5 Z"/></g><g id="Syria" class="region roman"><path d="M 682.6,303.1 L 680.1,304.3 L 653.4,308.5 L 666.7,316.6 L 662.2,318.0 L 660.0,320.7 L 649.9,321.8 L 646.7,324.7 L 640.9,327.1 L 626.1,325.9 L 625.6,324.7 L 624.3,322.6 L 616.9,310.8 L 616.9,310.8 L 616.9,310.8 L 620.8,308.1 L 619.8,307.7 L 623.4,303.8 L 626.1,297.6 L 628.0,295.5 L 628.3,295.4 L 633.1,288.6 L 639.7,282.7 L 640.0,282.4 L 638.7,275.9 L 642.0,272.3 L 645.6,270.4 L 649.1,268.6 L 649.9,263.7 L 654.2,265.4 L 668.9,263.0 L 676.0,264.6 L 687.0,264.6 L 702.3,261.3 L 709.5,261.5 L 724.7,260.1 L 717.8,265.6 L 710.5,267.7 L 711.8,274.0 L 706.7,284.3 L 677.2,293.0 L 682.6,303.1 Z"/></g><g id="Aegyptus" class="region roman"><path d="M 493.3,326.8 L 489.3,320.3 L 492.8,315.4 L 490.7,311.9 L 495.5,308.0 L 513.3,307.8 L 526.1,310.0 L 539.3,312.4 L 545.5,313.7 L 555.8,311.1 L 561.3,308.7 L 573.0,308.1 L 582.5,309.1 L 586.1,313.1 L 589.2,310.5 L 599.9,312.4 L 610.3,312.9 L 616.9,310.8 L 616.9,310.8 L 624.3,322.6 L 625.6,324.7 L 621.9,327.9 L 619.0,333.9 L 615.4,338.0 L 612.3,339.4 L 607.8,336.9 L 601.8,333.3 L 592.3,321.9 L 590.9,322.6 L 596.5,331.0 L 604.7,339.0 L 614.7,351.2 L 619.7,355.4 L 623.9,359.7 L 624.3,360.0 L 493.3,360.0 L 493.3,354.7 L 493.3,326.8 Z"/></g><g id="Dacia" class="region roman"><path d="M 548.7,183.5 L 554.7,185.2 L 555.0,187.7 L 548.6,189.9 L 544.5,188.9 L 540.8,200.7 L 532.9,199.7 L 523.2,196.2 L 507.5,198.4 L 500.9,200.9 L 481.3,200.4 L 471.1,198.9 L 465.9,199.6 L 462.1,195.6 L 459.7,193.9 L 462.7,192.2 L 459.5,191.0 L 455.3,193.2 L 447.5,190.4 L 446.4,186.3 L 438.3,184.0 L 436.8,180.8 L 429.6,176.9 L 440.3,175.0 L 448.4,168.1 L 454.7,161.1 L 462.8,158.9 L 468.6,156.7 L 476.8,157.9 L 485.4,157.9 L 491.6,160.4 L 496.1,158.8 L 505.9,157.8 L 509.3,155.4 L 514.9,155.4 L 518.1,153.9 L 527.0,152.8 L 536.8,156.1 L 542.3,156.5 L 548.3,159.3 L 547.3,162.8 L 552.2,164.5 L 554.1,168.8 L 558.8,171.3 L 557.8,172.9 L 560.3,173.9 L 556.8,174.6 L 548.9,174.3 L 547.6,172.9 L 544.8,173.7 L 545.8,175.5 L 542.1,178.8 L 539.8,182.2 L 536.4,183.3 L 542.4,185.1 L 548.7,183.5 Z"/></g>
+</g>
+<g class="labels"><text class="rlabel" x="126.7" y="86.4">BRITANNIA</text><text class="rlabel" x="186.7" y="164.9">GALLIA</text><text class="rlabel" x="113.3" y="237.2">HISPANIA</text><text class="rlabel" x="324.0" y="215.0">ITALIA</text><text class="rlabel" x="273.3" y="285.3">AFRICA</text><text class="rlabel" x="390.7" y="193.0">ILLYRICVM</text><text class="rlabel" x="456.0" y="244.4">GRAECIA</text><text class="rlabel" x="600.0" y="242.6">ANATOLIA</text><text class="rlabel" x="653.3" y="286.1">SYRIA</text><text class="rlabel" x="560.0" y="328.7">AEGYPTVS</text><text class="rlabel" x="493.3" y="178.1">DACIA</text></g>
+<text class="sea-label" x="310" y="260">MARE NOSTRVM</text>
+</svg>
+        <div class="seal" id="seal">SPQR</div>
+      </div>
+      <div class="legend"><span class="lroman">romain</span><span class="lfed">fédéré</span><span class="lcont">contesté</span><span class="llost">perdu</span></div>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section class="panel game">
+      <div class="eventhead">
+        <div class="date" id="eventDate"></div>
+        <h1 id="eventTitle"></h1>
+        <div class="chapter" id="eventChapter"></div>
+      </div>
+      <div class="copy">
+        <p id="eventContext"></p>
+        <p class="history" id="eventHistory"></p>
+      </div>
+      <div class="choices" id="choices"></div>
+      <div class="footerline"><span id="counter"></span><div class="progress"><i id="progress"></i></div><span id="divergence"></span></div>
+    </section>
+  </main>
+</div>
+
+<div class="overlay" id="start">
+  <div class="card">
+    <div class="romanmark">UCHRONIES · ANTIQUITÉ → 2026</div>
+    <h1>ROMA<br>ÆTERNA</h1>
+    <p class="lead">Marc Aurèle vient de mourir. Pendant près de dix-huit siècles, vous allez arbitrer successions, invasions, religions, réformes, révolutions et guerres. L’Empire peut tomber en 476, survivre à Constantinople… ou ne jamais disparaître.</p>
+    <div class="rules">
+      <div class="rule"><b>Une cinquantaine de crises</b><span>Une partie n’en rencontre qu’une partie : les autres sont supprimées par vos choix.</span></div>
+      <div class="rule"><b>Histoire conditionnelle</b><span>Pas de Charlemagne si la Gaule reste romaine. Pas de 1453 si les Ottomans n’encerclent jamais Constantinople.</span></div>
+      <div class="rule"><b>Carte persistante</b><span>Les provinces perdues, fédérées, reconquises ou intégrées restent visibles jusqu’en 2026.</span></div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="newGame">Commencer en 180</button>
+      <button class="secondary hidden" id="resumeGame">Reprendre la partie</button>
+      <a class="secondary" href="index.html" style="text-decoration:none">← Index</a>
+    </div>
+  </div>
+</div>
+
+<div class="overlay hidden" id="ending"><div class="card" id="endingCard"></div></div>
+<div class="logpanel hidden" id="logPanel"><div class="loghead">CHRONOLOGIE <button class="iconbtn" id="closeLog">×</button></div><div class="logbody" id="logBody"></div></div>
+<div class="toast hidden" id="toast"></div>
+
+<script>
+const REGIONS=["Britannia","Gallia","Hispania","Italia","Africa","Illyricum","Graecia","Anatolia","Syria","Aegyptus","Dacia"];
+const baseTerritories=Object.fromEntries(REGIONS.map(r=>[r,"roman"]));
+const clamp=v=>Math.max(0,Math.min(100,v));
+const chapterFor=y=>y<235?"Le Haut-Empire":y<395?"Crises et refondations":y<500?"Le siècle des invasions":y<750?"Rome après Rome":y<1054?"Empires et couronnes":y<1453?"La Romanie médiévale":y<1789?"L’âge des États":y<1914?"Révolutions et nations":"Le monde contemporain";
+const C=(label,desc,delta={},flag=null,tags=[],req=null)=>({label,desc,delta,flag,tags,req});
+const E=(id,year,date,title,context,history,choices,when=()=>true,variant=null)=>({id,year,date,title,context,history,choices,when,variant});
+const choice = (c,s)=>typeof c==="function"?c(s):c;
+const SAVE="urbs-aeterna-v1";
+
+function freshState(){
+ return {
+  idx:0,played:0,skipped:0,year:180,capital:"Roma",
+  cohesion:66,treasury:58,army:64,legitimacy:62,senate:45,central:60,federal:25,
+  christian:7,tolerance:48,innovation:28,expansion:55,romanization:72,
+  territories:{...baseTerritories},
+  flags:{westAlive:true,eastAlive:true,unified:true,formalSplit:false,franks:false,franceExists:false,ottomans:false,
+         historicalTrack:0,divergence:0,constitutional:false,republic:false,industrial:false},
+  log:[]
+ };
+}
+let state=freshState();
+
+function romanCount(s=state){return Object.values(s.territories).filter(v=>["roman","federated"].includes(v)).length}
+function has(r){return ["roman","federated","contested"].includes(state.territories[r])}
+function eastAlive(s=state){return s.flags.eastAlive && ["Graecia","Anatolia"].some(r=>["roman","federated","contested"].includes(s.territories[r]))}
+function westAlive(s=state){return s.flags.westAlive && ["Italia","Gallia","Hispania","Africa"].some(r=>["roman","federated","contested"].includes(s.territories[r]))}
+function romeAlive(s=state){return westAlive(s)||eastAlive(s)}
+function strongEmpire(){return state.cohesion>=62&&state.army>=58&&romanCount()>=6}
+function gaulRoman(){return ["roman","federated"].includes(state.territories.Gallia)}
+function italyRoman(){return ["roman","federated"].includes(state.territories.Italia)}
+function anatoliaRoman(){return ["roman","federated"].includes(state.territories.Anatolia)}
+function territoryUsable(r,s=state){return ["roman","federated","contested"].includes(s.territories[r])}
+const CAPITAL_REGIONS={Roma:["Italia"],Ravenna:["Italia"],Mediolanum:["Italia"],Constantinopolis:["Anatolia"],Nicaea:["Anatolia"],Carthago:["Africa"],Lugdunum:["Gallia"],Alexandria:["Aegyptus"],Antiochia:["Syria"],Tarraco:["Hispania"],Londinium:["Britannia"],Sirmium:["Illyricum","Dacia"]};
+function capitalParts(cap){return String(cap||"").split("+").map(x=>x.trim()).filter(Boolean)}
+function capitalPartViable(cap,s=state,terr=s.territories){const regs=CAPITAL_REGIONS[cap];return !regs||regs.some(r=>["roman","federated","contested"].includes(terr[r]))}
+function prospectiveTerritories(delta={}){return {...state.territories,...(delta.territories||{})}}
+function capitalChoiceRequirement(c){const cap=c?.delta?.capital;if(!cap)return "";const terr=prospectiveTerritories(c.delta);const bad=capitalParts(cap).filter(x=>!capitalPartViable(x,state,terr));if(!bad.length)return "";const names=bad.flatMap(x=>CAPITAL_REGIONS[x]||[]);return `Contrôle territorial requis : ${[...new Set(names)].join(" / ")}`}
+function fallbackCapital(s=state){const order=[["Italia","Roma"],["Anatolia","Constantinopolis"],["Gallia","Lugdunum"],["Africa","Carthago"],["Aegyptus","Alexandria"],["Syria","Antiochia"],["Hispania","Tarraco"],["Britannia","Londinium"],["Illyricum","Sirmium"],["Dacia","Sirmium"]];for(const [r,c] of order)if(territoryUsable(r,s))return c;return "Cour en exil"}
+function reconcileCapital(log=false){const old=state.capital;let parts=capitalParts(old).filter(x=>capitalPartViable(x));if(!parts.length)parts=[fallbackCapital()];const next=[...new Set(parts)].join(" + ");if(next!==old){state.capital=next;if(log)state.log.push({date:`${state.year}`,title:"Transfert de capitale",text:`${old} n’est plus contrôlée : le gouvernement s’installe à ${next}.`,skip:false});return {old,next}}return null}
+
+function requirementOK(req){
+ if(!req)return [true,""];
+ if(req.stat){const cur=Math.round(state[req.stat]??0),ok=cur>=req.min;return [ok,`${req.label||req.stat} ${cur}/${req.min}`]}
+ if(req.all){const texts=[];for(const q of req.all){const [ok,t]=requirementOK(q);if(!ok)texts.push(t)}return[texts.length===0,texts.join(" · ")]}
+ return[true,""];
+}
+function gateHash(x){let h=2166136261;for(let i=0;i<x.length;i++){h^=x.charCodeAt(i);h=Math.imul(h,16777619)}return Math.abs(h>>>0)}
+function generatedRequirement(ev,c,idx,raw){if(c.req)return c.req;if(["succession180","end2026"].includes(ev.id)||(c.tags||[]).includes("Historique"))return null;const eligible=raw.map((x,i)=>({x,i})).filter(o=>!o.x.req&&!(o.x.tags||[]).includes("Historique"));if(eligible.length<2||gateHash(ev.id+"|gate")%100>=40)return null;const pick=eligible[gateHash(ev.id+"|pick")%eligible.length];if(pick.i!==idx)return null;const tags=(c.tags||[]).join(" ").toLowerCase(),d=c.delta||{};let stat="legitimacy",label="Légitimité",base=58;if(/guerre|bataille|armée|reconquête|expansion|conquête/.test(tags)){stat="army";label="Armée";base=60}else if(/sénat|république|constitution/.test(tags)){stat="senate";label="Sénat";base=56}else if(/fédér|autonomie|compromis/.test(tags)){stat="federal";label="Fédéral";base=51}else if(/tolérance|religion/.test(tags)){stat="tolerance";label="Tolérance";base=55}else if(/citoyen|romanité|assimilation/.test(tags)){stat="legitimacy";label="Légitimité";base=55}else if(/innovation|industrie|technique|imprimerie/.test(tags)){stat="innovation";label="Innovation";base=51}else if((d.treasury||0)<=-7){stat="treasury";label="Trésor";base=55}const min=Math.min(72,base+(gateHash(c.flag||c.label)%12));return {stat,min,label}}
+function effectiveRequirement(ev,c,idx,raw){return c.req||generatedRequirement(ev,c,idx,raw)}
+function setTerr(obj){for(const [r,v] of Object.entries(obj||{}))state.territories[r]=v}
+function effect(d={}){
+ for(const [k,v] of Object.entries(d)){
+  if(k==="territories"){setTerr(v);continue}
+  if(k==="flags"){Object.assign(state.flags,v);continue}
+  if(k==="capital"){state.capital=v;continue}
+  if(typeof state[k]==="number")state[k]=clamp(state[k]+v);
+ }
+}
+function setFlag(flag){if(flag)state.flags[flag]=true}
+function historical(n=1){state.flags.historicalTrack+=n}
+function diverge(n=1){state.flags.divergence+=n}
+
+const events=[
+E("succession180",180,"17 mars 180","Marc Aurèle est mort","Commode, son fils, est déjà associé au pouvoir. Le principe dynastique paraît naturel, mais l’élite sénatoriale sait que le choix d’un mauvais Auguste peut défaire un siècle de stabilité.","Marc Aurèle meurt en 180. Commode lui succède sans crise immédiate et rompt progressivement avec le style de gouvernement de son père.",[
+ C("Reconnaître Commode sans condition","La continuité dynastique doit primer.",{legitimacy:6,senate:-4},"commodusFull",["Historique","Dynastie"]),
+ C("Imposer à Commode un conseil sénatorial","Le jeune prince règne, mais sous surveillance.",{senate:9,legitimacy:2,central:-4},"commodusCouncil",["Sénat","Réforme"]),
+ C("Proposer un Auguste adopté par le Sénat","Revenir au principe de l’empereur choisi pour ses qualités.",{senate:12,legitimacy:-8,cohesion:-5},"adoptiveReturn",["Uchronie"]),
+ C("Partager le pouvoir avec un César expérimenté","Prévenir les dérives sans renverser la dynastie.",{cohesion:7,senate:4,central:-2},"coAugustus180",["Compromis"])
+]),
+E("commodus182",182,"182","Le palais se referme","Les conspirations contre Commode renforcent sa méfiance. Le gouvernement peut glisser vers la cour, la répression et le culte personnel.","Après plusieurs complots, Commode gouverne de manière de plus en plus personnelle. Il est assassiné le 31 décembre 192.",[
+ C("Renforcer la garde et laisser l’empereur gouverner","La sécurité du prince est la sécurité de l’État.",{legitimacy:-6,senate:-9,central:7,cohesion:-4},"commodusAutocracy",["Historique","Autocratie"]),
+ C("Éloigner les favoris et rouvrir le conseil","Désamorcer la crise avant qu’elle ne devienne sanglante.",{senate:8,cohesion:6,legitimacy:4},"palaceReform",["Réforme"]),
+ C("Préparer légalement la succession de Pertinax","Mieux vaut une transition préparée qu’un assassinat improvisé.",{senate:7,legitimacy:3,cohesion:4},"pertinaxPrepared",["Uchronie"]),
+ C("Déposer Commode par décision du Sénat","La dignité impériale n’est pas un bien privé.",{senate:13,legitimacy:-9,army:-4},"commodusDeposed",["Uchronie","Sénat"])
+]),
+E("five193",193,"193","Qui possède l’Empire ?","Après la mort de Commode et de Pertinax, les armées provinciales et la garde prétorienne fabriquent leurs propres empereurs. La fidélité militaire devient la monnaie du pouvoir.","L’année 193 voit plusieurs prétendants s’affronter. Septime Sévère l’emporte et fonde une nouvelle dynastie appuyée sur l’armée.",[
+ C("Soutenir Septime Sévère","Il a les légions et peut restaurer l’ordre.",{army:9,central:6,senate:-5,cohesion:7},"severus",["Historique","Armée"]),
+ C("Soutenir Clodius Albinus et un compromis sénatorial","L’Occident peut imposer un équilibre au pouvoir militaire.",{senate:8,federal:5,army:2},"albinus",["Uchronie"]),
+ C("Faire du Sénat l’arbitre de la succession","Aucun général ne doit acheter l’Empire avec ses légions.",{senate:12,army:-7,legitimacy:5},"senateElection193",["République impériale"]),
+ C("Créer deux commandements impériaux permanents","Occident et Orient auront chacun un César sous un Auguste commun.",{federal:10,cohesion:5,central:-8},"protoTetrarchy",["Uchronie","Fédéralisme"])
+]),
+E("caracalla212",212,"212","Qui est Romain ?","La citoyenneté est encore un privilège juridique majeur, mais l’Empire vit déjà comme un espace économique et militaire commun.","La Constitutio Antoniniana de Caracalla accorde en 212 la citoyenneté romaine à presque tous les hommes libres de l’Empire.",[
+ C("Accorder la citoyenneté à tous les hommes libres","L’Empire devient une communauté civique unique.",{romanization:10,cohesion:7,treasury:4},"antoniniana",["Historique","Citoyenneté"]),
+ C("Étendre la citoyenneté progressivement par province","Éviter une rupture juridique trop brusque.",{romanization:6,cohesion:4,federal:3},"gradualCitizenship",["Réforme"]),
+ C("Créer une citoyenneté impériale à deux niveaux","Rome commune, droits locaux préservés.",{federal:9,romanization:5,central:-5},"dualCitizenship",["Fédéralisme"]),
+ C("Conserver les privilèges anciens","La hiérarchie civique protège la valeur du statut romain.",{senate:4,romanization:-9,cohesion:-5},"oldCitizenship",["Conservateur"])
+]),
+E("crisis235",235,"235","Les empereurs des casernes","Les frontières se tendent, les finances se dégradent et les légions acclament leurs chefs. Le centre peut perdre le contrôle de la succession.","L’assassinat de Sévère Alexandre en 235 ouvre la crise du IIIe siècle, marquée par une succession rapide d’empereurs, guerres civiles et invasions.",[
+ C("Accepter l’empereur choisi par l’armée","Dans l’urgence, la force vaut légitimité.",{army:7,senate:-8,legitimacy:-5,central:4},"barracksEmperor",["Historique"]),
+ C("Créer une loi de succession impériale","Césars désignés, approbation du Sénat et serment des armées.",{legitimacy:10,senate:6,cohesion:6},"successionLaw",["Réforme"]),
+ C("Donner plus d’autonomie militaire aux provinces","Les frontières doivent pouvoir réagir sans attendre Rome.",{federal:10,army:6,central:-8},"frontierCommands",["Fédéralisme"]),
+ C("Réduire le nombre de légions et renforcer le fisc","Éviter que chaque général puisse devenir usurpateur.",{army:-9,treasury:10,cohesion:-3},"demilitarizePolitics",["Trésor"])
+]),
+E("decius250",250,"250","Les dieux et la loyauté","Le christianisme progresse dans les villes et jusque dans certaines élites. L’État veut s’assurer de la fidélité religieuse de tous les habitants.","Sous Dèce, des certificats de sacrifice sont exigés dans l’Empire. Cela provoque une persécution importante des chrétiens.",[
+ C("Exiger le sacrifice public à tous","La pax deorum est une affaire d’État.",{christian:-5,tolerance:-12,central:6,cohesion:-4},"deciusPersecution",["Historique","Religion"]),
+ C("Exiger seulement un serment civique","La loyauté politique suffit.",{tolerance:8,cohesion:5,christian:4},"civicOath",["Tolérance"]),
+ C("Reconnaître officiellement les communautés chrétiennes","Mieux vaut les intégrer que les pousser à la clandestinité.",{christian:12,tolerance:9,cohesion:3},"earlyTolerance",["Uchronie"]),
+ C("Séparer complètement culte et citoyenneté","Le fisc et la loi ne jugeront plus les dieux.",{tolerance:14,senate:3,central:-4},"religiousNeutrality",["Uchronie","Laïcité"])
+]),
+E("valerian260",260,"260","L’empereur est prisonnier","Valérien est capturé par le roi sassanide Shapur Ier. La nouvelle pulvérise le prestige impérial et encourage les usurpations.","Valérien est capturé en 260. Son fils Gallien gouverne dans un Empire où l’Occident et Palmyre s’autonomisent.",[
+ C("Payer une rançon et négocier","Sauver l’Auguste vaut une humiliation.",{treasury:-9,legitimacy:-2,cohesion:3},"ransomValerian",["Diplomatie"]),
+ C("Refuser toute rançon et proclamer Gallien","L’Empire ne dépend pas d’un prisonnier.",{legitimacy:4,central:5},"gallienus",["Historique"]),
+ C("Lancer une contre-offensive immédiate","La Perse doit comprendre qu’un empereur capturé coûte une guerre.",{army:-8,treasury:-6,legitimacy:7},"persianCounter",["Guerre"]),
+ C("Donner à Palmyre un commandement oriental officiel","Transformer une autonomie de fait en instrument romain.",{federal:8,army:5,central:-5},"palmyraCommand",["Fédérés"])
+]),
+E("breakaways268",268,"268","Gaules et Palmyre se détachent","À l’Ouest comme à l’Est, des pouvoirs régionaux assurent eux-mêmes la défense. Sont-ils des usurpateurs ou la preuve qu’un Empire trop centralisé ne fonctionne plus ?","L’Empire des Gaules et le royaume de Palmyre sont finalement reconquis par Aurélien dans les années 270.",[
+ C("Reconquérir tout par la force","Un seul Empire, un seul Auguste.",{army:-7,cohesion:7,central:8,federal:-6},"reconquestBreakaways",["Historique","Unité"]),
+ C("Reconnaître des Césars régionaux héréditaires","L’unité peut survivre sans administration unique.",{federal:14,central:-10,cohesion:7},"federalCaesars",["Uchronie","Fédération"]),
+ C("Reconnaître Palmyre mais reprendre la Gaule","L’Orient mérite une autonomie stratégique.",{federal:7,army:-3,territories:{Syria:"federated"}},"palmyraFederate",["Compromis"]),
+ C("Reconnaître la Gaule mais reprendre l’Orient","La frontière rhénane doit se gouverner elle-même.",{federal:7,territories:{Gallia:"federated"}},"gaulFederate",["Compromis"])
+]),
+E("aurelian274",274,"274","Restitutor Orbis","Aurélien a l’occasion de refonder l’autorité impériale après des années de fragmentation. Mais une restauration purement militaire peut préparer la prochaine crise.","Aurélien réunifie presque entièrement l’Empire et renforce les défenses de Rome. Il est assassiné en 275.",[
+ C("Restaurer un pouvoir impérial très centralisé","La crise a montré le danger de la dispersion.",{central:12,legitimacy:7,senate:-5},"aurelianCentral",["Historique","Autocratie"]),
+ C("Conserver les autonomies qui ont fonctionné","L’armée locale a parfois sauvé les provinces.",{federal:10,cohesion:5,central:-7},"keepAutonomies",["Fédération"]),
+ C("Réformer le Sénat en assemblée impériale des provinces","Les élites locales participeront directement à l’État.",{senate:10,federal:6,legitimacy:6},"imperialSenate",["Uchronie","Institutions"]),
+ C("Préparer une succession collégiale","Deux Augustes et plusieurs Césars empêcheront le vide du pouvoir.",{cohesion:8,federal:7,legitimacy:5},"collegialSuccession",["Réforme"])
+]),
+E("tetrarchy284",284,"284","Dioclétien veut refaire l’Empire","Dioclétien arrive au pouvoir avec une idée radicale : multiplier les centres de gouvernement, hiérarchiser les empereurs et rendre l’administration plus lourde mais plus présente.","À partir de 293, la Tétrarchie répartit le pouvoir entre deux Augustes et deux Césars. Le système stabilise un temps les frontières mais échoue à organiser durablement la succession.",[
+ C("Créer la Tétrarchie","Quatre souverains, un seul Empire.",{federal:11,central:5,cohesion:9,treasury:-5},"tetrarchy",["Historique","Tétrarchie"]),
+ C("Créer seulement deux Augustes, Orient et Occident","La collégialité doit rester lisible.",{federal:8,cohesion:8,central:-3},"diarchy",["Réforme"]),
+ C("Maintenir un Auguste unique avec des préfets puissants","Le commandement suprême ne se partage pas.",{central:12,cohesion:3,senate:-4},"singleAugustus",["Centralisation"]),
+ C("Transformer les Césars en gouverneurs élus par les provinces","Institutionnaliser une fédération romaine.",{federal:16,senate:7,central:-12},"electedCaesars",["Uchronie","Fédération"])
+]),
+E("persecution303",303,"303","La grande persécution","Le christianisme est devenu trop visible pour être ignoré. Dioclétien et Galère peuvent tenter de restaurer l’unité religieuse traditionnelle.","La Grande Persécution débute en 303. Elle est la dernière grande persécution générale avant la légalisation du christianisme sous Constantin.",[
+ C("Lancer la persécution générale","Temples, armée et administration doivent partager les mêmes cultes.",{tolerance:-16,christian:-4,central:7,cohesion:-5},"greatPersecution",["Historique"]),
+ C("Limiter les mesures aux fonctionnaires","L’État exige une pratique, pas la société entière.",{tolerance:-6,central:3},"limitedPersecution",["Compromis"]),
+ C("Proclamer la liberté de culte","Aucune religion ne sera illégale.",{tolerance:15,christian:7,cohesion:6},"religiousLiberty303",["Uchronie"]),
+ C("Reconnaître le christianisme comme culte impérial parmi d’autres","L’intégrer avant qu’il ne devienne un contre-pouvoir.",{christian:13,tolerance:9,legitimacy:3},"recognizedChristianity",["Uchronie"])
+]),
+E("constantine312",312,"28 octobre 312","Le pont Milvius","Constantin affronte Maxence près de Rome. La guerre civile est aussi devenue une bataille de symboles religieux et de légitimité.","Constantin vainc Maxence au pont Milvius. La tradition chrétienne associe cette victoire au signe du Christ.",[
+ C("Soutenir Constantin et sa nouvelle symbolique chrétienne","Une religion montante peut renouveler la légitimité impériale.",{christian:16,legitimacy:9,army:5},"constantineChristian",["Historique","Constantin"]),
+ C("Soutenir Constantin mais garder l’État religieusement pluraliste","Victoire politique, pas conversion de l’Empire.",{tolerance:10,legitimacy:7,christian:4},"constantinePlural",["Tolérance"]),
+ C("Soutenir Maxence et le vieux centre romain","Rome et le Sénat ne doivent pas céder à un nouvel homme fort.",{senate:9,christian:-4,legitimacy:-2},"maxentius",["Uchronie"]),
+ C("Imposer une paix entre prétendants","La guerre civile menace davantage l’Empire que la question religieuse.",{cohesion:10,federal:5,army:-2},"milvianCompromise",["Uchronie"])
+]),
+E("nicaea325",325,"325","Un concile pour l’Empire","Les évêques chrétiens se divisent sur la nature du Christ. L’empereur peut arbitrer une querelle théologique qui menace désormais l’ordre public.","Le concile de Nicée, convoqué par Constantin en 325, condamne l’arianisme et formule le symbole de Nicée.",[
+ C("Convoquer Nicée et imposer une doctrine commune","Une Église unie renforcera un Empire uni.",{christian:13,central:7,tolerance:-5},"nicaea",["Historique","Christianisme"]),
+ C("Convoquer le concile sans rendre sa décision obligatoire","L’empereur facilite, il ne définit pas la foi.",{christian:8,tolerance:7,central:-2},"freeCouncil",["Réforme"]),
+ C("Refuser toute intervention impériale","Les évêques régleront leurs propres controverses.",{tolerance:10,central:-6,christian:4},"churchAutonomy",["Uchronie"]),
+ C("Créer un collège public de plusieurs cultes","Les religions reconnues disposeront d’un statut commun.",{tolerance:14,federal:5,christian:2},"religiousCollege",["Uchronie","Pluralisme"])
+]),
+E("capital330",330,"11 mai 330","Une nouvelle Rome","Constantin veut faire de Byzance une capitale impériale monumentale, au plus près des Balkans, de l’Anatolie et des routes orientales.","Constantinople est inaugurée en 330. Elle devient progressivement le principal centre politique de l’Empire d’Orient.",[
+ C("Fonder Constantinople comme seconde Rome","Deux pôles pour un seul Empire.",{capital:"Constantinopolis",federal:5,cohesion:6,treasury:-5},"constantinople",["Historique"]),
+ C("Maintenir Rome comme capitale incontestée","L’Urbs ne peut être remplacée.",{capital:"Roma",senate:8,central:4},"romeCapital",["Tradition"]),
+ C("Installer la cour à Mediolanum, plus centrale","Le gouvernement doit rester proche du Rhin et du Danube.",{capital:"Mediolanum",army:5,cohesion:3},"milanCapital",["Uchronie"]),
+ C("Créer deux capitales constitutionnelles","Rome pour le Sénat, Constantinople pour l’exécutif oriental.",{capital:"Roma + Constantinopolis",federal:11,senate:6},"dualCapital",["Fédération"])
+]),
+E("goths376",376,"376","Les Goths au Danube","Des dizaines de milliers de Goths demandent à entrer dans l’Empire pour fuir les Huns. Les refuser, les exploiter ou les intégrer auront des conséquences durables.","En 376, des Goths sont admis dans l’Empire. Mauvais traitements et corruption provoquent une révolte qui mène à Andrinople.",[
+ C("Les admettre comme fédérés armés et encadrés","Ils défendront la frontière en échange de terres.",{federal:8,army:6,cohesion:2},"gothsFederated",["Fédérés"]),
+ C("Les admettre, les désarmer et les disperser","Éviter qu’ils forment une puissance autonome.",{central:6,cohesion:-5,army:-2},"gothsDispersed",["Historique"]),
+ C("Créer des colonies gothiques avec citoyenneté progressive","Faire d’eux de futurs Romains.",{romanization:9,tolerance:7,cohesion:6},"gothsIntegrated",["Uchronie","Intégration"]),
+ C("Refuser le passage du Danube","La frontière ne doit pas céder sous la pression.",{army:-5,cohesion:-2,territories:{Dacia:"contested"}},"gothsRejected",["Frontière"])
+]),
+E("adrianople378",378,"9 août 378","La crise d’Andrinople","Les relations avec les Goths ont dégénéré. Une armée impériale doit-elle chercher une bataille décisive ou gagner du temps pour reconstruire la confiance ?","Valens est tué et l’armée romaine lourdement battue à Andrinople en 378. Le choc révèle les faiblesses militaires de l’Empire.",s=>[
+ C("Attaquer immédiatement avant l’arrivée des renforts","Une victoire rapide restaurera l’autorité.",{army:-14,legitimacy:-7,cohesion:-7,territories:{Illyricum:"contested"}},"adrianopleDisaster",["Historique","Bataille"]),
+ C("Attendre Gratien et concentrer les armées","La patience vaut mieux qu’un geste impérial.",{army:6,cohesion:7},"adrianopleWait",["Uchronie"]),
+ C("Négocier un foedus durable","Reconnaître des terres et des obligations militaires claires.",{federal:9,cohesion:6,army:3},"gothicFoedus",["Fédérés"]),
+ C("Accorder une citoyenneté collective aux chefs goths","Les transformer en aristocratie impériale.",{romanization:8,tolerance:5,senate:-2},"gothicAristocracy",["Uchronie"])
+],s=>s.flags.gothsDispersed||s.flags.gothsRejected||s.cohesion<55),
+E("split395",395,"17 janvier 395","Après Théodose","Théodose Ier meurt en laissant deux fils, Arcadius à l’Est et Honorius à l’Ouest. Une division administrative peut devenir une séparation politique durable.","Après 395, les deux moitiés de l’Empire sont gouvernées séparément, même si l’idée d’un Empire romain unique demeure.",[
+ C("Confirmer deux cours impériales autonomes","Orient et Occident géreront leurs propres crises.",{federal:9,central:-8,cohesion:2,flags:{formalSplit:true,unified:false}},"split395",["Historique"]),
+ C("Nommer un seul Auguste et un César occidental","Préserver une chaîne de commandement commune.",{central:8,cohesion:7,flags:{formalSplit:false,unified:true}},"unified395",["Uchronie"]),
+ C("Créer une constitution fédérale des deux partes","Deux gouvernements, un Sénat impérial commun.",{federal:15,senate:8,cohesion:8,flags:{formalSplit:false,unified:true}},"federal395",["Uchronie","Fédération"]),
+ C("Transférer l’essentiel du pouvoir à l’Occident","Les menaces du Rhin et du Danube sont prioritaires.",{army:6,territories:{Anatolia:"federated"},central:-2},"westernPriority",["Uchronie"])
+]),
+E("west410",410,"410","Rome sous la menace","La cour occidentale peine à payer et contrôler les armées fédérées. Alaric et ses Goths cherchent terres, solde et reconnaissance.","Alaric prend Rome en 410. Le sac choque le monde romain, même si la ville n’est déjà plus la résidence habituelle de la cour.",s=>{
+ const integrated=s.flags.gothsIntegrated||s.flags.gothicAristocracy||s.flags.gothsFederated;
+ return integrated?[
+  C("Institutionnaliser un royaume fédéré gothique en Illyrie","Transformer l’alliance en frontière durable.",{federal:10,army:5,territories:{Illyricum:"federated"}},"gothicMarch",["Uchronie"]),
+  C("Intégrer les contingents goths dans l’armée régulière","Finir la distinction entre fédérés et légions.",{romanization:8,army:8,cohesion:5},"gothsArmyIntegrated",["Uchronie"]),
+  C("Réduire progressivement les privilèges militaires goths","L’intégration doit déboucher sur l’égalité juridique.",{central:5,cohesion:3,romanization:7},"endFoedus",["Réforme"]),
+  C("Installer une cour occidentale à Ravenne et négocier","Sécuriser l’Italie tout en évitant une rupture.",{capital:"Ravenna",cohesion:5,treasury:-3},"ravennaCourt",["Compromis"])
+ ]:[
+  C("Refuser les demandes d’Alaric","Rome ne cédera pas au chantage.",{cohesion:-10,legitimacy:-8,territories:{Italia:"contested"}},"sackRome410",["Historique","Sac de Rome"]),
+  C("Payer et installer les Goths en Aquitaine","Acheter du temps par un foedus occidental.",{treasury:-8,federal:8,territories:{Gallia:"federated"}},"visigothAquitaine",["Fédérés"]),
+  C("Offrir à Alaric un commandement romain","Donner un titre impérial à une puissance déjà réelle.",{army:5,romanization:5,cohesion:4},"alaricGeneral",["Uchronie"]),
+  C("Évacuer la cour à Carthage et défendre l’Afrique","Préserver le grenier fiscal de l’Occident.",{capital:"Carthago",treasury:5,territories:{Italia:"contested"}},"africanCourt",["Uchronie"])
+ ]}),
+E("africa439",439,"439","Carthage et l’Afrique","Les Vandales progressent en Afrique. Sans cette région, l’Occident perd une part essentielle de ses recettes et de son approvisionnement.","Les Vandales prennent Carthage en 439 et fondent un royaume puissant qui contrôle ensuite une partie de la Méditerranée occidentale.",[
+ C("Concentrer la flotte et défendre Carthage à tout prix","Sans l’Afrique, l’Occident s’asphyxie.",{army:-7,treasury:-4,territories:{Africa:"roman"}},"holdCarthage",["Uchronie"],{stat:"army",min:48,label:"Armée"}),
+ C("Négocier un royaume vandale fédéré","Conserver impôts partiels et accès aux ports.",{federal:9,treasury:-4,territories:{Africa:"federated"}},"vandalFoedus",["Fédérés"]),
+ C("Accepter la perte de l’Afrique","Sauver les forces pour l’Italie et la Gaule.",{treasury:-12,cohesion:-8,territories:{Africa:"lost"}},"loseAfrica",["Historique"]),
+ C("Déplacer le centre fiscal vers Hispanie et Sicile","Préparer un Occident plus compact.",{treasury:3,central:3,territories:{Africa:"lost"}},"compactWest",["Uchronie"])
+ ]),
+E("attila451",451,"451","Attila en Gaule","Les Huns pénètrent en Occident. Les armées romaines seules sont insuffisantes : il faut choisir entre coalition, tribut et concentration territoriale.","Aetius rassemble une coalition comprenant des Wisigoths et affronte Attila aux Champs Catalauniques en 451.",[
+ C("Former une grande coalition romano-fédérée","Faire combattre ensemble Romains, Goths et Francs.",{army:8,federal:8,cohesion:6},"aetiusCoalition",["Historique","Coalition"]),
+ C("Payer Attila pour détourner l’invasion","Préserver l’armée, perdre du prestige.",{treasury:-9,legitimacy:-8,army:3},"payAttila",["Diplomatie"]),
+ C("Abandonner temporairement le nord de la Gaule","Défendre seulement l’Italie et la Méditerranée.",{army:5,territories:{Gallia:"contested"},cohesion:-4},"abandonNorthGaul",["Repli"]),
+ C("Donner aux provinces gauloises leur propre commandement","Créer un Occident réellement fédéral.",{federal:11,army:5,territories:{Gallia:"federated"}},"gallicCommand",["Uchronie"])
+ ]),
+E("majorian457",457,"457","Le dernier grand pari occidental","Majorian veut réformer l’État, contenir les aristocraties et reconquérir l’Afrique. Le succès pourrait redonner une base fiscale à l’Occident.","Majorian, empereur de 457 à 461, prépare une grande expédition contre les Vandales mais sa flotte est détruite avant le départ. Il est ensuite renversé par Ricimer.",[
+ C("Soutenir totalement Majorien et sa reconquête","L’Afrique doit revenir à l’Empire.",{army:-5,treasury:-4,legitimacy:8},"majorianCampaign",["Historique"],{stat:"treasury",min:35,label:"Trésor"}),
+ C("Réformer d’abord le fisc et l’armée","Une reconquête sans État solide ne tiendra pas.",{treasury:9,army:6,cohesion:6},"majorianReform",["Uchronie"]),
+ C("Reconnaître définitivement les royaumes fédérés","Conserver l’Italie et une suzeraineté souple.",{federal:13,central:-9,cohesion:5},"federalWest",["Fédération"]),
+ C("Associer Ricimer au pouvoir comme César","Donner une forme légale au pouvoir des généraux barbares.",{army:7,romanization:5,legitimacy:2},"ricimerCaesar",["Uchronie"])
+ ]),
+E("fall476",476,"4 septembre 476","L’Occident au bord du vide","Odoacre exige des terres pour ses hommes. Romulus Augustule n’a presque aucun pouvoir réel. L’Empire d’Orient observe : faut-il sauver la cour occidentale ou accepter sa disparition ?","En 476, Odoacre dépose Romulus Augustule et renvoie les insignes impériaux à Constantinople. Cette date est traditionnellement retenue comme la fin de l’Empire romain d’Occident.",s=>[
+ C("Accepter l’abdication de Romulus Augustule","L’Occident n’a plus les moyens d’entretenir une cour impériale.",{flags:{westAlive:false,formalSplit:false},territories:{Gallia:"lost",Hispania:"lost",Italia:"lost",Africa:s.territories.Africa==="roman"?"lost":s.territories.Africa,Britannia:"lost"},cohesion:-7},"historical476",["Historique","476"]),
+ C("Reconnaître Odoacre comme César d’Italie","L’Empire survit juridiquement par une fédération occidentale.",{federal:12,cohesion:6,territories:{Italia:"federated"}},"odoacerCaesar",["Uchronie","Fédération"]),
+ C("Envoyer une armée orientale restaurer la cour","Constantinople ne laissera pas tomber l’autre moitié.",{army:-10,treasury:-9,cohesion:8,territories:{Italia:"roman"}},"saveWest476",["Uchronie"],{all:[{stat:"army",min:55,label:"Armée"},{stat:"treasury",min:42,label:"Trésor"}]}),
+ C("Abolir la cour occidentale mais garder les provinces comme république fédérée","Le Sénat de Rome devient un gouvernement territorial sous l’Auguste oriental.",{senate:12,federal:14,territories:{Italia:"federated"},flags:{westAlive:true,unified:true}},"senatorialWest476",["Uchronie","SPQR"])
+ ]),
+E("world500",500,"vers 500","Quel Occident existe encore ?","Un quart de siècle après 476, la géographie politique est désormais la conséquence de vos choix : royaumes autonomes, provinces fédérées ou Occident toujours impérial.","Dans notre chronologie, l’Italie est gouvernée par Odoacre puis par les Ostrogoths, tandis que l’Empire romain se poursuit à Constantinople.",s=>{
+ if(westAlive(s)) return [
+  C("Transformer l’Occident en fédération de provinces","Faire des royaumes fédérés des membres permanents de l’Empire.",{federal:14,cohesion:8,central:-9},"westFederation500",["Uchronie","Survivance"]),
+  C("Relancer une romanisation administrative","Uniformiser droit, monnaie et armée.",{romanization:12,central:8,treasury:-4},"romanRenewal500",["Uchronie"]),
+  C("Maintenir une double monarchie Orient-Occident","Deux Augustes, une diplomatie commune.",{cohesion:8,federal:6,flags:{unified:true}},"doubleEmpire500",["Uchronie"]),
+  C("Donner la primauté à Constantinople","L’Occident survit mais comme partie secondaire.",{central:6,senate:-4,capital:"Constantinopolis"},"eastPrimacy500",["Uchronie"])
+ ];
+ return [
+  C("Consolider l’Empire oriental sans reconquête","L’avenir romain est désormais grec et oriental.",{treasury:8,cohesion:7,capital:"Constantinopolis"},"eastConsolidation500",["Historique"]),
+  C("Préparer dès maintenant la reconquête de l’Occident","476 n’est qu’une interruption.",{army:7,treasury:-5,expansion:8},"reconquestDoctrine500",["Uchronie"]),
+  C("Reconnaître les royaumes occidentaux comme héritiers partenaires","Rome devient le centre diplomatique d’un Commonwealth post-romain.",{federal:9,tolerance:5},"romanCommonwealth500",["Uchronie"]),
+  C("Soutenir les élites gallo-romaines contre les Francs","Conserver une influence politique en Gaule.",{treasury:-4,territories:{Gallia:"contested"}},"supportGalloRomans",["Uchronie"])
+ ];
+}),
+E("justinian527",527,"527","Le programme de Justinien","Un nouvel empereur énergique veut restaurer le droit, l’autorité et peut-être les anciennes frontières. La question est de savoir jusqu’où poursuivre l’idée de reconquête.","Justinien Ier règne de 527 à 565. Ses armées reprennent l’Afrique vandale, l’Italie ostrogothique et une partie de l’Hispanie, au prix de guerres très coûteuses.",s=>[
+ C("Reconquérir Afrique puis Italie","Restauratio Imperii.",{army:-9,treasury:-10,expansion:12,territories:{Africa:"roman",Italia:"roman"}},"justinianReconquest",["Historique","Reconquête"]),
+ C("Reconquérir seulement les côtes stratégiques","Ports, îles et détroits plutôt que territoires entiers.",{army:-4,treasury:-5,expansion:5,territories:{Africa:"federated"}},"justinianLimited",["Compromis"]),
+ C("Renoncer aux reconquêtes et investir dans l’Orient","La richesse est en Anatolie, Syrie et Égypte.",{treasury:10,army:5,innovation:4},"justinianEast",["Uchronie"]),
+ C("Faire de la codification du droit la priorité absolue","Une Rome durable se construit par ses institutions.",{legitimacy:10,senate:4,romanization:8},"justinianLaw",["Droit"])
+],s=>eastAlive(s)),
+E("plague541",541,"541","La peste arrive","Une épidémie massive frappe Constantinople et les routes méditerranéennes. Elle menace soldats, contribuables et villes au moment où l’Empire est déjà engagé dans des guerres coûteuses.","La peste dite de Justinien atteint l’Empire à partir de 541 et revient par vagues pendant des décennies.",[
+ C("Maintenir les guerres malgré les pertes","Les ennemis souffrent eux aussi.",{army:-10,treasury:-9,cohesion:-5},"plagueWar",["Historique"]),
+ C("Suspendre les offensives et sécuriser le ravitaillement","Préserver la population avant les frontières.",{army:2,treasury:-4,cohesion:8},"plagueTruce",["Uchronie"]),
+ C("Décentraliser les secours vers les cités","Les autorités locales réagiront plus vite.",{federal:8,cohesion:6,central:-5},"cityRelief",["Fédéralisme"]),
+ C("Créer une administration impériale de santé","Quarantaines, greniers et recensements deviennent permanents.",{central:6,innovation:8,treasury:-5},"imperialHealth",["Uchronie"])
+]),
+E("persia602",602,"602–628","La guerre totale avec la Perse","Une nouvelle guerre dynastique avec les Sassanides peut devenir existentielle. Syrie, Égypte et Anatolie sont exposées.","La guerre romano-sassanide de 602–628 épuise les deux empires. Héraclius finit par vaincre, mais les conquêtes arabes commencent peu après.",[
+ C("Mener la guerre jusqu’à la victoire totale","La Perse doit être repoussée au-delà des frontières anciennes.",{army:-12,treasury:-12,legitimacy:8},"persianTotalWar",["Historique"]),
+ C("Négocier une paix rapide même imparfaite","Préserver hommes et finances.",{treasury:6,army:5,legitimacy:-3},"persianPeace",["Uchronie"]),
+ C("Créer une alliance avec des puissances caucasiennes","Externaliser une partie de la défense.",{federal:6,army:5,treasury:-3},"caucasusAlliance",["Diplomatie"]),
+ C("Réorganiser l’Orient en thèmes militaires dès maintenant","Soldats-paysans et commandements territoriaux.",{army:8,federal:5,central:2,innovation:4},"earlyThemes",["Uchronie","Réforme"])
+],s=>eastAlive(s)&&has("Anatolia")),
+E("arab636",636,"636","Une nouvelle puissance au Levant","Les armées du califat arabe affrontent les forces romaines en Syrie. L’issue déterminera le contrôle du Levant et bientôt de l’Égypte.","La défaite romaine au Yarmouk en 636 ouvre la Syrie aux armées du califat. L’Égypte est conquise dans les années suivantes.",s=>[
+ C("Concentrer toutes les forces au Yarmouk","La Syrie doit être tenue par une bataille décisive.",{army:-11,cohesion:-5,territories:{Syria:"lost",Aegyptus:"contested"}},"yarmoukHistorical",["Historique"]),
+ C("Abandonner la Syrie et fortifier l’Égypte et l’Anatolie","Éviter l’anéantissement de l’armée.",{army:5,territories:{Syria:"lost",Aegyptus:"roman"},cohesion:-3},"strategicRetreat636",["Uchronie"]),
+ C("Proposer autonomie et fiscalité réduite aux provinces orientales","Couper l’herbe sous le pied aux nouveaux conquérants.",{federal:12,tolerance:9,treasury:-6,territories:{Syria:"federated",Aegyptus:"federated"}},"levantFederal",["Uchronie","Fédération"]),
+ C("Chercher une trêve et reconnaître une frontière arabe","Transformer la conquête en équilibre diplomatique.",{treasury:3,army:4,territories:{Syria:"lost"}},"arabTruce",["Diplomatie"])
+],s=>eastAlive(s)),
+E("icons726",726,"726","Images, foi et autorité","Dans un Empire profondément christianisé, le culte des images devient une crise politique. Empereur, moines et populations ne sont pas du même avis.","Au VIIIe siècle, les empereurs iconoclastes interdisent ou limitent le culte des images, provoquant une longue crise religieuse dans l’Empire byzantin.",s=>[
+ C("Interdire les images sacrées","L’empereur tranche pour l’iconoclasme.",{central:7,christian:5,tolerance:-8,cohesion:-5},"iconoclasm",["Historique"]),
+ C("Défendre les images et les monastères","Éviter une guerre religieuse interne.",{christian:8,cohesion:5,central:-2},"iconodules",["Religion"]),
+ C("Déclarer la question hors du pouvoir impérial","Le gouvernement ne légiférera plus sur les rites.",{tolerance:13,central:-7,cohesion:4},"religiousSeparation726",["Uchronie"]),
+ C("Convoquer un synode fédéral des Églises","Laisser chaque grande région préserver son usage.",{federal:10,tolerance:9,cohesion:6},"federalChurch726",["Uchronie"])
+],s=>s.christian>=35&&romeAlive(s)),
+E("west750",750,"vers 750","L’Occident prend une autre forme","Trois siècles après 476, la Gaule et l’Italie ont suivi des chemins très différents selon que l’autorité romaine y a survécu ou non.","En Occident, les Carolingiens remplacent les Mérovingiens au VIIIe siècle. Dans un Empire occidental survivant, cette montée en puissance n’aurait pas la même forme.",s=>{
+ if(gaulRoman()&&westAlive(s)) return [
+  C("Créer un César des Gaules élu par les provinces","Donner à la Gaule son propre exécutif impérial.",{federal:13,cohesion:7,territories:{Gallia:"federated"}},"gallicCaesar750",["Uchronie","Pas de Carolingiens"]),
+  C("Réprimer les grandes familles franques romanisées","Aucune aristocratie militaire ne doit devenir dynastie.",{central:9,army:-4,cohesion:-5},"frankishPurge750",["Uchronie"]),
+  C("Intégrer les chefs francs au Sénat impérial","Faire de leur prestige une ressource romaine.",{senate:8,romanization:9,cohesion:7},"franksSenate750",["Uchronie"]),
+  C("Déplacer une cour occidentale à Lugdunum","Gouverner durablement la Gaule depuis la Gaule.",{capital:"Roma + Lugdunum",federal:8,cohesion:5},"lyonCourt750",["Uchronie"])
+ ];
+ return [
+  C("Reconnaître Pépin comme roi des Francs","Une nouvelle dynastie stabilise la Gaule.",{flags:{franks:true,franceExists:true},cohesion:3},"pepin",["Historique","Francs"]),
+  C("Soutenir les derniers Mérovingiens","Éviter une dynastie militaire trop puissante.",{flags:{franceExists:true},cohesion:-2},"merovingianSurvival",["Uchronie"]),
+  C("Soutenir une restauration gallo-romaine","Recréer une principauté romaine en Gaule.",{territories:{Gallia:"federated"},romanization:7,federal:7},"neoRomanGaul",["Uchronie"]),
+  C("Laisser l’Occident se fragmenter sans arbitre romain","L’Empire oriental ne choisira aucun roi.",{federal:5,flags:{franceExists:true}},"fragmentedWest750",["Uchronie"])
+ ];
+}),
+E("imperial800",800,"25 décembre 800","Qui peut porter le titre impérial ?","En 800, la question du titre dépend entièrement de la survie occidentale. Un Empire romain toujours maître de la Gaule n’a aucune raison de voir apparaître le même Charlemagne que dans notre histoire.","Dans notre chronologie, Charlemagne est couronné empereur à Rome par Léon III le 25 décembre 800, créant un nouvel empire en Occident distinct de Constantinople.",s=>{
+ if(westAlive(s)&&gaulRoman()) return [
+  C("Créer officiellement un second Auguste en Occident","L’Empire devient une dyarchie constitutionnelle.",{federal:12,cohesion:8,flags:{unified:true}},"twoAugusti800",["Uchronie","Aucun Charlemagne"]),
+  C("Maintenir un seul Auguste","Le titre romain reste indivisible.",{central:11,legitimacy:7},"oneAugustus800",["Uchronie"]),
+  C("Élire périodiquement le César d’Occident","Transformer la succession en institution.",{senate:10,federal:9,legitimacy:7},"electedWesternCaesar",["Uchronie"]),
+  C("Donner à la Gaule une large autonomie sans titre impérial","Éviter une nouvelle rivalité de couronnes.",{federal:12,territories:{Gallia:"federated"}},"gaulAutonomy800",["Uchronie"])
+ ];
+ return [
+  C("Couronner Charlemagne empereur d’Occident","Un nouvel empire chrétien naît autour des Francs.",{flags:{franks:true,franceExists:true},legitimacy:3},"charlemagne",["Historique","Charlemagne"]),
+  C("Refuser tout nouveau titre impérial occidental","Constantinople reste le seul Empire romain.",{central:5,flags:{franceExists:true}},"noCharlemagneTitle",["Uchronie"]),
+  C("Reconnaître Charlemagne comme César sous suzeraineté romaine","Réconcilier juridiquement les deux mondes.",{federal:11,territories:{Gallia:"federated"},flags:{franks:true,franceExists:true}},"charlemagneCaesar",["Uchronie"]),
+  C("Reconnaître seulement un royaume franc","Séparer clairement royauté occidentale et Empire romain.",{flags:{franceExists:true},federal:5},"frankishKingdom800",["Uchronie"])
+ ];
+}),
+E("schism1054",1054,"1054","Rome et Constantinople se séparent-elles ?","Des siècles de divergences liturgiques, politiques et linguistiques ont éloigné les Églises. Mais la géographie de votre Empire peut rendre le schisme beaucoup moins inévitable.","En 1054, les excommunications réciproques entre légats pontificaux et patriarche de Constantinople symbolisent la rupture croissante entre christianismes latin et grec.",s=>{
+ const unified=westAlive(s)&&eastAlive(s);
+ return [
+  C(unified?"Imposer un concile impérial d’union":"Accepter la rupture entre Rome et Constantinople",unified?"L’unité politique doit empêcher deux Églises concurrentes.":"Les deux chrétientés suivront désormais des voies distinctes.",unified?{christian:6,cohesion:8,tolerance:4}:{cohesion:-4,tolerance:-3},"schismChoice",unified?["Uchronie","Union"]:["Historique","Schisme"]),
+  C("Garantir l’autonomie des patriarcats","Une communion souple plutôt qu’une hiérarchie unique.",{federal:10,tolerance:10,cohesion:6},"patriarchalFederalism",["Uchronie"]),
+  C("Donner la primauté doctrinale à Rome","Uniformiser la chrétienté autour du siège romain.",{central:6,christian:8,tolerance:-6},"romanPrimacy",["Uchronie"]),
+  C("Donner la primauté politique à Constantinople","L’empereur arbitre les Églises depuis la capitale.",{central:8,christian:5,tolerance:-5},"constantinoplePrimacy",["Uchronie"])
+ ];
+},s=>s.christian>=35),
+E("manzikert1071",1071,"26 août 1071","L’Anatolie en jeu","Les Seldjoukides progressent. L’armée romaine peut chercher la bataille décisive ou transformer la frontière anatolienne avant qu’elle ne rompe.","La défaite de Manzikert en 1071 et les guerres civiles qui suivent accélèrent la perte d’une grande partie de l’Anatolie au profit des puissances turques.",[
+ C("Livrer la bataille avec l’armée disponible","Une victoire doit régler la question turque.",{army:-12,cohesion:-8,territories:{Anatolia:"contested"}},"manzikertDefeat",["Historique"]),
+ C("Éviter la bataille et fortifier les plateaux","Préserver l’armée et ralentir l’installation turque.",{army:5,treasury:-6,territories:{Anatolia:"roman"}},"anatolianDefense",["Uchronie"]),
+ C("Installer des thèmes autonomes en Anatolie","Donner terres et commandement aux communautés militaires.",{federal:10,army:7,territories:{Anatolia:"federated"}},"anatolianThemes",["Uchronie"]),
+ C("Négocier avec certains beys turcs comme fédérés","Transformer les nouveaux venus en défenseurs de la frontière.",{tolerance:7,federal:10,territories:{Anatolia:"federated"}},"turkishFoederati",["Uchronie"])
+],s=>eastAlive(s)&&has("Anatolia")),
+E("crusade1095",1095,"1095","L’appel à la croisade","Les puissances occidentales veulent intervenir en Orient. Selon l’état de l’Empire, elles peuvent être des alliées, des intruses ou n’avoir aucune raison de partir vers Jérusalem de la même manière.","Le pape Urbain II appelle à la première croisade en 1095. Les croisés traversent l’Empire byzantin avant de conquérir Jérusalem en 1099.",s=>[
+ C("Demander officiellement une aide militaire occidentale","Utiliser les chevaliers latins pour reprendre l’Anatolie.",{army:7,cohesion:2},"inviteCrusaders",["Historique","Croisade"]),
+ C("Refuser toute armée étrangère organisée","L’Orient romain doit régler seul ses frontières.",{legitimacy:5,army:-2},"noCrusade",["Uchronie"]),
+ C("Créer une armée impériale multiconfessionnelle","Remplacer la croisade par un service commun des provinces.",{tolerance:10,army:8,federal:7},"imperialCoalition1095",["Uchronie"]),
+ C("Organiser une expédition sous commandement romain strict","Les contingents occidentaux serviront l’Empire, pas des États nouveaux.",{central:6,army:7,legitimacy:4},"romanCrusade",["Uchronie"])
+],s=>eastAlive(s)),
+E("crusade1204",1204,"1204","La quatrième croisade atteint Constantinople","Dettes, rivalités dynastiques et intérêts vénitiens peuvent détourner les croisés vers la capitale romaine. Mais un Empire plus fort ou plus fédéral ne produit pas forcément le même désastre.","En 1204, les croisés prennent et pillent Constantinople. Un Empire latin est créé ; les États grecs rivaux restaurent finalement l’Empire byzantin en 1261.",s=>{
+ if(strongEmpire()) return [
+  C("Interdire aux flottes croisées l’accès aux détroits","La capitale n’est pas un marché pour les armées occidentales.",{army:5,treasury:-4,cohesion:5},"blockFourthCrusade",["Uchronie","1204 évité"]),
+  C("Racheter les dettes de la croisade envers Venise","Transformer une menace en levier diplomatique.",{treasury:-9,legitimacy:5},"payVenice1204",["Uchronie"]),
+  C("Intégrer Venise au système commercial impérial","Donner des privilèges contre un serment politique.",{federal:8,treasury:6},"veniceCompact1204",["Uchronie"]),
+  C("Envoyer la croisade vers l’Égypte sous escorte romaine","Rediriger l’expédition vers son objectif initial.",{army:3,expansion:5},"redirectCrusade1204",["Uchronie"])
+ ];
+ return [
+  C("Laisser entrer les croisés pour régler la crise dynastique","Utiliser leur force contre les rivaux internes.",{cohesion:-14,treasury:-12,territories:{Graecia:"contested"},flags:{eastAlive:false}},"sack1204",["Historique","Catastrophe"]),
+  C("Fermer les murailles et mobiliser toute la ville","Constantinople doit survivre coûte que coûte.",{army:-8,cohesion:6},"defend1204",["Uchronie"],{stat:"army",min:44,label:"Armée"}),
+  C("Négocier avec Venise séparément","Briser la coalition par le commerce.",{treasury:-7,cohesion:4},"veniceDeal1204",["Diplomatie"]),
+  C("Évacuer la cour vers Nicée avant l’assaut","Préserver l’État même si la capitale tombe.",{capital:"Nicaea",territories:{Graecia:"contested",Anatolia:"roman"},cohesion:2},"nicaea1204",["Uchronie"])
+ ];
+},s=>eastAlive(s)||s.capital.includes("Constantinopolis")),
+E("ottomans1354",1354,"1354","Une nouvelle puissance turque","Les Ottomans cherchent à franchir les détroits et à s’installer durablement en Europe. Leur ascension dépend de la faiblesse de l’Anatolie et des Balkans.","Les Ottomans prennent pied durablement en Europe au milieu du XIVe siècle et encerclent progressivement Constantinople.",s=>[
+ C("Créer une ligne fortifiée des Dardanelles","Bloquer le passage avant qu’il ne devienne irréversible.",{treasury:-8,army:7,flags:{ottomans:false}},"straitsFortress",["Uchronie"]),
+ C("Employer les Ottomans comme alliés dans les guerres civiles","Gagner aujourd’hui au prix d’un voisin plus fort demain.",{cohesion:-7,army:5,flags:{ottomans:true},territories:{Illyricum:"contested"}},"ottomanMercenaries",["Historique"]),
+ C("Former une coalition balkanique permanente","Romains, Serbes, Bulgares et autres puissances coordonnent la frontière.",{federal:9,army:7,flags:{ottomans:false}},"balkanLeague",["Uchronie"]),
+ C("Reconnaître un sultanat fédéré en Anatolie","Stabiliser une frontière turco-romaine institutionnelle.",{federal:12,tolerance:8,territories:{Anatolia:"federated"},flags:{ottomans:false}},"ottomanFederate",["Uchronie"])
+],s=>eastAlive(s)),
+E("constantinople1453",1453,"29 mai 1453","Constantinople en 1453","La date est célèbre dans notre histoire, mais votre Constantinople peut être une ville assiégée, une capitale d’un Empire puissant… ou ne plus être le centre romain depuis des siècles.","Dans notre chronologie, Mehmet II prend Constantinople le 29 mai 1453. Constantin XI meurt lors de l’assaut et l’Empire romain d’Orient disparaît.",s=>{
+ const siege=s.flags.ottomans&&(s.army<62||s.territories.Anatolia==="contested"||s.territories.Illyricum==="contested");
+ if(siege) return [
+  C("Tenir les murailles jusqu’au bout","Constantinople ne se rendra pas.",{army:-15,cohesion:-8,flags:{eastAlive:false},territories:{Graecia:"lost",Anatolia:"lost"}},"fall1453",["Historique","1453"]),
+  C("Chercher une union militaire avec l’Occident","Le prix religieux est secondaire face à la survie.",{tolerance:7,army:8,cohesion:4},"westernAid1453",["Uchronie"],{stat:"legitimacy",min:42,label:"Légitimité"}),
+  C("Évacuer la dynastie et le Sénat vers l’Italie","Sauver l’Empire au-delà de sa capitale.",{capital:"Roma",flags:{eastAlive:false,westAlive:true},territories:{Italia:"federated",Graecia:"lost",Anatolia:"lost"}},"romanExile1453",["Uchronie"]),
+  C("Négocier une vassalité temporaire","Conserver institutions et Église sous suzeraineté ottomane.",{federal:8,legitimacy:-8,territories:{Graecia:"federated"}},"vassal1453",["Uchronie"])
+ ];
+ return [
+  C("Moderniser les fortifications avec l’artillerie","1453 devient l’année d’une réforme militaire, pas d’une chute.",{innovation:9,army:7,treasury:-6},"gunpowderRome1453",["Uchronie","1453 évité"]),
+  C("Transformer les détroits en zone commerciale internationale","La puissance romaine repose sur les flux plus que sur les murailles.",{treasury:10,federal:5},"straitsTrade1453",["Uchronie"]),
+  C("Lancer une offensive pour sécuriser définitivement l’Anatolie","Éloigner toute future menace de la capitale.",{army:-6,expansion:8,territories:{Anatolia:"roman"}},"anatolianReconquest1453",["Uchronie"]),
+  C(territoryUsable("Italia",s)?"Déplacer le centre politique vers Rome tout en gardant Constantinople":"Conserver Constantinople comme capitale orientale","Rééquilibrer l’Empire à l’entrée de l’époque moderne sans choisir une capitale située hors du territoire contrôlé.",{capital:territoryUsable("Italia",s)?"Roma + Constantinopolis":"Constantinopolis",federal:7,cohesion:6},territoryUsable("Italia",s)?"dualCapital1453":"easternCapital1453",["Uchronie","Capitale"])
+ ];
+},s=>eastAlive(s)||s.capital.includes("Constantinopolis")),
+E("printing1455",1455,"années 1450","L’imprimerie bouleverse l’écrit","La reproduction mécanique des textes accélère la circulation des idées, du droit et des controverses religieuses. Un État héritier de Rome peut chercher à contrôler ou à exploiter cette révolution.","Vers 1450–1455, Gutenberg met au point à Mayence un système d’impression à caractères mobiles qui transforme durablement la culture écrite européenne.",[
+ C("Créer des imprimeries impériales dans chaque grande province","Diffuser droit, administration et classiques.",{innovation:13,romanization:8,treasury:-4},"imperialPrinting",["Innovation"]),
+ C("Laisser l’imprimerie aux villes et universités","L’innovation se diffusera mieux sans monopole.",{innovation:12,federal:6},"freePrinting",["Libéral"]),
+ C("Soumettre chaque livre à une autorisation","L’ordre religieux et politique passe avant la vitesse.",{central:7,innovation:-7,tolerance:-6},"censorPrinting",["Contrôle"]),
+ C("Financer l’édition en latin, grec et langues provinciales","Faire de la diversité linguistique un outil impérial.",{innovation:10,federal:8,romanization:5},"multilingualPrinting",["Uchronie"])
+]),
+E("atlantic1492",1492,"1492","L’Atlantique devient un horizon","Les royaumes et ports occidentaux cherchent de nouvelles routes vers l’Asie. Si l’Empire contrôle encore une grande partie de la Méditerranée, il doit décider s’il regarde vers l’océan.","En 1492, l’expédition de Christophe Colomb au service de la Castille atteint les Amériques. L’expansion européenne atlantique transforme ensuite l’économie mondiale.",s=>[
+ C("Financer une expédition impériale vers l’ouest","Rome ne laissera pas l’Atlantique aux royaumes occidentaux.",{treasury:-7,innovation:7,expansion:10},"romanAtlantic",["Uchronie","Exploration"]),
+ C("Concentrer les investissements sur Méditerranée et mer Rouge","Les routes existantes restent plus sûres.",{treasury:6,expansion:-3},"mediterraneanFirst",["Consolidation"]),
+ C("Créer une compagnie maritime ouverte aux provinces","Partager risques et profits entre ports de l’Empire.",{federal:7,treasury:8,innovation:6},"romanCompany1492",["Commerce"]),
+ C("Interdire les conquêtes privées outre-mer","Le commerce oui, les seigneuries coloniales non.",{tolerance:5,expansion:-7,legitimacy:4},"antiConquest1492",["Uchronie"])
+]),
+E("reformation1517",1517,"1517","La Réforme","L’imprimerie accélère la diffusion des critiques religieuses. Dans un monde où Rome peut être encore un État, une Église et une idée politique, la contestation prend une dimension explosive.","En 1517, Martin Luther publie ses 95 thèses. La Réforme protestante fracture progressivement le christianisme occidental.",s=>[
+ C("Condamner immédiatement les réformateurs","Préserver l’unité doctrinale avant qu’elle ne se brise.",{christian:6,tolerance:-12,cohesion:-6},"reformationCrackdown",["Historique"]),
+ C("Convoquer un concile de réforme institutionnelle","Corriger abus et finances ecclésiastiques.",{cohesion:8,tolerance:6,christian:6},"reformCouncil",["Uchronie"]),
+ C("Autoriser plusieurs confessions chrétiennes","La fidélité politique ne dépendra plus de la doctrine.",{tolerance:15,federal:9,central:-5},"confessionalPluralism",["Uchronie"]),
+ C("Séparer définitivement Église et magistrature","La foi sort du droit impérial.",{tolerance:16,central:-5,christian:-3},"secularEmpire1517",["Uchronie"])
+]),
+E("science1600",1600,"vers 1600","Un nouveau langage du monde","Astronomie, anatomie, mécanique et mathématiques remettent en cause des autorités anciennes. Un Empire millénaire peut devenir laboratoire… ou gardien de l’ordre intellectuel.","Les XVIe et XVIIe siècles voient s’accélérer la révolution scientifique en Europe, de Copernic à Galilée, Kepler et Newton.",[
+ C("Créer une Académie impériale des sciences","Le prestige romain dépend désormais du savoir.",{innovation:15,treasury:-4,legitimacy:4},"imperialAcademy",["Science"]),
+ C("Laisser les universités autonomes expérimenter","La concurrence intellectuelle accélérera les découvertes.",{innovation:13,federal:6},"freeAcademies",["Libéral"]),
+ C("Soumettre les théories aux autorités religieuses","L’unité intellectuelle protège l’ordre.",{innovation:-9,central:6,christian:4},"religiousScienceControl",["Conservateur"]),
+ C("Financer surtout ingénieurs, cartographes et arsenaux","La science doit d’abord renforcer l’État.",{innovation:9,army:7,treasury:-3},"appliedScience",["Armée"])
+]),
+E("westphalia1648",1648,"1648","Comment organiser l’Europe ?","Après des décennies de guerres religieuses et dynastiques, les États cherchent un principe d’équilibre. Si Rome existe encore comme grande puissance, elle doit décider si elle accepte la souveraineté de ses voisins.","Les traités de Westphalie de 1648 mettent fin à la guerre de Trente Ans et deviennent un symbole de l’ordre européen fondé sur des États souverains.",s=>[
+ C("Reconnaître pleinement la souveraineté des États européens","Rome devient une puissance parmi d’autres.",{federal:6,tolerance:7,expansion:-6},"westphalianRome",["Diplomatie"]),
+ C("Proposer une confédération européenne sous présidence romaine","Transformer l’ancien universalisme impérial en institution commune.",{federal:13,legitimacy:7,expansion:2},"romanEuropeanCongress",["Uchronie","Europe"]),
+ C("Refuser l’égalité juridique des royaumes","L’Empire romain reste universel en droit.",{central:8,legitimacy:-4,expansion:8},"universalEmpire1648",["Uchronie"]),
+ C("Garantir uniquement la liberté religieuse transfrontalière","Faire de Rome l’arbitre des minorités plutôt que des frontières.",{tolerance:13,legitimacy:6},"religiousGuarantee1648",["Uchronie"])
+]),
+E("enlightenment1750",1750,"vers 1750","Les Lumières jugent l’Empire","Des philosophes discutent souveraineté populaire, séparation des pouvoirs, tolérance et droits naturels. Une structure impériale bimillénaire peut-elle absorber ces idées ?","Au XVIIIe siècle, les Lumières européennes nourrissent de nouvelles conceptions du pouvoir politique qui influencent les révolutions américaine et française.",[
+ C("Créer une charte impériale des droits","Garantir libertés civiles sans abolir l’Empire.",{senate:9,tolerance:10,legitimacy:8,flags:{constitutional:true}},"romanRights",["Uchronie","Constitution"]),
+ C("Renforcer le Sénat comme parlement représentatif","Faire évoluer Rome vers un gouvernement mixte.",{senate:14,central:-6,flags:{constitutional:true}},"parliamentarySenate",["Réforme"]),
+ C("Moderniser l’administration sans partager le pouvoir","Despotisme éclairé : réformes d’en haut.",{central:10,innovation:6,tolerance:4},"enlightenedAutocracy",["Autorité"]),
+ C("Censurer les doctrines révolutionnaires","Deux mille ans d’ordre ne seront pas risqués pour des pamphlets.",{central:7,senate:-8,tolerance:-7,legitimacy:-5},"censorEnlightenment",["Conservateur"])
+]),
+E("revolution1789",1789,"1789","1789 : la crise de souveraineté","La hausse de la dette et les revendications politiques éclatent. Mais « la Révolution française » n’existe que si une France indépendante existe réellement ; sinon, la crise devient romaine.","Dans notre chronologie, la crise financière de la monarchie française conduit à la convocation des États généraux en 1789, puis à une révolution qui abolit progressivement l’Ancien Régime. Si la Gaule est encore romaine dans votre partie, cet événement historique est remplacé par une crise de souveraineté à l’échelle de l’Empire.",s=>{
+ if(s.flags.franceExists&&!gaulRoman()) return [
+  C("Soutenir les États généraux français contre la monarchie","Une nouvelle nation politique se forme en Gaule.",{flags:{frenchRevolution:true},senate:5,tolerance:5},"french1789",["Historique","France"]),
+  C("Soutenir la monarchie française","Éviter que la révolution n’atteigne le monde romain.",{legitimacy:4,central:3,flags:{franceExists:true}},"supportFrenchCrown",["Uchronie"]),
+  C("Proposer une médiation romaine","Transformer la crise française en monarchie constitutionnelle.",{legitimacy:6,federal:4,flags:{franceExists:true}},"mediateFrance1789",["Uchronie"]),
+  C("Encourager les provinces frontalières à rejoindre Rome","Profiter du désordre français pour étendre l’influence impériale.",{expansion:7,cohesion:-2},"romanIntervention1789",["Uchronie"])
+ ];
+ return [
+  C("Convoquer des États généraux de toutes les provinces romaines","La fiscalité doit obtenir un consentement impérial.",{senate:12,federal:10,flags:{constitutional:true,romanRevolution:true}},"romanEstates1789",["Uchronie","Révolution romaine"]),
+  C("Proclamer une constitution impériale","L’Auguste demeure, mais le Sénat vote l’impôt et les lois.",{senate:13,legitimacy:10,central:-7,flags:{constitutional:true}},"romanConstitution1789",["Uchronie"]),
+  C("Refuser toute réforme politique","L’armée garantira l’ordre dans les provinces.",{army:7,central:10,cohesion:-9},"romanReaction1789",["Uchronie"]),
+  C("Transformer l’Empire en République romaine fédérale","Supprimer la dignité impériale après dix-sept siècles.",{senate:16,federal:14,legitimacy:-3,flags:{republic:true,constitutional:true}},"romanRepublic1789",["Uchronie","République"])
+ ];
+}),
+E("strongman1799",1799,"1799","Un général peut-il refaire l’État ?","Les révolutions ouvrent souvent la voie à des chefs militaires. Napoléon Bonaparte n’apparaît dans sa forme historique que si la France révolutionnaire existe ; sinon, l’Empire produit son propre césar moderne.","Dans notre chronologie, Napoléon Bonaparte renverse le Directoire lors du coup d’État du 18 Brumaire en novembre 1799.",s=>{
+ if(s.flags.frenchRevolution) return [
+  C("Soutenir le coup d’État de Bonaparte","La Révolution a besoin d’un exécutif fort.",{army:8,central:7,flags:{napoleon:true}},"napoleon1799",["Historique","Napoléon"]),
+  C("Défendre le régime représentatif français","Aucun général ne doit fermer la Révolution.",{senate:8,flags:{napoleon:false}},"stopNapoleon",["Uchronie"]),
+  C("Proposer à Bonaparte un commandement romain","Détourner son ambition vers une carrière impériale.",{army:6,legitimacy:4},"romanNapoleon",["Uchronie"]),
+  C("Soutenir une fédération franco-romaine","Unir les révolutions constitutionnelles plutôt que les armées.",{federal:10,legitimacy:5},"francoRomanFederation",["Uchronie"])
+ ];
+ return [
+  C("Nommer un général comme Princeps à vie","Stabiliser la révolution romaine par un césarisme moderne.",{army:10,central:10,senate:-9},"modernCaesar1799",["Uchronie","Césarisme"]),
+  C("Interdire aux militaires toute magistrature civile","Séparer définitivement armée et politique.",{senate:10,army:-4,legitimacy:6},"civilianRome1799",["Uchronie"]),
+  C("Créer un exécutif collégial de trois consuls","Reprendre un vocabulaire républicain antique avec des institutions modernes.",{senate:8,federal:5,flags:{republic:true}},"modernConsuls1799",["Uchronie"]),
+  C("Élire l’Auguste au suffrage des provinces","Transformer l’Empire en monarchie élective populaire.",{legitimacy:12,federal:8,senate:4},"electedAugustus1799",["Uchronie"])
+ ];
+}),
+E("industry1820",1820,"vers 1820","La machine à vapeur change l’échelle","Industrie, chemins de fer et charbon déplacent la puissance vers les régions capables de produire en masse. Un Empire méditerranéen risque d’être dépassé s’il tarde à investir.","La révolution industrielle commence en Grande-Bretagne au XVIIIe siècle puis s’étend au continent européen au XIXe siècle.",[
+ C("Lancer un programme impérial de chemins de fer","Relier provinces, arsenaux et ports par un réseau commun.",{innovation:14,treasury:-8,cohesion:8,flags:{industrial:true}},"romanRail",["Industrie"]),
+ C("Laisser les provinces construire leurs propres réseaux","Accélérer par la concurrence locale.",{innovation:13,federal:8,flags:{industrial:true}},"provincialIndustry",["Fédéralisme"]),
+ C("Concentrer l’industrie dans les arsenaux militaires","Moderniser d’abord l’armée et la flotte.",{innovation:9,army:10,flags:{industrial:true}},"militaryIndustry",["Armée"]),
+ C("Protéger les structures artisanales traditionnelles","Éviter une urbanisation incontrôlée.",{cohesion:3,innovation:-9},"slowIndustry",["Conservateur"])
+]),
+E("nations1848",1848,"1848","Le printemps des peuples","Libéraux, nationalistes et démocrates réclament constitutions et souverainetés nationales. Pour une Rome multiséculaire, la question devient existentielle : province ou nation ?","En 1848, une vague révolutionnaire traverse une grande partie de l’Europe, avec des revendications nationales, libérales et sociales.",s=>[
+ C("Transformer les provinces en États fédérés autonomes","Sauver l’unité en reconnaissant les nations.",{federal:16,cohesion:11,central:-12},"federal1848",["Uchronie","Fédération"]),
+ C("Accorder une constitution commune mais conserver l’administration unitaire","Des droits égaux sans souverainetés provinciales.",{senate:10,legitimacy:8,central:3,flags:{constitutional:true}},"constitution1848",["Réforme"]),
+ C("Réprimer les insurrections","L’Empire ne sera pas démembré par les clubs révolutionnaires.",{army:8,central:9,cohesion:-13},"repression1848",["Autorité"]),
+ C("Autoriser les référendums d’autonomie","Une province qui veut partir pourra négocier son statut.",{federal:14,tolerance:8,cohesion:3},"referendums1848",["Uchronie"])
+]),
+E("war1914",1914,"1914","La guerre des alliances","Nationalismes, armements et rivalités impériales créent une crise continentale. Même dans un monde très divergent, une guerre industrielle entre grandes puissances reste possible — mais ses camps ne sont plus nécessairement les mêmes.","Dans notre chronologie, l’attentat de Sarajevo du 28 juin 1914 déclenche une crise qui mène à la Première Guerre mondiale.",s=>[
+ C("Honorer immédiatement les alliances militaires","La crédibilité internationale exige l’entrée en guerre.",{army:-12,treasury:-12,cohesion:-7},"greatWar1914",["Historique"]),
+ C("Convoquer un congrès impérial à Constantinople","Utiliser le prestige romain pour imposer une médiation.",{legitimacy:9,treasury:-2},"romanCongress1914",["Uchronie","Paix"]),
+ C("Mobiliser sans déclarer la guerre","Dissuader tout adversaire de franchir les frontières.",{army:4,treasury:-6,cohesion:2},"armedNeutrality1914",["Neutralité"]),
+ C("Créer une coalition des États fédéraux européens","Subordonner les armées à un commandement collectif.",{federal:11,army:5,cohesion:6},"federalSecurity1914",["Uchronie"])
+]),
+E("mass1922",1922,"1922","La politique de masse","Après la guerre et l’industrialisation, mouvements ouvriers, nationalistes et autoritaires mobilisent des millions de personnes. L’Italie fasciste n’existe sous sa forme historique que si l’Italie n’est plus romaine.","Dans notre chronologie, Mussolini arrive au pouvoir en Italie après la marche sur Rome d’octobre 1922.",s=>{
+ if(!italyRoman()&&!westAlive(s)) return [
+  C("Laisser Mussolini former le gouvernement italien","Le roi pense pouvoir le contrôler.",{central:5,cohesion:-4},"mussolini1922",["Historique","Fascisme"]),
+  C("Soutenir les institutions parlementaires italiennes","Bloquer la prise du pouvoir fasciste.",{senate:7,tolerance:6},"stopMussolini",["Uchronie"]),
+  C("Proposer une garantie romaine à la démocratie italienne","Intervenir diplomatiquement sans annexer.",{legitimacy:5},"romanGuaranteeItaly",["Uchronie"]),
+  C("Rappeler l’héritage romain contre le nationalisme fasciste","Faire de Rome un symbole civique transnational.",{romanization:8,federal:5},"civicRomanism1922",["Uchronie"])
+ ];
+ return [
+  C("Créer un parti impérial unique","Mobiliser la société autour de l’État et du chef.",{central:13,senate:-12,tolerance:-9},"romanFascism1922",["Uchronie","Autoritaire"]),
+  C("Renforcer le Sénat et les syndicats légaux","Canaliser la politique de masse par les institutions.",{senate:11,tolerance:8,cohesion:7},"massDemocracy1922",["Uchronie"]),
+  C("Fédéraliser davantage l’Empire","Réduire le nationalisme en donnant du pouvoir local.",{federal:13,cohesion:7},"federalMassPolitics1922",["Uchronie"]),
+  C("Confier temporairement des pouvoirs d’urgence à l’Auguste","Réprimer les violences sans abolir formellement la constitution.",{central:8,army:5,senate:-5},"emergencyAugustus1922",["Uchronie"])
+ ];
+}),
+E("war1939",1939,"1939","Une seconde guerre générale ?","Les régimes autoritaires, les revendications territoriales et l’échec de la sécurité collective peuvent replonger le continent dans la guerre. Votre architecture européenne est désormais déterminante.","Dans notre chronologie, l’invasion de la Pologne par l’Allemagne nazie le 1er septembre 1939 déclenche la Seconde Guerre mondiale en Europe.",s=>[
+ C("Entrer en guerre contre toute puissance expansionniste","La paix n’est plus possible face aux annexions.",{army:-13,treasury:-13,cohesion:4},"worldWar1939",["Historique"]),
+ C("Activer une défense fédérale européenne","Aucune frontière membre ne sera défendue seule.",{federal:10,army:7,cohesion:8},"federalDefense1939",["Uchronie"]),
+ C("Rester neutre et fortifier les frontières","Préserver l’Empire d’un nouveau cataclysme.",{army:5,legitimacy:-3},"romanNeutrality1939",["Neutralité"]),
+ C("Lancer une conférence de paix sous menace d’embargo commun","Utiliser le marché impérial comme arme diplomatique.",{treasury:3,legitimacy:7},"economicPeace1939",["Uchronie"])
+]),
+E("integration1957",1957,"25 mars 1957","Rome, Europe et 1957","Dans notre histoire, le traité de Rome fonde la CEE. Si l’Empire existe encore, le symbole devient vertigineux : faut-il transformer Rome en fédération moderne ou laisser naître une Europe extérieure à elle ?","Le traité de Rome est signé le 25 mars 1957 par six États et fonde la Communauté économique européenne.",s=>{
+ if(romeAlive(s)) return [
+  C("Transformer l’Empire en Fédération romaine","Citoyenneté commune, Sénat des États et gouvernement responsable.",{federal:18,senate:14,central:-10,flags:{constitutional:true}},"romanFederation1957",["Uchronie","Fédération"]),
+  C("Créer seulement un marché commun européen autour de Rome","Intégrer les économies sans refondre la souveraineté.",{treasury:10,federal:7},"romanCommonMarket1957",["Uchronie"]),
+  C("Maintenir l’Empire unitaire et proposer des accords aux voisins","Rome coopère mais ne se dilue pas.",{central:10,legitimacy:5},"unitaryRome1957",["Uchronie"]),
+  C("Abolir la dignité impériale et fonder une République européenne romaine","Faire de l’héritage antique une fédération démocratique post-impériale.",{senate:18,federal:15,flags:{republic:true,constitutional:true}},"europeanRomanRepublic1957",["Uchronie"])
+ ];
+ return [
+  C("Signer le traité de Rome et rejoindre la CEE","Construire progressivement une Europe intégrée.",{federal:10,treasury:8},"treatyRome1957",["Historique","Europe"]),
+  C("Créer une simple zone de libre-échange","Coopération économique sans institutions supranationales.",{treasury:7,federal:2},"freeTrade1957",["Uchronie"]),
+  C("Relancer une confédération méditerranéenne","Faire de l’héritage romain un projet culturel et diplomatique.",{federal:7,legitimacy:5},"medUnion1957",["Uchronie"]),
+  C("Rester en dehors de toute intégration","Préserver les souverainetés nationales.",{federal:-6,central:4},"noIntegration1957",["Uchronie"])
+ ];
+}),
+E("society1968",1968,"1968","1968 : l’Empire face à la société nouvelle","Une génération née après la guerre conteste les hiérarchies, les mœurs, l’université et l’autorité. Dans une Rome survivante, la révolte vise aussi des institutions dont certaines prétendent remonter à l’Antiquité.","Dans notre chronologie, 1968 est marqué par des mouvements étudiants, ouvriers et culturels dans de nombreux pays.",s=>[
+ C("Réformer les universités et élargir les libertés civiles","Accepter que la continuité romaine n’impose pas l’immobilité sociale.",{tolerance:12,senate:7,innovation:6,legitimacy:5},"roman1968Reform",["Uchronie","Réformes"]),
+ C("Créer des assemblées citoyennes provinciales","Faire entrer la contestation dans les institutions fédérales.",{federal:10,senate:10,cohesion:5},"roman1968Councils",["Uchronie","Fédération"]),
+ C("Maintenir l’ordre par l’administration et la police","La stabilité de l’État prime sur la rue.",{central:9,cohesion:-6,tolerance:-8},"roman1968Order",["Autorité"]),
+ C("Organiser un référendum impérial sur la constitution","Demander directement aux citoyens quel régime doit survivre.",{legitimacy:12,senate:6,federal:5,flags:{constitutional:true}},"roman1968Referendum",["Uchronie","Constitution"])
+]),
+E("coldwar1989",1989,"9 novembre 1989","1989 : un continent se rouvre","Les régimes communistes d’Europe orientale s’effondrent les uns après les autres. Selon l’étendue de votre Rome, cette rupture peut être une occasion d’élargissement, une crise frontalière ou simplement la fin d’un ordre extérieur.","Dans notre chronologie, la chute du mur de Berlin le 9 novembre 1989 symbolise l’effondrement du bloc de l’Est.",s=>{
+ if(romeAlive(s)) return [
+  C("Proposer l’adhésion aux démocraties voisines","Faire de la citoyenneté romaine moderne un cadre d’élargissement.",{federal:11,cohesion:5,treasury:-4},"romanEnlargement1989",["Uchronie","Élargissement"]),
+  C("Créer une Confédération européenne associée à Rome","Ne pas annexer : construire un deuxième cercle politique.",{federal:13,legitimacy:8},"europeanConfederation1989",["Uchronie","Europe"]),
+  C("Geler les frontières de l’Empire","Une expansion rapide risquerait de briser l’équilibre interne.",{cohesion:8,expansion:-7},"fixedBorders1989",["Consolidation"]),
+  C("Soutenir seulement la transition démocratique","Influence diplomatique sans extension institutionnelle.",{tolerance:8,legitimacy:6},"democraticSupport1989",["Diplomatie"])
+ ];
+ return [
+  C("Soutenir la réunification européenne","Réduire la division née de la guerre froide.",{federal:8,legitimacy:5},"reunification1989",["Historique"]),
+  C("Préserver un équilibre entre blocs successeurs","Éviter qu’une seule puissance domine le continent.",{cohesion:3,central:3},"balance1989",["Uchronie"]),
+  C("Relancer une communauté méditerranéenne","Faire de l’ancien espace romain un projet régional.",{federal:7,treasury:4},"mediterranean1989",["Uchronie"]),
+  C("Rester en retrait de la recomposition","La fin d’un bloc ne doit pas produire un nouvel empire.",{expansion:-6,tolerance:3},"nonAlignment1989",["Neutralité"])
+ ];
+}),
+E("currency2002",2002,"1er janvier 2002","Une monnaie pour le XXIe siècle","La monnaie est devenue l’un des symboles les plus visibles de l’unité politique. Denier, solidus, euro ou monnaies provinciales : quel signe doit circuler chaque jour entre vos citoyens ?","Dans notre chronologie, les billets et pièces en euros sont mis en circulation le 1er janvier 2002 dans douze États de l’Union européenne.",s=>[
+ C(s.flags.republic?"Créer le denier fédéral":"Créer un solidus romain moderne","Une banque centrale commune garantit la monnaie de l’ensemble romain.",{treasury:9,cohesion:6,central:4},"commonRomanCurrency",["Uchronie","Monnaie"]),
+ C("Adopter l’euro avec les États européens voisins","La monnaie commune dépasse les frontières politiques de Rome.",{federal:9,treasury:7},"euroRoman2002",["Uchronie","Europe"]),
+ C("Conserver des monnaies provinciales liées par un taux fixe","L’unité économique n’exige pas une monnaie unique.",{federal:11,central:-6,treasury:4},"provincialCurrencies2002",["Fédération"]),
+ C("Conserver la pleine souveraineté monétaire du centre","Aucune province ni institution extérieure ne partagera ce pouvoir.",{central:9,treasury:5},"centralCurrency2002",["Centralisation"])
+]),
+E("finance2008",2008,"2008","Une crise financière traverse le monde romain","Banques, dettes privées et marchés intégrés transmettent une crise née hors des frontières politiques. L’État doit choisir qui protéger en premier.","La crise financière mondiale de 2008 provoque faillites, récessions et interventions publiques massives. Dans une Romanie survivante, la question opposerait de la même manière stabilité bancaire, contribuables, emploi et autonomie provinciale.",[
+ C("Garantir les banques contre une restructuration stricte","Sauver le système de paiement, mais imposer ensuite capital renforcé et contrôle public.",{treasury:-6,central:5,cohesion:5},"romanBankRescue",["Économie"]),
+ C("Créer un fonds fédéral de stabilisation","Mutualiser les chocs sans donner tout le pouvoir financier au centre.",{federal:8,treasury:-5,cohesion:7},"federalStabilityFund",["Fédération"]),
+ C("Laisser tomber les établissements insolvables","Refuser de socialiser les pertes privées, au risque d’une récession plus violente.",{treasury:3,cohesion:-6,legitimacy:-3},"bankruptcy2008",["Marché"]),
+ C("Nationaliser temporairement les banques systémiques","L’urgence justifie un contrôle direct jusqu’au retour de la stabilité.",{central:8,treasury:-7,legitimacy:4},"temporaryNationalization2008",["Autorité"])
+]),
+E("migration2015",2015,"2015","Frontières, réfugiés et citoyenneté impériale","Guerres au Proche-Orient et migrations méditerranéennes mettent à l’épreuve une citoyenneté romaine devenue multinationale.","En 2015, l’Europe connaît une forte hausse des arrivées de réfugiés et migrants, notamment liée à la guerre en Syrie. Un État romain survivant aurait dû arbitrer entre asile, contrôle des frontières, répartition territoriale et intégration civique.",[
+ C("Répartir l’accueil entre toutes les provinces","La solidarité commune doit empêcher les frontières périphériques de porter seules la crise.",{federal:7,tolerance:7,cohesion:4},"sharedAsylum2015",["Fédération","Asile"]),
+ C("Créer une garde-frontière impériale renforcée","Un espace politique commun exige un contrôle extérieur commun.",{central:7,army:4,tolerance:-3},"romanBorderGuard2015",["Frontières"]),
+ C("Accorder une citoyenneté progressive par résidence et travail","Transformer l’intégration économique en appartenance civique graduelle.",{romanization:8,tolerance:7,cohesion:3},"citizenshipPath2015",["Citoyenneté"]),
+ C("Laisser chaque province fixer ses propres quotas","Respecter la diversité territoriale même si les politiques deviennent très différentes.",{federal:9,cohesion:-2},"provincialMigration2015",["Autonomie"])
+]),
+E("present2026",2026,"2026","Rome en 2026","Vous avez traversé près de dix-huit siècles. L’Empire, la Romanie ou le souvenir de Rome arrive maintenant à notre époque. Un dernier choix fixe la manière dont votre monde se définit lui-même.","Dans notre réalité, aucun État contemporain n’est la continuation institutionnelle de l’Empire romain antique. Son héritage demeure cependant immense dans le droit, les langues, les religions, les villes et les imaginaires politiques.",s=>{
+ if(romeAlive(s)) return [
+  C("Assumer pleinement la continuité de l’Imperium Romanum","Les institutions ont changé, mais l’État affirme n’avoir jamais cessé d’être romain.",{romanization:10,legitimacy:8,central:3},"identityImperium2026",["Uchronie","Continuité"]),
+  C("Se définir comme Fédération romaine moderne","Rome est désormais une communauté civique de nations et de provinces.",{federal:12,senate:8,cohesion:8},"identityFederation2026",["Uchronie","Fédération"]),
+  C("Transformer définitivement l’héritage impérial en république","Le nom romain reste ; l’Empire, lui, appartient à l’histoire.",{senate:12,federal:8,flags:{republic:true,constitutional:true}},"identityRepublic2026",["Uchronie","République"]),
+  C("Réduire Rome à une union souple d’États souverains","Préserver le cadre commun sans prétendre gouverner un empire.",{federal:15,central:-12,cohesion:5},"identityCommonwealth2026",["Uchronie","Commonwealth"])
+ ];
+ return [
+  C("Faire de l’héritage romain un patrimoine européen commun","Rome n’est plus un État, mais reste une matrice culturelle et politique.",{romanization:8,federal:6},"legacyEurope2026",["Héritage"]),
+  C("Revendiquer une coopération méditerranéenne inspirée de Rome","Réutiliser l’idée de Mare Nostrum sans restaurer un empire.",{federal:8,tolerance:5},"legacyMediterranean2026",["Uchronie"]),
+  C("Laisser Rome à l’histoire","Aucun projet politique contemporain ne doit revendiquer sa continuité.",{romanization:-5,tolerance:4},"legacyHistory2026",["Historique"]),
+  C("Créer une communauté culturelle des anciens territoires romains","Coopération universitaire, patrimoniale et linguistique plutôt que politique.",{innovation:5,federal:6,romanization:6},"legacyCommunity2026",["Uchronie"])
+ ];
+})
+];
+
+function activeVariant(ev){
+ const v=ev.variant?ev.variant(state):null;
+ return v?{...ev,...v}:ev;
+}
+function nextEvent(){
+ while(state.idx<events.length){
+  const ev=events[state.idx];
+  if(ev.when(state))return activeVariant(ev);
+  state.log.push({date:`${ev.year}`,title:ev.title,text:"Cet événement n’a pas lieu : vos décisions antérieures en ont supprimé les conditions.",skip:true});
+  state.skipped++; state.idx++;
+ }
+ return null;
+}
+function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function renderStats(){
+ const items=[["Cohésion","cohesion"],["Armée","army"],["Trésor","treasury"],["Légitimité","legitimacy"],["Sénat","senate"],["Fédéral","federal"],["Tolérance","tolerance"],["Innovation","innovation"]];
+ document.getElementById("stats").innerHTML=items.map(([n,k])=>`<div class="stat"><b><span>${n}</span><span>${Math.round(state[k])}</span></b><div class="bar"><i style="width:${state[k]}%"></i></div></div>`).join("");
+}
+function renderMap(){
+ reconcileCapital(false);
+ for(const r of REGIONS){const el=document.getElementById(r);if(el)el.setAttribute("class","region "+state.territories[r])}
+ const n=romanCount(); document.getElementById("territoryCount").textContent=`${n} zone${n>1?"s":""} romaine${n>1?"s":""}`;
+ document.getElementById("mapTitle").textContent=`Le monde romain en ${state.year}`;
+ document.getElementById("capitalBadge").textContent=`Capitale · ${state.capital}`;
+ let route=romeAlive()?(westAlive()&&eastAlive()?"Imperium Romanum":"Romania"):"Monde post-romain";
+ document.getElementById("routeBadge").textContent=route;
+ document.getElementById("seal").textContent=state.flags.republic?"SPQR":(romeAlive()?"☧":"ROMA");
+}
+function render(){
+ const ev=nextEvent(); if(!ev){finish();return}
+ if(typeof ev.history!=="string" || !(Array.isArray(ev.choices)||typeof ev.choices==="function")){
+  console.error("Événement mal formé",ev);
+  document.getElementById("eventDate").textContent=ev.date||ev.year;
+  document.getElementById("eventTitle").textContent=ev.title||"Erreur de chronologie";
+  document.getElementById("eventChapter").textContent="Événement invalide";
+  document.getElementById("eventContext").textContent="Un événement de cette branche est mal formé. Rechargez la version corrigée du jeu.";
+  document.getElementById("eventHistory").textContent="La sauvegarde n’est pas perdue.";
+  document.getElementById("choices").innerHTML=`<button class="choice" onclick="state.idx++;save();render()"><strong>Ignorer cet événement défectueux</strong><span class="desc">Continuer la partie sans perdre votre sauvegarde.</span></button>`;
+  return;
+ }
+ state.year=ev.year;
+ document.getElementById("eventDate").textContent=ev.date;
+ document.getElementById("eventTitle").textContent=ev.title;
+ document.getElementById("eventChapter").textContent=chapterFor(ev.year);
+ document.getElementById("eventContext").textContent=ev.context;
+ document.getElementById("eventHistory").textContent=ev.history;
+ const raw=typeof ev.choices==="function"?ev.choices(state):ev.choices;
+ const box=document.getElementById("choices"); box.innerHTML="";
+ shuffle(raw).forEach((c,displayIndex)=>{
+  const originalIndex=raw.indexOf(c),req=effectiveRequirement(ev,c,originalIndex,raw);
+  const [statOK,reqtxt]=requirementOK(req),capReq=capitalChoiceRequirement(c),ok=statOK&&!capReq;
+  const b=document.createElement("button"); b.className="choice"; b.disabled=!ok;
+  const why=[statOK?"":reqtxt,capReq].filter(Boolean).join(" · ");
+  b.innerHTML=`<strong>${c.label}</strong><span class="desc">${c.desc}</span><span class="tags">${(c.tags||[]).map(t=>`<span class="tag">${t}</span>`).join("")}</span>${ok?"":`<span class="req">Requis : ${why}</span>`}`;
+  b.onclick=()=>choose(ev,{...c,req}); box.appendChild(b);
+ });
+ document.getElementById("counter").textContent=`${state.played+1}e décision · ${state.skipped} événements effacés`;
+ document.getElementById("progress").style.width=`${Math.min(100,(state.idx/events.length)*100)}%`;
+ document.getElementById("divergence").textContent=`Divergence ${state.flags.divergence}`;
+ renderStats();renderMap();save();
+}
+function choose(ev,c){
+ effect(c.delta);setFlag(c.flag);
+ const hist=(c.tags||[]).includes("Historique"); if(hist)historical(); else diverge();
+ if(ev.id==="fall476"&&c.flag!=="historical476")state.flags.westAlive=true;
+ if(ev.id==="fall476"&&c.flag==="historical476")state.flags.westAlive=false;
+ if(ev.id==="crusade1204"&&c.flag==="sack1204")state.flags.eastAlive=false;
+ if(ev.id==="constantinople1453"&&c.flag==="fall1453")state.flags.eastAlive=false;
+ if(ev.id==="constantinople1453"&&c.flag!=="fall1453"&&c.flag!=="romanExile1453")state.flags.eastAlive=true;
+ if(ev.id==="imperial800"&&!westAlive())state.flags.franceExists=true;
+ if(ev.id==="integration1957"&&["romanFederation1957","europeanRomanRepublic1957"].includes(c.flag))state.flags.westAlive=state.flags.westAlive||italyRoman();
+ const moved=reconcileCapital(true);
+ state.log.push({date:ev.date,title:ev.title,text:c.label+(moved?` — capitale transférée à ${moved.next}`:``),skip:false});
+ state.played++;state.idx++;
+ toast(c.label);
+ render();
+}
+function save(){localStorage.setItem(SAVE,JSON.stringify(state))}
+function load(){try{const x=JSON.parse(localStorage.getItem(SAVE));if(x&&x.territories){state=x;reconcileCapital(false)}}catch(e){}}
+function reset(){state=freshState();localStorage.removeItem(SAVE)}
+function toast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.remove("hidden");clearTimeout(window._tt);window._tt=setTimeout(()=>x.classList.add("hidden"),1100)}
+function renderLog(){
+ const b=document.getElementById("logBody");
+ b.innerHTML=state.log.length?state.log.slice().reverse().map(x=>`<div class="logitem"><b>${x.date} · ${x.title}</b><p>${x.text}</p></div>`).join(""):"<p>Aucune décision pour l’instant.</p>";
+}
+function profileScores(){
+ const targets={
+  "Antonin réformateur":{senate:65,federal:42,tolerance:70,central:45,army:50,romanization:78},
+  "Dioclétien organisateur":{senate:25,federal:42,tolerance:30,central:82,army:74,romanization:74},
+  "Constantinien":{senate:38,federal:35,tolerance:45,central:72,army:68,romanization:72},
+  "Républicain sénatorial":{senate:90,federal:55,tolerance:75,central:25,army:42,romanization:70},
+  "César militaire":{senate:18,federal:25,tolerance:42,central:88,army:92,romanization:72},
+  "Fédéraliste romain":{senate:70,federal:92,tolerance:82,central:20,army:55,romanization:68}
+ };
+ return Object.entries(targets).map(([name,t])=>{
+  const ks=Object.keys(t);const dist=ks.reduce((a,k)=>a+Math.abs(state[k]-t[k]),0)/(ks.length*100);
+  return [name,Math.round((1-dist)*100)];
+ }).sort((a,b)=>b[1]-a[1]);
+}
+function endingData(){
+ reconcileCapital(false);
+ const alive=romeAlive(),west=westAlive(),east=eastAlive(),fed=state.federal,sen=state.senate,cent=state.central;
+ const f=state.flags||{};
+ let name,desc;
+
+ // Rome survit : la dernière identité choisie en 2026 compte réellement.
+ if(alive&&f.identityRepublic2026&&west&&east&&f.europeanRomanRepublic1957){
+  name="Res Publica Romana Europaea";desc="La dignité impériale a été abolie par l’État qui en était l’héritier. En 2026, une fédération républicaine s’étend encore de part et d’autre de la Méditerranée et fait de la citoyenneté romaine une identité politique moderne."
+ }else if(alive&&f.identityRepublic2026&&east&&!west){
+  name="Res Publica Rhomaion";desc="L’Occident a disparu depuis des siècles, mais la Romanie orientale a fini par transformer sa continuité impériale en république. Constantinople — ou sa capitale de remplacement — reste le cœur d’un État romain républicain."
+ }else if(alive&&f.identityRepublic2026&&west&&!east){
+  name="Res Publica Romana Occidentalis";desc="L’Orient a été perdu, mais un État romain occidental a survécu puis aboli la monarchie impériale. Sa République de 2026 revendique une continuité constitutionnelle qui remonte à l’Antiquité."
+ }else if(alive&&f.identityRepublic2026){
+  name="Res Publica Romana";desc="L’État romain existe toujours, mais son identité contemporaine est explicitement républicaine. Le Sénat et les provinces ont absorbé l’ancienne dignité impériale dans une constitution moderne."
+ }else if(alive&&f.identityFederation2026&&west&&east){
+  name="Foederatio Romana";desc="Rome n’a pas survécu en restant immobile : elle s’est changée en fédération. Occident et Orient conservent des institutions propres, tandis que citoyenneté, défense, monnaie et marché restent communs."
+ }else if(alive&&f.identityFederation2026&&east&&!west){
+  name="Foederatio Romaniae Orientalis";desc="La Romanie orientale a survécu aux grandes ruptures médiévales puis s’est fédéralisée. En 2026, ses provinces et nations disposent d’une large autonomie sous une constitution romaine commune."
+ }else if(alive&&f.identityFederation2026&&west&&!east){
+  name="Foederatio Romana Occidentalis";desc="L’Empire d’Occident n’a jamais entièrement disparu. Il s’est transformé en fédération de provinces et de peuples, où Rome est moins une capitale dominatrice qu’une référence constitutionnelle commune."
+ }else if(alive&&f.identityCommonwealth2026&&west&&east){
+  name="Commonwealth Romanum";desc="L’unité romaine est devenue volontaire. Occident et Orient sont souverains sur l’essentiel de leurs affaires, mais partagent citoyenneté, normes communes, diplomatie partielle et institutions de coopération."
+ }else if(alive&&f.identityCommonwealth2026&&east&&!west){
+  name="Commonwealth Rhomaion";desc="La Romanie orientale a renoncé à l’Empire centralisé sans renoncer à sa continuité. En 2026, ses États membres partagent un cadre romain souple, des institutions communes et une citoyenneté de coopération."
+ }else if(alive&&f.identityCommonwealth2026&&west&&!east){
+  name="Commonwealth Romanum Occidentale";desc="L’Occident romain a survécu sous une forme volontaire et confédérale. Les anciennes provinces occidentales coopèrent étroitement sans reconstituer un pouvoir impérial central."
+ }else if(alive&&f.identityImperium2026&&state.christian>=55&&state.tolerance<58&&cent>=52){
+  name="Imperium Christianum Romanum";desc="La continuité romaine s’est confondue avec une monarchie chrétienne très centralisée. Le pouvoir impérial conserve en 2026 un rôle religieux et cérémoniel exceptionnel, même lorsque les institutions civiles se sont modernisées."
+ }else if(alive&&f.identityImperium2026&&west&&east&&cent>=66){
+  name="Imperium Romanum";desc="Contre toute attente, l’Empire est encore un État continu en 2026. Il a traversé les invasions, les religions, les nationalismes et l’âge industriel sans renoncer à un exécutif impérial puissant."
+ }else if(alive&&f.identityImperium2026&&east&&!west){
+  name="Romania Orientalis";desc="L’Occident a disparu, mais l’État romain oriental a franchi 1204 et 1453 — ou s’est reconstitué après ces crises. Ses citoyens continuent à se penser comme les héritiers politiques directs de Rome."
+ }else if(alive&&f.identityImperium2026&&west&&!east){
+  name="Imperium Romanum Occidentale";desc="L’Orient a été perdu mais l’Occident romain a survécu. En 2026, l’Empire est centré sur l’Italie, la Gaule, l’Hispanie ou l’Afrique selon votre carte, avec une capitale déplacée si Rome elle-même a été perdue."
+ }else if(alive&&state.tolerance>=72&&fed>=55){
+  name="Civitas Romana Mediterranea";desc="La survie de Rome a produit moins un empire qu’une communauté civique méditerranéenne. Religions, langues et provinces coexistent sous une citoyenneté commune et un fédéralisme très poussé."
+ }else if(alive&&east&&!west){
+  name="Romania Orientalis";desc="L’État romain ne survit plus qu’à l’Est. Son territoire et sa capitale dépendent des siècles de guerres que vous avez traversés, mais la continuité politique de la Romanie n’a jamais été entièrement rompue."
+ }
+
+ // Rome n’est plus un État : les choix de mémoire créent quand même des mondes 2026 différents.
+ else if(f.legacyEurope2026){
+  name="Europa Romana";desc="Aucun Empire romain n’a survécu, mais l’intégration européenne s’est construite consciemment autour de son héritage juridique et civique. Les symboles romains sont devenus ceux d’une Europe politique sans prétention impériale."
+ }else if(f.legacyMediterranean2026){
+  name="Communitas Mediterranea";desc="Rome est morte comme État, mais l’idée de Mare Nostrum a ressurgi sous une forme coopérative. En 2026, une communauté méditerranéenne associe les deux rives autour du commerce, des mobilités et d’institutions communes."
+ }else if(f.legacyCommunity2026){
+  name="Communauté des héritiers de Rome";desc="L’ancien monde romain s’est fragmenté, puis rapproché par la culture. Universités, patrimoine, langues, droit et coopération scientifique structurent une communauté transnationale des anciens territoires impériaux."
+ }else if(f.legacyHistory2026&&state.flags.historicalTrack>=13){
+  name="Notre monde, ou presque";desc="L’Occident tombe, Constantinople finit par disparaître et les États-nations européens prennent le relais. Les décisions antérieures ont cependant laissé quelques écarts durables à notre chronologie."
+ }else{
+  name="Le monde post-romain";desc="Les deux empires romains ont disparu, mais pas de la manière que nous connaissons. Les États de 2026 héritent d’une autre géographie, d’autres frontières et d’une autre mémoire de Rome."
+ }
+
+ const terr=REGIONS.filter(r=>["roman","federated"].includes(state.territories[r]));
+ const cap=alive?state.capital:"—";
+ let late=[];
+ if(alive){
+  late.push("1989 : la fin de la bipolarité européenne renforce la question de l’élargissement ou de l’autonomie des provinces.");
+  late.push(state.flags.republic?"2002 : le denier européen devient une monnaie fédérale commune.":"2002 : l’État romain adopte une monnaie commune modernisée, parfois surnommée « solidus » dans la presse.");
+ }else{
+  late.push("1989 : la chute du bloc communiste recompose l’Europe sans autorité romaine survivante.");
+  late.push("2002 : l’euro devient la monnaie commune de plusieurs États européens, si l’intégration de 1957 a été poursuivie.");
+ }
+ return {name,desc,terr,cap,late};
+}
+function finish(){
+ save(); const d=endingData(),profiles=profileScores();
+ document.getElementById("ending").classList.remove("hidden");
+ document.getElementById("endingCard").innerHTML=`
+ <div class="romanmark">ÉPILOGUE · 2026</div><h2>${d.name}</h2><p class="lead">${d.desc}</p>
+ <div class="endgrid">
+  <div class="endbox"><h3>Votre monde en 2026</h3><ul>
+   <li><b>Capitale :</b> ${d.cap}</li><li><b>Zones encore romaines ou fédérées :</b> ${d.terr.length?d.terr.join(", "):"aucune"}</li>
+   <li><b>Événements joués :</b> ${state.played} sur ${events.length} possibles</li><li><b>Événements effacés par divergence :</b> ${state.skipped}</li>
+   <li>${d.late[0]}</li><li>${d.late[1]}</li></ul></div>
+  <div class="endbox"><h3>Vous avez gouverné comme…</h3><div class="profiles">${profiles.map(([n,v])=>`<div class="profile"><div>${n}<i><span style="width:${v}%"></span></i></div><b>${v}%</b></div>`).join("")}</div></div>
+ </div>
+ <div class="actions"><button class="primary" id="restartEnd">Rejouer depuis 180</button><button class="secondary" id="showLogEnd">Voir toute la chronologie</button><a class="secondary" href="index.html" style="text-decoration:none">Retour à l’index</a></div>`;
+ document.getElementById("restartEnd").onclick=()=>{document.getElementById("ending").classList.add("hidden");reset();render()};
+ document.getElementById("showLogEnd").onclick=()=>{renderLog();document.getElementById("logPanel").classList.remove("hidden")};
+}
+
+document.getElementById("newGame").onclick=()=>{reset();document.getElementById("start").classList.add("hidden");render()};
+document.getElementById("resumeGame").onclick=()=>{load();document.getElementById("start").classList.add("hidden");render()};
+document.getElementById("logBtn").onclick=()=>{renderLog();document.getElementById("logPanel").classList.toggle("hidden")};
+document.getElementById("closeLog").onclick=()=>document.getElementById("logPanel").classList.add("hidden");
+if(localStorage.getItem(SAVE))document.getElementById("resumeGame").classList.remove("hidden");
+renderStats();renderMap();
+</script>
+</body>
+</html>
