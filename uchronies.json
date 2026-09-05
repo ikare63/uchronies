@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-05T19:59:11.430Z",
+  "updatedAt": "2026-09-05T20:00:35.346Z",
   "games": [
     {
       "id": "lan1",
@@ -71,7 +71,7 @@
       "period": "1763–1815",
       "description": "13 colonies, une Couronne, plusieurs Amériques possibles.",
       "file": "13-sous-la-couronne-v24.html",
-      "thumbnail": "miniatures/13-sous-la-couronne-v24.png",
+      "thumbnail": "miniatures/13-sous-la-couronne-v24.jpg",
       "tags": [
         "Révolution",
         "politique",
@@ -80,7 +80,7 @@
       "published": true,
       "order": 5,
       "addedAt": "2026-09-05T19:45:30.099Z",
-      "updatedAt": "2026-09-05T19:45:30.099Z"
+      "updatedAt": "2026-09-05T20:00:35.346Z"
     }
   ]
-}\n
+}
