@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-05T20:00:35.346Z",
+  "updatedAt": "2026-09-05T20:01:48.989Z",
   "games": [
     {
       "id": "lan1",
@@ -8,7 +8,7 @@
       "period": "1789–1815",
       "description": "Entrez dans la Révolution française et faites bifurquer le destin politique du pays.",
       "file": "lan1.html",
-      "thumbnail": "",
+      "thumbnail": "miniatures/lan1.jpg",
       "tags": [
         "Révolution",
         "Politique"
@@ -16,7 +16,7 @@
       "published": true,
       "order": 10,
       "addedAt": "2026-09-01T00:00:00.000Z",
-      "updatedAt": "2026-09-05T18:00:00.000Z"
+      "updatedAt": "2026-09-05T20:01:48.989Z"
     },
     {
       "id": "etrangeguerre",
