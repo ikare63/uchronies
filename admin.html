@@ -72,6 +72,7 @@ hr{border:0;border-top:1px solid #44342b;margin:14px 0}.games{display:grid;gap:8
  <hr>
  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h2 style="margin:0">Catalogue</h2><span class="pill" id="gameCount">0 jeu</span></div>
  <div class="games" id="games"><div class="small" style="padding:12px 0">Connectez le dépôt pour charger le catalogue.</div></div>
+ <input id="catalogThumbPicker" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" hidden>
  <div class="log" id="log">Atelier prêt.</div>
 </section>
 </div>
@@ -79,7 +80,7 @@ hr{border:0;border-top:1px solid #44342b;margin:14px 0}.games{display:grid;gap:8
 
 <script>
 const $=id=>document.getElementById(id);
-const state={catalog:{version:1,updatedAt:null,games:[]},htmlFile:null,htmlText:'',imageFile:null,connected:false};
+const state={catalog:{version:1,updatedAt:null,games:[]},htmlFile:null,htmlText:'',imageFile:null,connected:false,thumbTargetId:null};
 const F=['owner','repo','branch','catalogPath'];
 F.forEach(k=>{const v=localStorage.getItem('uchronies-cms-'+k);if(v)$(k).value=v;$(k).addEventListener('change',()=>localStorage.setItem('uchronies-cms-'+k,$(k).value.trim()))});
 if(sessionStorage.getItem('uchronies-cms-token'))$('token').value=sessionStorage.getItem('uchronies-cms-token');
@@ -250,12 +251,60 @@ function renderGames(){
  $('games').innerHTML=a.map(g=>`<div class="game">
  <div class="thumb" ${g.thumbnail?`style="background-image:url('${esc(g.thumbnail)}?v=${Date.now()}')"`:''}>${esc((g.title||'U').slice(0,2).toUpperCase())}</div>
  <div><b>${esc(g.title)}</b><span>${esc(g.period||'')} · ${esc(g.file)} · ${g.published===false?'brouillon':'publié'}</span></div>
- <div class="actions"><button class="alt icon" data-edit="${esc(g.id)}" title="Modifier la fiche">✎</button><button class="alt icon" data-ren="${esc(g.id)}" title="Renommer">↺</button><button class="danger icon" data-del="${esc(g.id)}" title="Supprimer définitivement">×</button></div>
+ <div class="actions"><button class="alt icon" data-thumb="${esc(g.id)}" title="Changer la miniature">🖼</button><button class="alt icon" data-edit="${esc(g.id)}" title="Modifier la fiche">✎</button><button class="alt icon" data-ren="${esc(g.id)}" title="Renommer">↺</button><button class="danger icon" data-del="${esc(g.id)}" title="Supprimer définitivement">×</button></div>
  </div>`).join('');
+ document.querySelectorAll('[data-thumb]').forEach(b=>b.onclick=()=>chooseThumbnail(b.dataset.thumb));
  document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editGame(b.dataset.edit));
  document.querySelectorAll('[data-ren]').forEach(b=>b.onclick=()=>renameGame(b.dataset.ren));
  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>deleteGame(b.dataset.del));
 }
+
+function chooseThumbnail(id){
+ const g=state.catalog.games.find(x=>x.id===id);if(!g)return;
+ state.thumbTargetId=id;
+ const picker=$('catalogThumbPicker');
+ picker.value='';
+ picker.click();
+}
+function imageExtension(file){
+ const byType={
+  'image/png':'png',
+  'image/jpeg':'jpg',
+  'image/webp':'webp',
+  'image/gif':'gif',
+  'image/svg+xml':'svg'
+ };
+ return byType[file.type]||'';
+}
+async function changeThumbnail(id,file){
+ const g=state.catalog.games.find(x=>x.id===id);if(!g||!file)return;
+ const ext=imageExtension(file);
+ if(!ext)throw new Error('Format de miniature non pris en charge. Utilise PNG, JPG, WebP, GIF ou SVG.');
+ const newPath=`miniatures/${g.id}.${ext}`;
+ const oldPath=g.thumbnail||'';
+ const now=new Date().toISOString();
+ const ng={...g,thumbnail:newPath,updatedAt:now};
+ const newCatalog={...state.catalog,updatedAt:now,games:state.catalog.games.map(x=>x.id===id?ng:x)};
+ const files=[
+  {path:newPath,content:file},
+  {path:cfg().catalogPath,content:JSON.stringify(newCatalog,null,2)+'\n'}
+ ];
+ if(oldPath && oldPath!==newPath)files.splice(1,0,{path:oldPath,delete:true});
+ await atomicCommit(files,`Changer la miniature : ${g.title}`);
+ state.catalog=newCatalog;
+ renderGames();
+ log('Miniature remplacée : '+g.title);
+}
+$('catalogThumbPicker').addEventListener('change',async e=>{
+ const file=e.target.files[0],id=state.thumbTargetId;
+ state.thumbTargetId=null;
+ if(!file||!id)return;
+ try{
+  log('Envoi de la nouvelle miniature…');
+  await changeThumbnail(id,file);
+ }catch(err){log(err.message,true)}
+});
+
 function editGame(id){
  const g=state.catalog.games.find(x=>x.id===id);if(!g)return;
  $('title').value=g.title||'';$('period').value=g.period||'';$('description').value=g.description||'';$('tags').value=(g.tags||[]).join(', ');$('slug').value=g.id||slugify(g.title);$('order').value=g.order??999;$('published').value=String(g.published!==false);drawCover();
@@ -293,8 +342,7 @@ Continuer ?`))return;
   const files=[
    {path:newFile,content:newHtml},
    {path:oldFile,delete:true},
-   {path:cfg().catalogPath,content:JSON.stringify(newCatalog,null,2)+'
-'}
+   {path:cfg().catalogPath,content:JSON.stringify(newCatalog,null,2)+'\n'}
   ];
   if(thumbBlob&&oldThumb!==newThumb){
     files.splice(1,0,{path:newThumb,content:thumbBlob},{path:oldThumb,delete:true});
@@ -316,8 +364,7 @@ Cette action crée un commit GitHub et pourra seulement être annulée via l’h
  try{
   const now=new Date().toISOString();
   const newCatalog={...state.catalog,updatedAt:now,games:state.catalog.games.filter(x=>x.id!==id)};
-  const files=[{path:g.file,delete:true},{path:cfg().catalogPath,content:JSON.stringify(newCatalog,null,2)+'
-'}];
+  const files=[{path:g.file,delete:true},{path:cfg().catalogPath,content:JSON.stringify(newCatalog,null,2)+'\n'}];
   if(g.thumbnail)files.splice(1,0,{path:g.thumbnail,delete:true});
   await atomicCommit(files,`Supprimer l’uchronie : ${g.title}`);
   state.catalog=newCatalog;renderGames();log('Supprimé définitivement : '+g.title);
