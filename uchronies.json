@@ -19,11 +19,11 @@
       "updatedAt": "2026-09-05T20:01:48.989Z"
     },
     {
-      "id": "etrangeguerre",
-      "title": "L’Étrange Guerre",
+      "id": "minuit-sur-europe",
+      "title": "Minuit sur l’Europe",
       "period": "1939–1945",
       "description": "À la veille du désastre, chaque décision peut bouleverser la guerre, la France et l’Europe.",
-      "file": "etrangeguerre.html",
+      "file": "minuit-sur-europe.html",
       "thumbnail": "miniatures/etrangeguerre.jpg",
       "tags": [
         "Guerre",
@@ -50,11 +50,11 @@
       "updatedAt": "2026-09-05T20:07:38.448Z"
     },
     {
-      "id": "urbem-aeterna",
-      "title": "Urbem Aeterna",
+      "id": "roma-aeterna",
+      "title": "Roma Aeterna",
       "period": "476–2026",
       "description": "Et si l’Empire romain d’Occident avait survécu jusqu’à l’époque contemporaine ?",
-      "file": "urbem-aeterna.html",
+      "file": "roma-aeterna.html",
       "thumbnail": "",
       "tags": [
         "Antiquité",

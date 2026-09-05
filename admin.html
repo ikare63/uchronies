@@ -67,7 +67,7 @@ hr{border:0;border-top:1px solid #44342b;margin:14px 0}.games{display:grid;gap:8
  <label>Description</label><textarea id="description"></textarea>
  <div class="row"><div><label>Catégories (séparées par des virgules)</label><input id="tags" placeholder="Révolution, Politique"></div><div><label>Identifiant / fichier</label><input id="slug" placeholder="nom-du-jeu"></div></div>
  <div class="row"><div><label>Ordre</label><input id="order" type="number" value="999"></div><div><label>État</label><select id="published"><option value="true">Publié</option><option value="false">Brouillon</option></select></div></div>
- <div class="buttons"><button id="publish" disabled>Publier sur GitHub</button><button class="alt" id="resetForm">Vider</button></div>
+ <div class="buttons"><button id="publish" disabled>Publier sur GitHub</button><button id="saveMeta" class="alt" disabled>Enregistrer la fiche</button><button class="alt" id="resetForm">Vider</button></div>
  <p class="small">Un clic crée <span class="pill">nom-du-jeu.html</span>, <span class="pill">miniatures/nom-du-jeu.png</span> et met à jour <span class="pill">uchronies.json</span> dans <b>un seul commit atomique</b>.</p>
  <hr>
  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h2 style="margin:0">Catalogue</h2><span class="pill" id="gameCount">0 jeu</span></div>
@@ -81,7 +81,7 @@ hr{border:0;border-top:1px solid #44342b;margin:14px 0}.games{display:grid;gap:8
 
 <script>
 const $=id=>document.getElementById(id);
-const state={catalog:{version:1,updatedAt:null,games:[]},htmlFile:null,htmlText:'',imageFile:null,connected:false,thumbTargetId:null,htmlTargetId:null};
+const state={catalog:{version:1,updatedAt:null,games:[]},htmlFile:null,htmlText:'',imageFile:null,connected:false,thumbTargetId:null,htmlTargetId:null,editingId:null};
 const F=['owner','repo','branch','catalogPath'];
 F.forEach(k=>{const v=localStorage.getItem('uchronies-cms-'+k);if(v)$(k).value=v;$(k).addEventListener('change',()=>localStorage.setItem('uchronies-cms-'+k,$(k).value.trim()))});
 if(sessionStorage.getItem('uchronies-cms-token'))$('token').value=sessionStorage.getItem('uchronies-cms-token');
@@ -385,9 +385,62 @@ $('catalogThumbPicker').addEventListener('change',async e=>{
 
 function editGame(id){
  const g=state.catalog.games.find(x=>x.id===id);if(!g)return;
- $('title').value=g.title||'';$('period').value=g.period||'';$('description').value=g.description||'';$('tags').value=(g.tags||[]).join(', ');$('slug').value=g.id||slugify(g.title);$('order').value=g.order??999;$('published').value=String(g.published!==false);drawCover();
- log('Fiche chargée. Pour remplacer le HTML, choisissez le fichier correspondant.');
+ state.editingId=id;
+ $('title').value=g.title||'';
+ $('period').value=g.period||'';
+ $('description').value=g.description||'';
+ $('tags').value=(g.tags||[]).join(', ');
+ $('slug').value=g.id||slugify(g.title);
+ $('order').value=g.order??999;
+ $('published').value=String(g.published!==false);
+ $('saveMeta').disabled=false;
+ drawCover();
+ log('Fiche chargée : modifie les champs puis touche « Enregistrer la fiche ».');
 }
+
+$('saveMeta').onclick=async()=>{
+ const id=state.editingId;
+ const g=state.catalog.games.find(x=>x.id===id);
+ if(!g)return;
+
+ try{
+  const now=new Date().toISOString();
+  const ng={
+   ...g,
+   title:$('title').value.trim()||g.title,
+   period:$('period').value.trim(),
+   description:$('description').value.trim(),
+   tags:$('tags').value.split(',').map(x=>x.trim()).filter(Boolean),
+   order:Number($('order').value)||999,
+   published:$('published').value==='true',
+   updatedAt:now
+  };
+
+  const newCatalog={
+   ...state.catalog,
+   updatedAt:now,
+   games:state.catalog.games.map(x=>x.id===id?ng:x)
+  };
+
+  $('saveMeta').disabled=true;
+  const sha=await atomicCommit([{
+   path:cfg().catalogPath,
+   content:JSON.stringify(newCatalog,null,2)+'\n'
+  }],`Modifier la fiche : ${g.title}`);
+
+  state.catalog=newCatalog;
+  state.editingId=ng.id;
+  renderGames();
+  log(`Fiche enregistrée : ${ng.title} · commit ${sha.slice(0,7)}`);
+  alert(`La fiche « ${ng.title} » a bien été mise à jour.`);
+ }catch(e){
+  log('Échec de la modification : '+e.message,true);
+  alert('La modification a échoué : '+e.message);
+ }finally{
+  $('saveMeta').disabled=!state.editingId;
+ }
+};
+
 async function renameGame(id){
  const g=state.catalog.games.find(x=>x.id===id);if(!g)return;
  const proposed=prompt(`Nouveau titre pour « ${g.title} » :`,g.title);
@@ -466,7 +519,7 @@ Son fichier HTML et sa miniature seront aussi supprimés de GitHub s’ils sont 
   // être bloquée par un ancien nom de fichier ou une miniature manquante.
   files.push({
    path:cfg().catalogPath,
-   content:JSON.stringify(newCatalog,null,2)+'\\n'
+   content:JSON.stringify(newCatalog,null,2)+'\n'
   });
 
   const sha=await atomicCommit(files,`Supprimer l’uchronie : ${g.title}`);
@@ -480,7 +533,7 @@ Son fichier HTML et sa miniature seront aussi supprimés de GitHub s’ils sont 
   alert('La suppression a échoué : '+e.message);
  }
 }
-$('resetForm').onclick=()=>{state.htmlFile=null;state.htmlText='';state.imageFile=null;$('htmlFile').value='';$('imageFile').value='';$('htmlName').textContent='ou toucher pour choisir un fichier';$('imageName').textContent='Sinon l’atelier la génère automatiquement';['title','period','description','tags','slug'].forEach(id=>$(id).value='');$('order').value=999;$('published').value='true';$('publish').disabled=true;drawCover()};
+$('resetForm').onclick=()=>{state.htmlFile=null;state.htmlText='';state.imageFile=null;state.editingId=null;$('saveMeta').disabled=true;$('htmlFile').value='';$('imageFile').value='';$('htmlName').textContent='ou toucher pour choisir un fichier';$('imageName').textContent='Sinon l’atelier la génère automatiquement';['title','period','description','tags','slug'].forEach(id=>$(id).value='');$('order').value=999;$('published').value='true';$('publish').disabled=true;drawCover()};
 </script>
 </body>
 </html>
