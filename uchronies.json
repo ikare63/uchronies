@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-05T19:45:30.099Z",
+  "updatedAt": "2026-09-05T19:59:11.430Z",
   "games": [
     {
       "id": "lan1",
@@ -50,21 +50,6 @@
       "updatedAt": "2026-09-05T18:00:00.000Z"
     },
     {
-      "id": "alternance",
-      "title": "L’Alternance",
-      "period": "1981–2026",
-      "description": "La présidentielle de 1981 ouvre une autre histoire politique de la Ve République.",
-      "file": "alternance.html",
-      "thumbnail": "",
-      "tags": [
-        "Politique"
-      ],
-      "published": true,
-      "order": 40,
-      "addedAt": "2026-09-03T00:00:00.000Z",
-      "updatedAt": "2026-09-05T18:00:00.000Z"
-    },
-    {
       "id": "urbem-aeterna",
       "title": "Urbem Aeterna",
       "period": "476–2026",
@@ -98,4 +83,4 @@
       "updatedAt": "2026-09-05T19:45:30.099Z"
     }
   ]
-}
+}\n
