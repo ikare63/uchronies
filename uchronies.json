@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-05T20:01:48.989Z",
+  "updatedAt": "2026-09-05T20:04:54.999Z",
   "games": [
     {
       "id": "lan1",
@@ -24,7 +24,7 @@
       "period": "1939–1945",
       "description": "À la veille du désastre, chaque décision peut bouleverser la guerre, la France et l’Europe.",
       "file": "etrangeguerre.html",
-      "thumbnail": "",
+      "thumbnail": "miniatures/etrangeguerre.jpg",
       "tags": [
         "Guerre",
         "Politique"
@@ -32,7 +32,7 @@
       "published": true,
       "order": 20,
       "addedAt": "2026-09-02T00:00:00.000Z",
-      "updatedAt": "2026-09-05T18:00:00.000Z"
+      "updatedAt": "2026-09-05T20:04:54.999Z"
     },
     {
       "id": "grand-dessein",
