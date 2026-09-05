@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="theme-color" content="#19130f">
+<title>Atelier Uchronies</title>
+<style>
+:root{--bg:#17110e;--panel:#241a15;--paper:#ead9b7;--ink:#2b211b;--wine:#7a293d;--gold:#b58c48;--muted:#9d8a72;--ok:#5f7d61;--bad:#a34c4c}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg)}
+body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#efe1c7;background:radial-gradient(circle at 20% 0,#322019 0,transparent 34rem),#17110e;padding:12px}
+.app{max-width:1100px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 2px 18px}
+.kicker{font-size:.66rem;text-transform:uppercase;letter-spacing:.22em;color:#b99a68;font-weight:800}
+h1{font:700 clamp(1.8rem,5vw,3.4rem)/.95 Georgia,serif;margin:.2rem 0}.sub{color:#b9a890;font-size:.8rem}
+.status{padding:7px 10px;border:1px solid #665343;border-radius:999px;font-size:.7rem;color:#d6c6ae}
+.status.ok{border-color:#6d8c6f;color:#bcd3bd}.layout{display:grid;grid-template-columns:340px 1fr;gap:12px}
+.panel{background:linear-gradient(180deg,#2a1e18,#211712);border:1px solid #46372e;border-radius:16px;padding:14px;box-shadow:0 18px 42px rgba(0,0,0,.18)}
+.panel h2{font:700 1.1rem Georgia,serif;margin:0 0 12px;color:#f0dfbe}
+label{display:block;font-size:.66rem;font-weight:800;color:#bba990;margin:10px 0 5px;text-transform:uppercase;letter-spacing:.06em}
+input,textarea,select{width:100%;border:1px solid #5a483b;background:#17110e;color:#f3e3c9;border-radius:9px;padding:9px;font:600 .78rem system-ui;outline:none}
+textarea{min-height:74px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:#ba9254}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.buttons{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+button{border:0;border-radius:9px;padding:9px 11px;background:#e6d2aa;color:#2b2018;font:800 .7rem system-ui;cursor:pointer}
+button.alt{background:#3a2b23;color:#e8d6b7;border:1px solid #5e493b}button.danger{background:#54242b;color:#f1d9d9}
+button:disabled{opacity:.45;cursor:not-allowed}.drop{position:relative;border:1px dashed #6a5544;border-radius:12px;padding:18px 12px;text-align:center;color:#bba990;background:#1b1410;cursor:pointer}
+.drop strong{display:block;color:#ead7b5;margin-bottom:3px}.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.preview{margin-top:10px;aspect-ratio:16/9;border-radius:11px;overflow:hidden;background:#111;border:1px solid #544236}
+.preview canvas{width:100%;height:100%;display:block}.small{font-size:.67rem;color:#9c8971;line-height:1.4}
+hr{border:0;border-top:1px solid #44342b;margin:14px 0}.games{display:grid;gap:8px}.game{display:grid;grid-template-columns:76px 1fr auto;gap:10px;align-items:center;padding:8px;border:1px solid #46362d;border-radius:11px;background:#1d1511}
+.thumb{aspect-ratio:16/9;border-radius:7px;background:linear-gradient(135deg,#733247,#28201c);background-size:cover;background-position:center;display:grid;place-items:center;font:800 1.05rem Georgia;color:rgba(255,255,255,.45);overflow:hidden}
+.game b{display:block;font:700 .86rem Georgia;color:#ecdabc}.game span{display:block;color:#a9967f;font-size:.67rem;margin-top:2px}.game .actions{display:flex;gap:5px}
+.icon{padding:7px 8px;min-width:32px}.log{margin-top:12px;background:#100c0a;border:1px solid #3c2e27;border-radius:10px;padding:9px;max-height:170px;overflow:auto;font:600 .66rem/1.45 ui-monospace,SFMono-Regular,Consolas,monospace;color:#bba98e}
+.notice{border:1px solid #5b4839;background:#1a130f;border-radius:10px;padding:9px;color:#bbaa91;font-size:.7rem;line-height:1.45}
+.notice b{color:#e7d5b5}.secret{color:#c8a86f}.pill{display:inline-block;padding:3px 6px;border:1px solid #5c493b;border-radius:999px;font-size:.6rem;color:#bdaa8e}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.row{grid-template-columns:1fr}.game{grid-template-columns:62px 1fr}.game .actions{grid-column:1/-1;justify-content:flex-end}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top">
+ <div><div class="kicker">Administration locale</div><h1>Atelier Uchronies</h1><div class="sub">Publier un jeu sur GitHub sans toucher à index.html.</div></div>
+ <div class="status" id="status">Non connecté</div>
+</div>
+
+<div class="layout">
+<section class="panel">
+ <h2>1. Connexion GitHub</h2>
+ <div class="notice"><b>La sécurité repose sur GitHub, pas sur l’URL de cette page.</b> Elle n’est liée nulle part et les robots sont bloqués, mais une page statique n’est jamais réellement secrète. Le token reste uniquement dans cet onglet.</div>
+ <label>Propriétaire</label><input id="owner" value="ikare63" autocomplete="off">
+ <label>Dépôt</label><input id="repo" placeholder="nom-du-depot" autocomplete="off">
+ <div class="row"><div><label>Branche</label><input id="branch" value="main"></div><div><label>Catalogue</label><input id="catalogPath" value="uchronies.json"></div></div>
+ <label>Token GitHub finement granulé</label><input id="token" type="password" placeholder="github_pat_…" autocomplete="off">
+ <p class="small">Permission minimale conseillée : <b>Contents → Read and write</b>, limitée à ce dépôt. Le token est conservé dans <code>sessionStorage</code> et disparaît à la fermeture de l’onglet.</p>
+ <div class="buttons"><button id="connect">Se connecter</button><button class="alt" id="reload">Recharger</button></div>
+ <hr>
+ <h2>2. Nouveau jeu</h2>
+ <div class="drop"><strong>Déposer le HTML ici</strong><span id="htmlName">ou toucher pour choisir un fichier</span><input id="htmlFile" type="file" accept=".html,text/html"></div>
+ <label>Miniature facultative</label>
+ <div class="drop"><strong>Image de couverture</strong><span id="imageName">Sinon l’atelier la génère automatiquement</span><input id="imageFile" type="file" accept="image/*"></div>
+ <div class="preview"><canvas id="cover" width="1200" height="675"></canvas></div>
+</section>
+
+<section class="panel">
+ <h2>Fiche détectée</h2>
+ <div class="row"><div><label>Titre</label><input id="title"></div><div><label>Période</label><input id="period" placeholder="1789–1815"></div></div>
+ <label>Description</label><textarea id="description"></textarea>
+ <div class="row"><div><label>Catégories (séparées par des virgules)</label><input id="tags" placeholder="Révolution, Politique"></div><div><label>Identifiant / fichier</label><input id="slug" placeholder="nom-du-jeu"></div></div>
+ <div class="row"><div><label>Ordre</label><input id="order" type="number" value="999"></div><div><label>État</label><select id="published"><option value="true">Publié</option><option value="false">Brouillon</option></select></div></div>
+ <div class="buttons"><button id="publish" disabled>Publier sur GitHub</button><button class="alt" id="resetForm">Vider</button></div>
+ <p class="small">Un clic crée <span class="pill">nom-du-jeu.html</span>, <span class="pill">miniatures/nom-du-jeu.png</span> et met à jour <span class="pill">uchronies.json</span> dans <b>un seul commit atomique</b>.</p>
+ <hr>
+ <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h2 style="margin:0">Catalogue</h2><span class="pill" id="gameCount">0 jeu</span></div>
+ <div class="games" id="games"><div class="small" style="padding:12px 0">Connectez le dépôt pour charger le catalogue.</div></div>
+ <div class="log" id="log">Atelier prêt.</div>
+</section>
+</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const state={catalog:{version:1,updatedAt:null,games:[]},htmlFile:null,htmlText:'',imageFile:null,connected:false};
+const F=['owner','repo','branch','catalogPath'];
+F.forEach(k=>{const v=localStorage.getItem('uchronies-cms-'+k);if(v)$(k).value=v;$(k).addEventListener('change',()=>localStorage.setItem('uchronies-cms-'+k,$(k).value.trim()))});
+if(sessionStorage.getItem('uchronies-cms-token'))$('token').value=sessionStorage.getItem('uchronies-cms-token');
+
+function log(s,bad=false){const d=document.createElement('div');d.textContent='['+new Date().toLocaleTimeString('fr-FR')+'] '+s;if(bad)d.style.color='#e09a9a';$('log').prepend(d)}
+function status(s,ok=false){$('status').textContent=s;$('status').classList.toggle('ok',ok)}
+function slugify(s){return String(s||'uchronie').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/['’]/g,'-').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,70)||'uchronie'}
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function cfg(){
+ const c={owner:$('owner').value.trim(),repo:$('repo').value.trim(),branch:$('branch').value.trim()||'main',catalogPath:$('catalogPath').value.trim()||'uchronies.json',token:$('token').value.trim()};
+ if(!c.owner||!c.repo||!c.token)throw new Error('Propriétaire, dépôt et token sont requis.');
+ return c;
+}
+async function api(path,opt={}){
+ const c=cfg();sessionStorage.setItem('uchronies-cms-token',c.token);
+ const r=await fetch(`https://api.github.com/repos/${encodeURIComponent(c.owner)}/${encodeURIComponent(c.repo)}${path}`,{
+  method:opt.method||'GET',
+  headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+c.token,'X-GitHub-Api-Version':'2026-03-10','Content-Type':'application/json'},
+  body:opt.body?JSON.stringify(opt.body):undefined
+ });
+ let data=null;try{data=await r.json()}catch{}
+ if(!r.ok){const e=new Error((data&&data.message)||('GitHub '+r.status));e.status=r.status;throw e}
+ return data;
+}
+function b64ToUtf8(b64){const bin=atob(String(b64).replace(/\n/g,'')),bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder().decode(bytes)}
+function utf8ToB64(str){const bytes=new TextEncoder().encode(str);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(bin)}
+async function blobToB64(blob){const buf=new Uint8Array(await blob.arrayBuffer());let bin='';for(let i=0;i<buf.length;i+=0x8000)bin+=String.fromCharCode(...buf.subarray(i,i+0x8000));return btoa(bin)}
+
+async function loadCatalog(){
+ const c=cfg();
+ try{
+  const f=await api('/contents/'+c.catalogPath.split('/').map(encodeURIComponent).join('/')+'?ref='+encodeURIComponent(c.branch));
+  const obj=JSON.parse(b64ToUtf8(f.content));
+  state.catalog=Array.isArray(obj)?{version:1,updatedAt:null,games:obj}:obj;
+  if(!Array.isArray(state.catalog.games))state.catalog.games=[];
+  log('Catalogue chargé : '+state.catalog.games.length+' jeu(x).');
+ }catch(e){
+  if(e.status===404){state.catalog={version:1,updatedAt:null,games:[]};log('Aucun catalogue : il sera créé à la première publication.')}
+  else throw e;
+ }
+ renderGames();
+}
+async function connect(){
+ try{
+  status('Connexion…');const c=cfg();
+  await api('/git/ref/heads/'+encodeURIComponent(c.branch));
+  await loadCatalog();state.connected=true;status(c.owner+'/'+c.repo+' · '+c.branch,true);$('publish').disabled=!state.htmlFile;log('Connexion GitHub réussie.');
+ }catch(e){state.connected=false;status('Échec de connexion');$('publish').disabled=true;log(e.message,true)}
+}
+$('connect').onclick=connect;$('reload').onclick=()=>state.connected?loadCatalog().catch(e=>log(e.message,true)):connect();
+
+function detectPeriod(text){
+ const m=text.match(/\b((?:1[0-9]{3}|20[0-9]{2}))\s*[–—-]\s*((?:1[0-9]{3}|20[0-9]{2}))\b/);
+ return m?m[1]+'–'+m[2]:'';
+}
+function inferTags(title,desc=''){
+ const x=(title+' '+desc).toLowerCase(),a=[];
+ if(/1789|révolution|an i|napol/.test(x))a.push('Révolution');
+ if(/1939|1940|1945|guerre|occupation/.test(x))a.push('Guerre');
+ if(/rome|urbs|antiqu|empire romain/.test(x))a.push('Antiquité');
+ if(/louis|monarch|roya|grand dessein/.test(x))a.push('Monarchie');
+ if(/président|élection|alternance|politique|front national|\bfn\b/.test(x))a.push('Politique');
+ return [...new Set(a)].slice(0,3);
+}
+function meta(doc,name){return doc.querySelector(`meta[name="${name}"]`)?.content?.trim()||''}
+function analyzeHTML(text,fileName){
+ const doc=new DOMParser().parseFromString(text,'text/html');
+ const title=meta(doc,'uchronie-title')||doc.querySelector('title')?.textContent?.trim()||doc.querySelector('h1')?.textContent?.trim()||fileName.replace(/\.html?$/i,'');
+ const period=meta(doc,'uchronie-period')||detectPeriod(doc.body?.innerText||text);
+ let desc=meta(doc,'uchronie-description')||doc.querySelector('meta[name="description"]')?.content?.trim()||doc.querySelector('.lead,.subtitle,.sub')?.textContent?.trim()||'';
+ desc=desc.replace(/\s+/g,' ').slice(0,240);
+ const tags=(meta(doc,'uchronie-tags')?meta(doc,'uchronie-tags').split(','):inferTags(title,desc)).map(x=>x.trim()).filter(Boolean);
+ return {title,period,desc,tags,slug:slugify(meta(doc,'uchronie-id')||fileName.replace(/\.html?$/i,'')||title)};
+}
+$('htmlFile').onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;state.htmlFile=f;state.htmlText=await f.text();$('htmlName').textContent=f.name;
+ const a=analyzeHTML(state.htmlText,f.name);$('title').value=a.title;$('period').value=a.period;$('description').value=a.desc;$('tags').value=a.tags.join(', ');$('slug').value=a.slug;
+ drawCover();$('publish').disabled=!state.connected;log('HTML analysé : '+a.title);
+};
+$('imageFile').onchange=e=>{state.imageFile=e.target.files[0]||null;$('imageName').textContent=state.imageFile?state.imageFile.name:'Sinon l’atelier la génère automatiquement';drawCover()};
+['title','period','tags','slug'].forEach(id=>$(id).addEventListener('input',drawCover));
+
+function palette(){
+ const x=($('title').value+' '+$('tags').value).toLowerCase();
+ if(/rome|urbs|antiqu/.test(x))return['#8e4d32','#33231b','#d4aa5d'];
+ if(/guerre|1939|1940|1945/.test(x))return['#4d585d','#161d20','#c5b28c'];
+ if(/louis|monarch|grand dessein/.test(x))return['#223f64','#17243b','#d3ae5e'];
+ if(/alternance|politique|élection|front national|\bfn\b/.test(x))return['#642c49','#223c60','#d3bb8a'];
+ if(/révolution|1789|an i/.test(x))return['#812b40','#28231f','#d1ad70'];
+ return['#75503d','#241b17','#cba666'];
+}
+async function drawCover(){
+ const cv=$('cover'),ctx=cv.getContext('2d'),[a,b,g]=palette(),w=cv.width,h=cv.height;
+ const grad=ctx.createLinearGradient(0,0,w,h);grad.addColorStop(0,a);grad.addColorStop(1,b);ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+ if(state.imageFile){
+  try{const img=await createImageBitmap(state.imageFile);const scale=Math.max(w/img.width,h/img.height),sw=w/scale,sh=h/scale,sx=(img.width-sw)/2,sy=(img.height-sh)/2;ctx.drawImage(img,sx,sy,sw,sh,0,0,w,h);ctx.fillStyle='rgba(15,10,8,.48)';ctx.fillRect(0,0,w,h)}catch{}
+ }
+ ctx.strokeStyle='rgba(244,224,184,.16)';ctx.lineWidth=2;
+ for(let r=90;r<430;r+=52){ctx.beginPath();ctx.arc(w*0.82,h*0.18,r,0,Math.PI*2);ctx.stroke()}
+ ctx.fillStyle=g;ctx.fillRect(72,72,92,6);
+ ctx.fillStyle='rgba(247,232,203,.88)';ctx.font='700 23px system-ui';ctx.letterSpacing='4px';ctx.fillText('UCHRONIES',72,132);
+ const title=$('title').value||'Nouvelle uchronie';ctx.fillStyle='#fff4dc';ctx.font='700 74px Georgia';
+ const words=title.split(/\s+/);let lines=[''];for(const word of words){const test=(lines[lines.length-1]+' '+word).trim();if(ctx.measureText(test).width>930&&lines[lines.length-1])lines.push(word);else lines[lines.length-1]=test}lines.slice(0,3).forEach((l,i)=>ctx.fillText(l,72,300+i*83));
+ ctx.fillStyle='rgba(245,228,194,.78)';ctx.font='700 28px system-ui';ctx.fillText($('period').value||'HISTOIRE ALTERNATIVE',76,590);
+}
+drawCover();
+
+function injectMetadata(html,g){
+ const doc=new DOMParser().parseFromString(html,'text/html');
+ const defs={
+  'uchronie-format':'1','uchronie-id':g.id,'uchronie-title':g.title,'uchronie-period':g.period||'',
+  'uchronie-description':g.description||'','uchronie-tags':(g.tags||[]).join(', '),'uchronie-cover':g.thumbnail
+ };
+ Object.entries(defs).forEach(([name,content])=>{let m=doc.head.querySelector(`meta[name="${name}"]`);if(!m){m=doc.createElement('meta');m.name=name;doc.head.appendChild(m)}m.content=content});
+ return '<!doctype html>\n'+doc.documentElement.outerHTML;
+}
+async function canvasBlob(){return await new Promise((resolve,reject)=>$('cover').toBlob(b=>b?resolve(b):reject(new Error('Impossible de générer la miniature.')),'image/png',.92))}
+
+async function getRepoFile(path){
+ const c=cfg();
+ const p=path.split('/').map(encodeURIComponent).join('/');
+ const f=await api('/contents/'+p+'?ref='+encodeURIComponent(c.branch));
+ return {content:b64ToUtf8(f.content),sha:f.sha};
+}
+async function getRepoBlob(path){
+ const c=cfg();
+ const p=path.split('/').map(encodeURIComponent).join('/');
+ const f=await api('/contents/'+p+'?ref='+encodeURIComponent(c.branch));
+ const bin=atob(String(f.content).replace(/\n/g,''));
+ const bytes=Uint8Array.from(bin,ch=>ch.charCodeAt(0));
+ return new Blob([bytes]);
+}
+
+async function atomicCommit(files,message){
+ const c=cfg(),ref=await api('/git/ref/heads/'+encodeURIComponent(c.branch)),parent=ref.object.sha;
+ const commit0=await api('/git/commits/'+parent),entries=[];
+ for(const f of files){
+  if(f.delete){entries.push({path:f.path,mode:'100644',type:'blob',sha:null});continue}
+  const content=typeof f.content==='string'?utf8ToB64(f.content):await blobToB64(f.content);
+  const blob=await api('/git/blobs',{method:'POST',body:{content,encoding:'base64'}});
+  entries.push({path:f.path,mode:'100644',type:'blob',sha:blob.sha});
+ }
+ const tree=await api('/git/trees',{method:'POST',body:{base_tree:commit0.tree.sha,tree:entries}});
+ const commit=await api('/git/commits',{method:'POST',body:{message,tree:tree.sha,parents:[parent]}});
+ await api('/git/refs/heads/'+encodeURIComponent(c.branch),{method:'PATCH',body:{sha:commit.sha,force:false}});
+ return commit.sha;
+}
+$('publish').onclick=async()=>{
+ try{
+  if(!state.htmlFile)throw new Error('Choisissez un fichier HTML.');
+  const id=slugify($('slug').value||$('title').value),title=$('title').value.trim()||id,period=$('period').value.trim(),description=$('description').value.trim();
+  const tags=$('tags').value.split(',').map(x=>x.trim()).filter(Boolean),published=$('published').value==='true',order=Number($('order').value)||999;
+  const htmlPath=id+'.html',thumbnail='miniatures/'+id+'.png',now=new Date().toISOString();
+  const existing=state.catalog.games.find(x=>x.id===id||x.file===htmlPath);
+  const g={id,title,period,description,file:htmlPath,thumbnail,tags,published,order,addedAt:existing?.addedAt||now,updatedAt:now};
+  const newGames=state.catalog.games.filter(x=>x.id!==id&&x.file!==htmlPath);newGames.push(g);
+  const newCatalog={...state.catalog,version:1,updatedAt:now,games:newGames};
+  const html=injectMetadata(state.htmlText,g),cover=await canvasBlob();
+  $('publish').disabled=true;log('Création du commit…');
+  const sha=await atomicCommit([{path:htmlPath,content:html},{path:thumbnail,content:cover},{path:cfg().catalogPath,content:JSON.stringify(newCatalog,null,2)+'\n'}],`Publier l’uchronie : ${title}`);
+  state.catalog=newCatalog;renderGames();log('Publié avec succès · commit '+sha.slice(0,7));status(cfg().owner+'/'+cfg().repo+' · publié',true);
+ }catch(e){log(e.message,true)}finally{$('publish').disabled=!state.connected||!state.htmlFile}
+};
+function renderGames(){
+ const a=[...state.catalog.games].sort((x,y)=>(x.order??999)-(y.order??999));
+ $('gameCount').textContent=a.length+' jeu'+(a.length>1?'x':'');
+ if(!a.length){$('games').innerHTML='<div class="small" style="padding:12px 0">Catalogue vide. La première publication l’initialisera.</div>';return}
+ $('games').innerHTML=a.map(g=>`<div class="game">
+ <div class="thumb" ${g.thumbnail?`style="background-image:url('${esc(g.thumbnail)}?v=${Date.now()}')"`:''}>${esc((g.title||'U').slice(0,2).toUpperCase())}</div>
+ <div><b>${esc(g.title)}</b><span>${esc(g.period||'')} · ${esc(g.file)} · ${g.published===false?'brouillon':'publié'}</span></div>
+ <div class="actions"><button class="alt icon" data-edit="${esc(g.id)}" title="Modifier la fiche">✎</button><button class="alt icon" data-ren="${esc(g.id)}" title="Renommer">↺</button><button class="danger icon" data-del="${esc(g.id)}" title="Supprimer définitivement">×</button></div>
+ </div>`).join('');
+ document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editGame(b.dataset.edit));
+ document.querySelectorAll('[data-ren]').forEach(b=>b.onclick=()=>renameGame(b.dataset.ren));
+ document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>deleteGame(b.dataset.del));
+}
+function editGame(id){
+ const g=state.catalog.games.find(x=>x.id===id);if(!g)return;
+ $('title').value=g.title||'';$('period').value=g.period||'';$('description').value=g.description||'';$('tags').value=(g.tags||[]).join(', ');$('slug').value=g.id||slugify(g.title);$('order').value=g.order??999;$('published').value=String(g.published!==false);drawCover();
+ log('Fiche chargée. Pour remplacer le HTML, choisissez le fichier correspondant.');
+}
+async function renameGame(id){
+ const g=state.catalog.games.find(x=>x.id===id);if(!g)return;
+ const proposed=prompt(`Nouveau titre pour « ${g.title} » :`,g.title);
+ if(proposed===null)return;
+ const newTitle=proposed.trim();
+ if(!newTitle||newTitle===g.title)return;
+ const suggested=slugify(newTitle);
+ const slugInput=prompt('Nouvel identifiant / nom de fichier :',suggested);
+ if(slugInput===null)return;
+ const newId=slugify(slugInput);
+ if(!newId)return;
+ if(state.catalog.games.some(x=>x.id===newId&&x.id!==id)){alert('Cet identifiant existe déjà.');return}
+ const oldFile=g.file,oldThumb=g.thumbnail||'',newFile=newId+'.html',newThumb='miniatures/'+newId+'.png';
+ if(!confirm(`Renommer :
+
+${g.title} → ${newTitle}
+${oldFile} → ${newFile}
+
+Continuer ?`))return;
+ try{
+  log('Lecture des fichiers à renommer…');
+  const html=await getRepoFile(oldFile);
+  let thumbBlob=null;
+  if(oldThumb){try{thumbBlob=await getRepoBlob(oldThumb)}catch(e){if(e.status!==404)throw e}}
+  const now=new Date().toISOString();
+  const ng={...g,id:newId,title:newTitle,file:newFile,thumbnail:thumbBlob?newThumb:oldThumb,updatedAt:now};
+  const newHtml=injectMetadata(html.content,ng);
+  const newGames=state.catalog.games.map(x=>x.id===id?ng:x);
+  const newCatalog={...state.catalog,updatedAt:now,games:newGames};
+  const files=[
+   {path:newFile,content:newHtml},
+   {path:oldFile,delete:true},
+   {path:cfg().catalogPath,content:JSON.stringify(newCatalog,null,2)+'
+'}
+  ];
+  if(thumbBlob&&oldThumb!==newThumb){
+    files.splice(1,0,{path:newThumb,content:thumbBlob},{path:oldThumb,delete:true});
+  }
+  await atomicCommit(files,`Renommer l’uchronie : ${g.title} → ${newTitle}`);
+  state.catalog=newCatalog;renderGames();log(`Renommé : ${g.title} → ${newTitle}`);
+ }catch(e){log(e.message,true)}
+}
+async function deleteGame(id){
+ const g=state.catalog.games.find(x=>x.id===id);if(!g)return;
+ const msg=`Supprimer DÉFINITIVEMENT « ${g.title} » ?
+
+Seront supprimés du dépôt :
+• ${g.file}
+${g.thumbnail?'• '+g.thumbnail+'\n':''}• son entrée dans uchronies.json
+
+Cette action crée un commit GitHub et pourra seulement être annulée via l’historique Git.`;
+ if(!confirm(msg))return;
+ try{
+  const now=new Date().toISOString();
+  const newCatalog={...state.catalog,updatedAt:now,games:state.catalog.games.filter(x=>x.id!==id)};
+  const files=[{path:g.file,delete:true},{path:cfg().catalogPath,content:JSON.stringify(newCatalog,null,2)+'
+'}];
+  if(g.thumbnail)files.splice(1,0,{path:g.thumbnail,delete:true});
+  await atomicCommit(files,`Supprimer l’uchronie : ${g.title}`);
+  state.catalog=newCatalog;renderGames();log('Supprimé définitivement : '+g.title);
+ }catch(e){
+  if(e.status===404)log('Un fichier était déjà absent ; recharge le catalogue puis réessaie.',true);
+  else log(e.message,true);
+ }
+}
+$('resetForm').onclick=()=>{state.htmlFile=null;state.htmlText='';state.imageFile=null;$('htmlFile').value='';$('imageFile').value='';$('htmlName').textContent='ou toucher pour choisir un fichier';$('imageName').textContent='Sinon l’atelier la génère automatiquement';['title','period','description','tags','slug'].forEach(id=>$(id).value='');$('order').value=999;$('published').value='true';$('publish').disabled=true;drawCover()};
+</script>
+</body>
+</html>

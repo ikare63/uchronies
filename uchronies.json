@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-05T18:00:00.000Z",
+  "games": [
+    {
+      "id": "lan1",
+      "title": "L’An I",
+      "period": "1789–1815",
+      "description": "Entrez dans la Révolution française et faites bifurquer le destin politique du pays.",
+      "file": "lan1.html",
+      "thumbnail": "",
+      "tags": [
+        "Révolution",
+        "Politique"
+      ],
+      "published": true,
+      "order": 10,
+      "addedAt": "2026-09-01T00:00:00.000Z",
+      "updatedAt": "2026-09-05T18:00:00.000Z"
+    },
+    {
+      "id": "etrangeguerre",
+      "title": "L’Étrange Guerre",
+      "period": "1939–1945",
+      "description": "À la veille du désastre, chaque décision peut bouleverser la guerre, la France et l’Europe.",
+      "file": "etrangeguerre.html",
+      "thumbnail": "",
+      "tags": [
+        "Guerre",
+        "Politique"
+      ],
+      "published": true,
+      "order": 20,
+      "addedAt": "2026-09-02T00:00:00.000Z",
+      "updatedAt": "2026-09-05T18:00:00.000Z"
+    },
+    {
+      "id": "grand-dessein",
+      "title": "Grand Dessein",
+      "period": "1661–1715",
+      "description": "Après Mazarin, dirigez la monarchie de Louis XIV et redessinez l’équilibre européen.",
+      "file": "grand-dessein.html",
+      "thumbnail": "",
+      "tags": [
+        "Monarchie"
+      ],
+      "published": true,
+      "order": 30,
+      "addedAt": "2026-09-03T00:00:00.000Z",
+      "updatedAt": "2026-09-05T18:00:00.000Z"
+    },
+    {
+      "id": "alternance",
+      "title": "L’Alternance",
+      "period": "1981–2026",
+      "description": "La présidentielle de 1981 ouvre une autre histoire politique de la Ve République.",
+      "file": "alternance.html",
+      "thumbnail": "",
+      "tags": [
+        "Politique"
+      ],
+      "published": true,
+      "order": 40,
+      "addedAt": "2026-09-03T00:00:00.000Z",
+      "updatedAt": "2026-09-05T18:00:00.000Z"
+    },
+    {
+      "id": "urbem-aeterna",
+      "title": "Urbem Aeterna",
+      "period": "476–2026",
+      "description": "Et si l’Empire romain d’Occident avait survécu jusqu’à l’époque contemporaine ?",
+      "file": "urbem-aeterna.html",
+      "thumbnail": "",
+      "tags": [
+        "Antiquité",
+        "Politique"
+      ],
+      "published": true,
+      "order": 50,
+      "addedAt": "2026-09-03T00:00:00.000Z",
+      "updatedAt": "2026-09-05T18:00:00.000Z"
+    }
+  ]
+}
