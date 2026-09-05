@@ -66,6 +66,24 @@ const grid=document.getElementById('grid'), filters=document.getElementById('fil
 let games=[],activeTag='';
 
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+const TAG_CANON={
+ 'politique':'Politique','révolution':'Révolution','revolution':'Révolution',
+ 'guerre':'Guerre','monarchie':'Monarchie','antiquité':'Antiquité','antiquite':'Antiquité',
+ 'indépendance':'Indépendance','independance':'Indépendance'
+};
+function canonicalTag(t=''){
+ const raw=String(t).trim();if(!raw)return '';
+ const key=raw.toLocaleLowerCase('fr-FR');
+ return TAG_CANON[key]||raw.charAt(0).toLocaleUpperCase('fr-FR')+raw.slice(1);
+}
+function tagKey(t=''){return canonicalTag(t).toLocaleLowerCase('fr-FR')}
+function normalizeTags(arr=[]){
+ const seen=new Set(),out=[];
+ for(const t of arr){const c=canonicalTag(t),k=tagKey(c);if(c&&!seen.has(k)){seen.add(k);out.push(c)}}
+ return out;
+}
+
 function colors(g){
  const x=((g.title||'')+' '+(g.tags||[]).join(' ')).toLowerCase();
  if(/rome|urbs|antiqu|empire romain/.test(x))return['#8b4d33','#35241c'];
@@ -78,13 +96,13 @@ function colors(g){
 function monogram(t='U'){return t.replace(/^(l['’]|le |la |les |un |une )/i,'').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase()}
 function isNew(g){if(!g.addedAt)return false;const d=new Date(g.addedAt);return Date.now()-d.getTime()<14*864e5}
 function render(){
- const list=games.filter(g=>g.published!==false && (!activeTag || (g.tags||[]).includes(activeTag)))
+ const list=games.filter(g=>g.published!==false && (!activeTag || normalizeTags(g.tags||[]).some(t=>tagKey(t)===tagKey(activeTag))))
    .sort((a,b)=>(a.order??999)-(b.order??999)||new Date(b.addedAt||0)-new Date(a.addedAt||0));
  count.textContent=list.length+' jeu'+(list.length>1?'x':'');
  if(!list.length){grid.innerHTML='<div class="empty">Aucune uchronie publiée dans cette catégorie.</div>';return}
  grid.innerHTML=list.map(g=>{
    const [c1,c2]=colors(g), thumb=g.thumbnail?`<div class="cover" style="background-image:url('${encodeURI(g.thumbnail)}')" onerror="this.remove()"></div>`:'';
-   const tags=(g.tags||[]).slice(0,2).map(t=>`<span class="badge">${esc(t)}</span>`).join('');
+   const tags=normalizeTags(g.tags||[]).slice(0,2).map(t=>`<span class="badge">${esc(t)}</span>`).join('');
    return `<a class="card" href="${esc(g.file)}">
     <div class="fallback" style="--c1:${c1};--c2:${c2}"><div class="monogram">${esc(monogram(g.title))}</div></div>${thumb}
     <div class="content"><div class="meta"><span>${esc(g.period||'Uchronie')}</span>${tags}${isNew(g)?'<span class="badge">Nouveau</span>':''}</div>
@@ -93,16 +111,20 @@ function render(){
  }).join('');
 }
 function buildFilters(){
- const tags=[...new Set(games.filter(g=>g.published!==false).flatMap(g=>g.tags||[]))].slice(0,8);
+ const map=new Map();
+ games.filter(g=>g.published!==false).flatMap(g=>normalizeTags(g.tags||[])).forEach(t=>{
+  const k=tagKey(t);if(k&&!map.has(k))map.set(k,canonicalTag(t));
+ });
+ const tags=[...map.values()].slice(0,8);
  filters.querySelectorAll('.chip:not([data-tag=""])').forEach(x=>x.remove());
  tags.forEach(t=>{const b=document.createElement('button');b.className='chip';b.dataset.tag=t;b.textContent=t;b.onclick=()=>selectTag(t);filters.insertBefore(b,count)});
 }
-function selectTag(t){activeTag=t;document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('active',b.dataset.tag===t));render()}
+function selectTag(t){activeTag=t;document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('active',tagKey(b.dataset.tag)===tagKey(t)));render()}
 document.querySelector('.chip').onclick=()=>selectTag('');
 
 fetch('./uchronies.json?v='+Date.now(),{cache:'no-store'})
  .then(r=>{if(!r.ok)throw new Error('Catalogue introuvable');return r.json()})
- .then(data=>{games=Array.isArray(data)?data:(data.games||[]);buildFilters();render()})
+ .then(data=>{games=(Array.isArray(data)?data:(data.games||[])).map(g=>({...g,tags:normalizeTags(g.tags||[])}));buildFilters();render()})
  .catch(e=>{grid.innerHTML='<div class="error"><b>Impossible de charger uchronies.json.</b><br>Ouvrez l’atelier d’administration pour initialiser le catalogue.</div>';count.textContent=''});
 </script>
 </body>

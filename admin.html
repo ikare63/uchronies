@@ -67,7 +67,7 @@ hr{border:0;border-top:1px solid #44342b;margin:14px 0}.games{display:grid;gap:8
  <label>Description</label><textarea id="description"></textarea>
  <div class="row"><div><label>Catégories (séparées par des virgules)</label><input id="tags" placeholder="Révolution, Politique"></div><div><label>Identifiant / fichier</label><input id="slug" placeholder="nom-du-jeu"></div></div>
  <div class="row"><div><label>Ordre</label><input id="order" type="number" value="999"></div><div><label>État</label><select id="published"><option value="true">Publié</option><option value="false">Brouillon</option></select></div></div>
- <div class="buttons"><button id="publish" disabled>Publier sur GitHub</button><button id="saveMeta" class="alt" disabled>Enregistrer la fiche</button><button class="alt" id="resetForm">Vider</button></div>
+ <div class="buttons"><button id="publish" disabled>Publier / mettre à jour le HTML</button><button id="saveMeta" class="alt" disabled>Enregistrer les modifications</button><button class="alt" id="resetForm">Vider</button></div>
  <p class="small">Un clic crée <span class="pill">nom-du-jeu.html</span>, <span class="pill">miniatures/nom-du-jeu.png</span> et met à jour <span class="pill">uchronies.json</span> dans <b>un seul commit atomique</b>.</p>
  <hr>
  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><h2 style="margin:0">Catalogue</h2><span class="pill" id="gameCount">0 jeu</span></div>
@@ -90,6 +90,24 @@ function log(s,bad=false){const d=document.createElement('div');d.textContent='[
 function status(s,ok=false){$('status').textContent=s;$('status').classList.toggle('ok',ok)}
 function slugify(s){return String(s||'uchronie').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/['’]/g,'-').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,70)||'uchronie'}
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+const TAG_CANON={
+ 'politique':'Politique','révolution':'Révolution','revolution':'Révolution',
+ 'guerre':'Guerre','monarchie':'Monarchie','antiquité':'Antiquité','antiquite':'Antiquité',
+ 'indépendance':'Indépendance','independance':'Indépendance'
+};
+function canonicalTag(t=''){
+ const raw=String(t).trim();if(!raw)return '';
+ const key=raw.toLocaleLowerCase('fr-FR');
+ return TAG_CANON[key]||raw.charAt(0).toLocaleUpperCase('fr-FR')+raw.slice(1);
+}
+function tagKey(t=''){return canonicalTag(t).toLocaleLowerCase('fr-FR')}
+function normalizeTags(arr=[]){
+ const seen=new Set(),out=[];
+ for(const t of arr){const c=canonicalTag(t),k=tagKey(c);if(c&&!seen.has(k)){seen.add(k);out.push(c)}}
+ return out;
+}
+
 function cfg(){
  const c={owner:$('owner').value.trim(),repo:$('repo').value.trim(),branch:$('branch').value.trim()||'main',catalogPath:$('catalogPath').value.trim()||'uchronies.json',token:$('token').value.trim()};
  if(!c.owner||!c.repo||!c.token)throw new Error('Propriétaire, dépôt et token sont requis.');
@@ -116,7 +134,7 @@ async function loadCatalog(){
   const f=await api('/contents/'+c.catalogPath.split('/').map(encodeURIComponent).join('/')+'?ref='+encodeURIComponent(c.branch));
   const obj=JSON.parse(b64ToUtf8(f.content));
   state.catalog=Array.isArray(obj)?{version:1,updatedAt:null,games:obj}:obj;
-  if(!Array.isArray(state.catalog.games))state.catalog.games=[];
+  if(!Array.isArray(state.catalog.games))state.catalog.games=[];state.catalog.games=state.catalog.games.map(g=>({...g,tags:normalizeTags(g.tags||[])}));
   log('Catalogue chargé : '+state.catalog.games.length+' jeu(x).');
  }catch(e){
   if(e.status===404){state.catalog={version:1,updatedAt:null,games:[]};log('Aucun catalogue : il sera créé à la première publication.')}
@@ -144,7 +162,7 @@ function inferTags(title,desc=''){
  if(/rome|urbs|antiqu|empire romain/.test(x))a.push('Antiquité');
  if(/louis|monarch|roya|grand dessein/.test(x))a.push('Monarchie');
  if(/président|élection|alternance|politique|front national|\bfn\b/.test(x))a.push('Politique');
- return [...new Set(a)].slice(0,3);
+ return normalizeTags(a).slice(0,3);
 }
 function meta(doc,name){return doc.querySelector(`meta[name="${name}"]`)?.content?.trim()||''}
 function analyzeHTML(text,fileName){
@@ -153,7 +171,7 @@ function analyzeHTML(text,fileName){
  const period=meta(doc,'uchronie-period')||detectPeriod(doc.body?.innerText||text);
  let desc=meta(doc,'uchronie-description')||doc.querySelector('meta[name="description"]')?.content?.trim()||doc.querySelector('.lead,.subtitle,.sub')?.textContent?.trim()||'';
  desc=desc.replace(/\s+/g,' ').slice(0,240);
- const tags=(meta(doc,'uchronie-tags')?meta(doc,'uchronie-tags').split(','):inferTags(title,desc)).map(x=>x.trim()).filter(Boolean);
+ const tags=normalizeTags(meta(doc,'uchronie-tags')?meta(doc,'uchronie-tags').split(','):inferTags(title,desc));
  return {title,period,desc,tags,slug:slugify(meta(doc,'uchronie-id')||fileName.replace(/\.html?$/i,'')||title)};
 }
 $('htmlFile').onchange=async e=>{
@@ -244,18 +262,61 @@ async function atomicCommit(files,message){
 $('publish').onclick=async()=>{
  try{
   if(!state.htmlFile)throw new Error('Choisissez un fichier HTML.');
-  const id=slugify($('slug').value||$('title').value),title=$('title').value.trim()||id,period=$('period').value.trim(),description=$('description').value.trim();
-  const tags=$('tags').value.split(',').map(x=>x.trim()).filter(Boolean),published=$('published').value==='true',order=Number($('order').value)||999;
-  const htmlPath=id+'.html',thumbnail='miniatures/'+id+'.png',now=new Date().toISOString();
+
+  const id=slugify($('slug').value||$('title').value);
+  const title=$('title').value.trim()||id;
+  const period=$('period').value.trim();
+  const description=$('description').value.trim();
+  const tags=normalizeTags($('tags').value.split(','));
+  const published=$('published').value==='true';
+  const order=Number($('order').value)||999;
+  const htmlPath=id+'.html';
+  const now=new Date().toISOString();
+
   const existing=state.catalog.games.find(x=>x.id===id||x.file===htmlPath);
-  const g={id,title,period,description,file:htmlPath,thumbnail,tags,published,order,addedAt:existing?.addedAt||now,updatedAt:now};
-  const newGames=state.catalog.games.filter(x=>x.id!==id&&x.file!==htmlPath);newGames.push(g);
+  const thumbnail=existing?.thumbnail||`miniatures/${id}.png`;
+
+  const g={
+   ...(existing||{}),id,title,period,description,file:htmlPath,thumbnail,tags,published,order,
+   addedAt:existing?.addedAt||now,updatedAt:now
+  };
+
+  const newGames=state.catalog.games.filter(x=>x.id!==id&&x.file!==htmlPath);
+  newGames.push(g);
   const newCatalog={...state.catalog,version:1,updatedAt:now,games:newGames};
-  const html=injectMetadata(state.htmlText,g),cover=await canvasBlob();
-  $('publish').disabled=true;log('Création du commit…');
-  const sha=await atomicCommit([{path:htmlPath,content:html},{path:thumbnail,content:cover},{path:cfg().catalogPath,content:JSON.stringify(newCatalog,null,2)+'\n'}],`Publier l’uchronie : ${title}`);
-  state.catalog=newCatalog;renderGames();log('Publié avec succès · commit '+sha.slice(0,7));status(cfg().owner+'/'+cfg().repo+' · publié',true);
- }catch(e){log(e.message,true)}finally{$('publish').disabled=!state.connected||!state.htmlFile}
+  const html=injectMetadata(state.htmlText,g);
+
+  const files=[
+   {path:htmlPath,content:html},
+   {path:cfg().catalogPath,content:JSON.stringify(newCatalog,null,2)+'\n'}
+  ];
+
+  // Pour une rectification d'un jeu existant, on conserve sa miniature.
+  // Elle n'est remplacée que si une nouvelle image a été explicitement choisie.
+  if(!existing || state.imageFile){
+   const cover=await canvasBlob();
+   files.splice(1,0,{path:thumbnail,content:cover});
+  }
+
+  $('publish').disabled=true;
+  log(existing?'Mise à jour du jeu…':'Création du jeu…');
+  const sha=await atomicCommit(
+   files,
+   existing?`Mettre à jour l’uchronie : ${title}`:`Publier l’uchronie : ${title}`
+  );
+
+  state.catalog=newCatalog;
+  state.editingId=id;
+  renderGames();
+  $('saveMeta').disabled=false;
+  log((existing?'Mise à jour':'Publication')+' réussie · commit '+sha.slice(0,7));
+  alert(existing?`« ${title} » a bien été mis à jour.`:`« ${title} » a bien été publié.`);
+ }catch(e){
+  log(e.message,true);
+  alert('Échec : '+e.message);
+ }finally{
+  $('publish').disabled=!state.connected||!state.htmlFile;
+ }
 };
 function renderGames(){
  const a=[...state.catalog.games].sort((x,y)=>(x.order??999)-(y.order??999));
@@ -389,50 +450,86 @@ function editGame(id){
  $('title').value=g.title||'';
  $('period').value=g.period||'';
  $('description').value=g.description||'';
- $('tags').value=(g.tags||[]).join(', ');
+ $('tags').value=normalizeTags(g.tags||[]).join(', ');
  $('slug').value=g.id||slugify(g.title);
  $('order').value=g.order??999;
  $('published').value=String(g.published!==false);
  $('saveMeta').disabled=false;
  drawCover();
- log('Fiche chargée : modifie les champs puis touche « Enregistrer la fiche ».');
+ log('Mode modification : corrige les champs puis touche « Enregistrer les modifications ».');
 }
 
 $('saveMeta').onclick=async()=>{
- const id=state.editingId;
- const g=state.catalog.games.find(x=>x.id===id);
+ const oldId=state.editingId;
+ const g=state.catalog.games.find(x=>x.id===oldId);
  if(!g)return;
 
  try{
   const now=new Date().toISOString();
+  const newId=slugify($('slug').value||g.id);
+
+  if(state.catalog.games.some(x=>x.id===newId&&x.id!==oldId)){
+   throw new Error('Cet identifiant existe déjà.');
+  }
+
+  const title=$('title').value.trim()||g.title;
+  const newFile=newId+'.html';
+  const oldFile=g.file;
+  const tags=normalizeTags($('tags').value.split(','));
+  const ext=(g.thumbnail||'').match(/\.([a-z0-9]+)$/i)?.[1]||'png';
+  const oldThumb=g.thumbnail||'';
+  const newThumb=oldThumb&&newId!==oldId?`miniatures/${newId}.${ext}`:oldThumb;
+
   const ng={
    ...g,
-   title:$('title').value.trim()||g.title,
+   id:newId,
+   title,
    period:$('period').value.trim(),
    description:$('description').value.trim(),
-   tags:$('tags').value.split(',').map(x=>x.trim()).filter(Boolean),
+   tags,
    order:Number($('order').value)||999,
    published:$('published').value==='true',
+   file:newFile,
+   thumbnail:newThumb,
    updatedAt:now
   };
 
   const newCatalog={
    ...state.catalog,
    updatedAt:now,
-   games:state.catalog.games.map(x=>x.id===id?ng:x)
+   games:state.catalog.games.map(x=>x.id===oldId?ng:x)
   };
 
-  $('saveMeta').disabled=true;
-  const sha=await atomicCommit([{
+  const files=[];
+
+  // Garde les métadonnées internes du HTML synchronisées.
+  if(oldFile && await repoPathExists(oldFile)){
+   const current=await getRepoFile(oldFile);
+   const updatedHtml=injectMetadata(current.content,ng);
+   files.push({path:newFile,content:updatedHtml});
+   if(newFile!==oldFile)files.push({path:oldFile,delete:true});
+  }
+
+  // Si l'identifiant change, la miniature suit le nouveau nom.
+  if(oldThumb && newThumb!==oldThumb && await repoPathExists(oldThumb)){
+   const blob=await getRepoBlob(oldThumb);
+   files.push({path:newThumb,content:blob},{path:oldThumb,delete:true});
+  }
+
+  files.push({
    path:cfg().catalogPath,
    content:JSON.stringify(newCatalog,null,2)+'\n'
-  }],`Modifier la fiche : ${g.title}`);
+  });
+
+  $('saveMeta').disabled=true;
+  const sha=await atomicCommit(files,`Modifier l’uchronie : ${g.title} → ${title}`);
 
   state.catalog=newCatalog;
-  state.editingId=ng.id;
+  state.editingId=newId;
+  $('slug').value=newId;
   renderGames();
-  log(`Fiche enregistrée : ${ng.title} · commit ${sha.slice(0,7)}`);
-  alert(`La fiche « ${ng.title} » a bien été mise à jour.`);
+  log(`Modifications enregistrées : ${title} · commit ${sha.slice(0,7)}`);
+  alert(`Les modifications de « ${title} » ont bien été publiées.`);
  }catch(e){
   log('Échec de la modification : '+e.message,true);
   alert('La modification a échoué : '+e.message);
