@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-06T12:35:32.233Z",
+  "updatedAt": "2026-09-06T12:57:55.985Z",
   "games": [
     {
       "id": "13-sous-la-couronne",
@@ -17,7 +17,7 @@
       "published": true,
       "order": 5,
       "addedAt": "2026-09-05T19:45:30.099Z",
-      "updatedAt": "2026-09-06T12:35:32.233Z"
+      "updatedAt": "2026-09-06T12:57:55.985Z"
     },
     {
       "id": "lan1",
