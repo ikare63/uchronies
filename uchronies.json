@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-06T12:57:55.985Z",
+  "updatedAt": "2026-09-06T16:06:29.036Z",
   "games": [
     {
       "id": "13-sous-la-couronne",
@@ -82,6 +82,23 @@
       "order": 50,
       "addedAt": "2026-09-03T00:00:00.000Z",
       "updatedAt": "2026-09-06T11:11:24.941Z"
+    },
+    {
+      "id": "siecle-rouge-v15",
+      "title": "Le Siècle rouge",
+      "period": "1917–2026",
+      "description": "De 1917 à 2026, prenez place au cœur du pouvoir soviétique et façonnez plus d’un siècle d’histoire.",
+      "tags": [
+        "URSS",
+        "XIXe siècle",
+        "Communisme"
+      ],
+      "published": true,
+      "order": 1,
+      "file": "siecle-rouge-v15.html",
+      "thumbnail": "miniatures/siecle-rouge-v15.png",
+      "addedAt": "2026-09-06T16:06:29.022Z",
+      "updatedAt": "2026-09-06T16:06:29.022Z"
     }
   ]
 }
