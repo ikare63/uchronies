@@ -1,7 +1,24 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-05T21:15:16.796Z",
+  "updatedAt": "2026-09-06T10:15:00.000Z",
   "games": [
+    {
+      "id": "13-sous-la-couronne",
+      "title": "13 sous la Couronne",
+      "period": "1763–1815",
+      "description": "Dans les Treize Colonies, restez loyal à la Couronne, arrachez l’autonomie ou faites naître une autre indépendance américaine.",
+      "file": "13-sous-la-couronne.html",
+      "thumbnail": "miniatures/13-sous-la-couronne-v24.jpg",
+      "tags": [
+        "Révolution",
+        "Politique",
+        "Indépendance"
+      ],
+      "published": true,
+      "order": 5,
+      "addedAt": "2026-09-05T19:45:30.099Z",
+      "updatedAt": "2026-09-06T10:15:00.000Z"
+    },
     {
       "id": "lan1",
       "title": "L’An I",
@@ -16,13 +33,13 @@
       "published": true,
       "order": 10,
       "addedAt": "2026-09-01T00:00:00.000Z",
-      "updatedAt": "2026-09-05T20:01:48.989Z"
+      "updatedAt": "2026-09-06T10:15:00.000Z"
     },
     {
       "id": "minuit-sur-europe",
       "title": "Minuit sur l’Europe",
-      "period": "1939–1945",
-      "description": "À la veille du désastre, chaque décision peut bouleverser la guerre, la France et l’Europe.",
+      "period": "1938–1945",
+      "description": "De Munich à 1945, faites survivre — ou basculer — la France et réécrivez la guerre en Europe.",
       "file": "minuit-sur-europe.html",
       "thumbnail": "miniatures/etrangeguerre.jpg",
       "tags": [
@@ -32,30 +49,31 @@
       "published": true,
       "order": 20,
       "addedAt": "2026-09-02T00:00:00.000Z",
-      "updatedAt": "2026-09-05T20:04:54.999Z"
+      "updatedAt": "2026-09-06T10:15:00.000Z"
     },
     {
       "id": "grand-dessein",
-      "title": "Grand Dessein",
-      "period": "1477-1519",
-      "description": "Charles le Téméraire survit à Nancy. À la tête d’une Bourgogne qui refuse de disparaître, redessinez l’Europe entre France, Empire et Habsbourg.",
+      "title": "Le Grand Dessein",
+      "period": "1477–1519",
+      "description": "Après Nancy, sauvez l’État bourguignon de Charles le Téméraire, reliez ses territoires et imposez un nouvel équilibre entre France et Empire.",
       "file": "grand-dessein.html",
       "thumbnail": "miniatures/grand-dessein.jpg",
       "tags": [
-        "Monarchie"
+        "Monarchie",
+        "Politique"
       ],
       "published": true,
       "order": 30,
       "addedAt": "2026-09-03T00:00:00.000Z",
-      "updatedAt": "2026-09-05T20:53:51.095Z"
+      "updatedAt": "2026-09-06T10:15:00.000Z"
     },
     {
       "id": "roma-aeterna",
-      "title": "Roma Aeterna",
-      "period": "476–2026",
-      "description": "Et si l’Empire romain d’Occident avait survécu jusqu’à l’époque contemporaine ?",
+      "title": "Roma Æterna",
+      "period": "180–2026",
+      "description": "De Marc Aurèle à 2026, faites survivre Rome sans figer l’Histoire.",
       "file": "roma-aeterna.html",
-      "thumbnail": "miniatures/roma-aeterna.jpg",
+      "thumbnail": "",
       "tags": [
         "Antiquité",
         "Politique"
@@ -63,24 +81,7 @@
       "published": true,
       "order": 50,
       "addedAt": "2026-09-03T00:00:00.000Z",
-      "updatedAt": "2026-09-05T21:15:16.796Z"
-    },
-    {
-      "id": "13-sous-la-couronne-v24",
-      "title": "13 sous la Couronne",
-      "period": "1763–1815",
-      "description": "13 colonies, une Couronne, plusieurs Amériques possibles.",
-      "file": "13-sous-la-couronne-v24.html",
-      "thumbnail": "miniatures/13-sous-la-couronne-v24.jpg",
-      "tags": [
-        "Révolution",
-        "Politique",
-        "Indépendance"
-      ],
-      "published": true,
-      "order": 5,
-      "addedAt": "2026-09-05T19:45:30.099Z",
-      "updatedAt": "2026-09-05T20:00:35.346Z"
+      "updatedAt": "2026-09-06T10:15:00.000Z"
     }
   ]
 }
