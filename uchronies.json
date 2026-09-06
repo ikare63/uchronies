@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-06T10:15:00.000Z",
+  "updatedAt": "2026-09-06T11:11:24.941Z",
   "games": [
     {
       "id": "13-sous-la-couronne",
@@ -73,7 +73,7 @@
       "period": "180–2026",
       "description": "De Marc Aurèle à 2026, faites survivre Rome sans figer l’Histoire.",
       "file": "roma-aeterna.html",
-      "thumbnail": "",
+      "thumbnail": "miniatures/roma-aeterna.svg",
       "tags": [
         "Antiquité",
         "Politique"
@@ -81,7 +81,7 @@
       "published": true,
       "order": 50,
       "addedAt": "2026-09-03T00:00:00.000Z",
-      "updatedAt": "2026-09-06T10:15:00.000Z"
+      "updatedAt": "2026-09-06T11:11:24.941Z"
     }
   ]
 }
