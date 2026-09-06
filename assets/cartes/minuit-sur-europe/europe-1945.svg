@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Europe politique en 1945">
+<defs>
+ <filter id="paper"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .055"/></feComponentTransfer></filter>
+ <style>.sea{fill:#a9c1c0}.land{fill:#dbcdaa;stroke:#6c5b43;stroke-width:1.2;vector-effect:non-scaling-stroke}.state{stroke:#493b2d;stroke-width:2.2;vector-effect:non-scaling-stroke}.minor{stroke:#88755a;stroke-width:.9;fill:none;vector-effect:non-scaling-stroke}.label{font:700 15px Georgia,serif;fill:#3a3127;text-anchor:middle;paint-order:stroke;stroke:#eadfc6;stroke-width:3}.small{font:700 10px Georgia,serif;fill:#493f34;text-anchor:middle;paint-order:stroke;stroke:#eadfc6;stroke-width:2}.seaT{font:italic 17px Georgia,serif;fill:#536d70;opacity:.7;text-anchor:middle;letter-spacing:2px}</style>
+</defs>
+<rect class="sea" width="640" height="400"/>
+<path class="land state" fill="#d6c7a6" d="M110 40L175 30L198 72L190 142L154 155L125 118Z"/><text class="small" x="158" y="92">R.-U.</text>
+<path class="land state" fill="#c9b889" d="M210 118L300 103L342 142L330 206L275 235L220 202L195 160Z"/><text class="label" x="270" y="170">FRANCE</text>
+<path class="land state" fill="#d8c69d" d="M300 85L352 78L372 105L348 137L310 132Z"/><text class="small" x="333" y="108">BELGIQUE</text>
+<path class="land state" fill="#d2bea0" d="M348 88L443 76L472 115L460 190L385 200L342 146Z"/><text class="label" x="406" y="140">ALLEMAGNE</text>
+<path class="land state" fill="#d8c9aa" d="M462 82L535 72L570 115L552 170L482 168L455 127Z"/><text class="small" x="516" y="122">POLOGNE</text>
+<path class="land state" fill="#d6c5a0" d="M374 198L438 192L464 238L432 275L375 262L350 226Z"/><text class="small" x="408" y="232">ITALIE</text>
+<path class="land state" fill="#d4c39e" d="M458 188L530 180L565 235L535 282L470 270L440 220Z"/><text class="small" x="505" y="228">BALKANS</text>
+<path class="land state" fill="#d8c8aa" d="M536 64L640 48L640 205L575 185L550 118Z"/><text class="label" x="597" y="124">URSS</text>
+<path class="land state" fill="#d2bd92" d="M174 245L282 240L306 320L255 360L160 342L128 284Z"/><text class="small" x="218" y="294">ESPAGNE</text>
+<text class="seaT" x="85" y="230">ATLANTIQUE</text><text class="seaT" x="402" y="360">MÉDITERRANÉE</text>
+<rect x="0" y="0" width="100%" height="100%" filter="url(#paper)" opacity=".6"/>
+</svg>

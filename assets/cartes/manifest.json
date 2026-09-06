@@ -1,0 +1,35 @@
+{
+  "lan1": [
+    "europe-1789.svg",
+    "europe-1795.svg",
+    "europe-1805.svg",
+    "europe-1812.svg",
+    "europe-1815.svg"
+  ],
+  "minuit-sur-europe": [
+    "europe-1938.svg",
+    "europe-1940.svg",
+    "europe-1942.svg",
+    "europe-1944.svg",
+    "europe-1945.svg"
+  ],
+  "roma-aeterna": [
+    "mediterranee-180.svg",
+    "mediterranee-395.svg",
+    "mediterranee-476.svg",
+    "mediterranee-800.svg",
+    "mediterranee-1453.svg",
+    "mediterranee-2026.svg"
+  ],
+  "grand-dessein": [
+    "bourgogne-1477.svg",
+    "bourgogne-1493.svg",
+    "bourgogne-1519.svg"
+  ],
+  "13-sous-la-couronne": [
+    "amerique-1763.svg",
+    "amerique-1776.svg",
+    "amerique-1783.svg",
+    "amerique-1815.svg"
+  ]
+}

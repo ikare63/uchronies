@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="Europe politique vers 1812">
+<defs>
+ <filter id="paper"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .055"/></feComponentTransfer></filter>
+ <style>.sea{fill:#a9c1c0}.land{fill:#dbcdaa;stroke:#6c5b43;stroke-width:1.2;vector-effect:non-scaling-stroke}.state{stroke:#493b2d;stroke-width:2.2;vector-effect:non-scaling-stroke}.minor{stroke:#88755a;stroke-width:.9;fill:none;vector-effect:non-scaling-stroke}.label{font:700 15px Georgia,serif;fill:#3a3127;text-anchor:middle;paint-order:stroke;stroke:#eadfc6;stroke-width:3}.small{font:700 10px Georgia,serif;fill:#493f34;text-anchor:middle;paint-order:stroke;stroke:#eadfc6;stroke-width:2}.seaT{font:italic 17px Georgia,serif;fill:#536d70;opacity:.7;text-anchor:middle;letter-spacing:2px}</style>
+</defs>
+<rect class="sea" width="900" height="520"/>
+<path class="land" d="M0 90L120 62L205 75L245 135L230 218L170 270L80 250L0 215Z"/>
+<path class="land state" fill="#caa56c" d="M245 112L360 94L414 130L406 226L350 270L278 240L235 188Z"/>
+<path class="land state" fill="#d7b47d" d="M173 284L330 272L360 370L315 438L170 425L120 350Z"/>
+<path class="land state" fill="#d3c197" d="M407 118L548 90L634 128L626 245L542 290L418 242Z"/>
+<path class="land state" fill="#d6c5a2" d="M540 76L710 68L823 112L900 168L900 274L790 270L690 220L628 142Z"/>
+<path class="land state" fill="#c9b48a" d="M392 258L500 246L535 292L515 346L458 370L400 335Z"/>
+<path class="land state" fill="#d8c39c" d="M505 300L620 275L700 310L702 390L628 438L520 405Z"/>
+<path class="land state" fill="#d4bd90" d="M701 275L830 252L900 280L900 420L808 430L715 385Z"/>
+<path class="minor" d="M462 112L470 240M505 103L515 252M552 100L560 255M596 112L600 250M430 175L620 175M425 215L610 215"/>
+<path class="minor" d="M526 300L548 390M572 288L590 420M620 290L635 415M505 336L680 330M515 370L675 375"/>
+<text class="label" x="325" y="182">ROYAUME DE FRANCE</text><text class="label" x="234" y="350">MONARCHIE ESPAGNOLE</text><text class="small" x="92" y="160">GRANDE-BRETAGNE</text><text class="small" x="462" y="155">PROVINCES-UNIES</text><text class="small" x="472" y="205">PAYS-BAS AUTRICHIENS</text><text class="label" x="540" y="182">SAINT-EMPIRE</text><text class="small" x="452" y="312">CONFÉDÉRATION SUISSE</text><text class="label" x="595" y="352">ÉTATS ITALIENS</text><text class="label" x="790" y="185">PRUSSE / POLOGNE / RUSSIE</text><text class="seaT" x="250" y="485">MÉDITERRANÉE</text>
+<rect x="0" y="0" width="100%" height="100%" filter="url(#paper)" opacity=".6"/>
+</svg>

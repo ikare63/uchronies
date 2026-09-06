@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-label="Amérique du Nord vers 1763">
+<defs>
+ <filter id="paper"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .055"/></feComponentTransfer></filter>
+ <style>.sea{fill:#a9c1c0}.land{fill:#dbcdaa;stroke:#6c5b43;stroke-width:1.2;vector-effect:non-scaling-stroke}.state{stroke:#493b2d;stroke-width:2.2;vector-effect:non-scaling-stroke}.minor{stroke:#88755a;stroke-width:.9;fill:none;vector-effect:non-scaling-stroke}.label{font:700 15px Georgia,serif;fill:#3a3127;text-anchor:middle;paint-order:stroke;stroke:#eadfc6;stroke-width:3}.small{font:700 10px Georgia,serif;fill:#493f34;text-anchor:middle;paint-order:stroke;stroke:#eadfc6;stroke-width:2}.seaT{font:italic 17px Georgia,serif;fill:#536d70;opacity:.7;text-anchor:middle;letter-spacing:2px}</style>
+</defs>
+<rect class="sea" width="1200" height="720"/>
+<path class="land" d="M0 80L300 35L560 75L740 150L815 270L750 390L610 470L420 525L185 480L30 350Z"/>
+<path class="land" d="M720 130L970 98L1200 130L1200 360L1010 335L850 285Z"/>
+<path class="state" fill="#d5a1b0" d="M775 150L870 165L905 250L865 345L790 325L748 240Z"/><text class="small" x="825" y="238">13 COLONIES</text>
+<path class="state" fill="#d7b873" d="M705 85L900 75L1010 120L965 188L820 158L720 140Z"/><text class="small" x="850" y="118">QUÉBEC / CANADA BRITANNIQUE</text>
+<path class="state" fill="#bf9c62" d="M470 145L710 110L760 260L680 430L480 470L335 390L350 240Z"/><text class="label" x="545" y="300">NATIONS AUTOCHTONES / PAYS D'OHIO</text>
+<path class="state" fill="#e0bd54" d="M640 450L860 370L1030 390L1035 580L830 635L650 575Z"/><text class="small" x="835" y="500">FLORIDES / LOUISIANE ESPAGNOLES</text>
+<path class="state" fill="#8b79b6" d="M80 105L360 60L430 170L320 260L95 245L25 180Z"/><text class="small" x="235" y="155">AMÉRIQUE RUSSE / NORD-OUEST</text>
+<path class="minor" d="M765 170L870 180M755 205L885 215M750 240L892 250M752 278L884 290M780 156L775 328M805 160L805 335M832 165L835 338M858 170L862 330"/>
+<text class="seaT" x="1080" y="520">ATLANTIQUE</text><text class="seaT" x="100" y="520">PACIFIQUE</text>
+<rect x="0" y="0" width="100%" height="100%" filter="url(#paper)" opacity=".6"/>
+</svg>
