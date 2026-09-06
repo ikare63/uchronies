@@ -78,7 +78,7 @@ button{font:inherit}
 .loghead{padding:10px 12px;border-bottom:1px solid #b9a37b;display:flex;align-items:center;justify-content:space-between;font:700 .75rem Marcellus}.logbody{overflow:auto;padding:10px}.logitem{border-left:2px solid #a56b43;padding:2px 0 8px 9px;margin-bottom:8px}.logitem b{font:700 .64rem Marcellus}.logitem p{font-size:.7rem;margin:2px 0;color:#5d5245}
 .toast{position:fixed;left:50%;bottom:38px;transform:translateX(-50%);z-index:30;background:#2f271f;color:#f4e5c5;border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:8px 11px;font-size:.72rem;box-shadow:0 7px 22px rgba(0,0,0,.3)}
 @media(max-width:820px){
- .topbar{height:48px;min-height:48px;padding:5px 8px}.mini{display:none}.brand{font-size:.82rem}
+ .topbar{height:48px;min-height:48px;padding:5px 8px;gap:6px}.brand{font-size:.82rem}.brand small{display:none}.mini{padding:3px 6px;font-size:.56rem;max-width:30vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
  .main{padding:6px;grid-template-columns:1fr;grid-template-rows:37% 63%;gap:6px}
  .visual-head{padding:7px 9px 4px}.visual h2{font-size:.9rem}.mapwrap{min-height:90px;margin:0 6px 4px}.legend{display:none}
  .stats{padding:4px 6px 5px;gap:4px}.stat b{font-size:.48rem}.bar{height:4px}
@@ -91,11 +91,49 @@ button{font:inherit}
 </style>
 
 <style id="urbs-coherence-locks-v2">.choice:disabled{opacity:.58!important;filter:grayscale(.22)}.choice:disabled:after{content:" 🔒";font-size:.62rem}.req{font-weight:700}.capital-alert{color:var(--roman2);font-weight:700}</style>
+
+<style id="roma-harmonie-v8">
+html,body{overflow:hidden!important}.app{height:100dvh!important;max-width:1180px!important;margin:auto!important;padding:5px!important;gap:4px!important;background:radial-gradient(circle at 20% 0,rgba(255,255,255,.18),transparent 28%),linear-gradient(135deg,var(--paper),#e8d8b7 55%,var(--paper2))!important}.topbar{height:58px!important;min-height:58px!important;border-radius:14px!important;border:1px solid rgba(67,52,33,.35)!important;padding:5px 8px!important;background:rgba(238,225,196,.94)!important}.brand{flex:1!important;min-width:0!important;font-size:1.12rem!important;white-space:normal!important;line-height:1!important}.brand small{display:block!important;font-size:.55rem!important;line-height:1.08!important;white-space:normal!important;letter-spacing:.03em!important;margin-top:3px!important}.topbar .spacer,.topbar>.mini,#logBtn{display:none!important}.roma-actions{margin-left:auto;display:flex;gap:3px;align-items:center}.roma-actions a,.roma-actions button{border:1px solid rgba(77,61,38,.35);background:rgba(255,255,255,.28);color:#473f34;border-radius:8px;padding:5px 6px;font:700 .49rem Marcellus;text-decoration:none;white-space:nowrap}.main{flex:1!important;min-height:0!important;padding:0!important;display:flex!important;flex-direction:column!important;gap:4px!important;overflow:hidden!important}.main>.panel{display:contents!important}.roma-status{order:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;flex:0 0 auto}.roma-schip{min-width:0;border:1px solid rgba(83,65,38,.34);border-radius:8px;background:rgba(250,244,227,.72);padding:4px 6px;font:600 .45rem/1.1 Marcellus;color:#544a3d}.roma-schip span{display:block;font-size:.38rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}.roma-schip b{display:block;margin-top:2px;font-size:.52rem;overflow-wrap:anywhere}.stats{order:2!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:3px!important;padding:0!important;border:0!important;background:transparent!important}.stat{min-width:0!important;border:1px solid rgba(83,65,38,.32)!important;border-radius:7px!important;background:rgba(232,216,182,.7)!important;padding:3px 5px!important}.stat b{font-size:.42rem!important}.bar{height:4px!important}.roma-enjeu{order:3;flex:0 0 auto;border:1px solid rgba(83,65,38,.38);border-radius:13px;background:rgba(250,244,227,.76);padding:7px 10px 6px;max-height:112px;overflow:auto}.roma-enjeu .eventhead{padding:0!important;border:0!important}.roma-enjeu .eventhead h1{font-size:clamp(1.02rem,3vw,1.5rem)!important;margin:1px 0 3px!important}.roma-enjeu .date{font-size:.48rem!important}.roma-enjeu .chapter{font-size:.49rem!important}.roma-enjeu #eventContext{font-size:.64rem!important;line-height:1.2!important;margin:4px 0 0!important;color:#4d4438}.roma-map-context{order:4;display:grid;grid-template-columns:1fr 1fr;gap:4px;min-height:145px;max-height:165px;flex:0 0 auto}.roma-map-context .mapwrap{margin:0!important;min-height:145px!important;border-radius:13px!important}.roma-history{border:1px solid rgba(83,65,38,.34);border-radius:13px;background:rgba(250,244,227,.72);padding:6px 7px;overflow:hidden}.roma-history-title{font:700 .47rem Marcellus;letter-spacing:.08em;color:var(--roman2);text-transform:uppercase;border-bottom:1px solid rgba(83,65,38,.25);padding-bottom:3px}.roma-history #eventHistory{display:block!important;border-left:0!important;background:transparent!important;padding:0!important;margin:4px 0 0!important;height:calc(100% - 20px);overflow:auto;font-size:.56rem!important;line-height:1.2!important;color:#544a3b!important}.legend{display:none!important}.visual-head{display:none!important}.roma-career{order:5;flex:0 0 auto;border:1px solid rgba(83,65,38,.34);border-radius:13px;background:rgba(232,216,182,.7);padding:5px 7px;min-height:64px}.roma-career-top{display:grid;grid-template-columns:1.3fr .8fr .9fr;gap:3px}.roma-pill{border:1px solid rgba(83,65,38,.25);border-radius:6px;background:rgba(255,252,244,.55);padding:4px 5px;font:600 .42rem/1.13 Marcellus}.roma-pill span{display:block;font-size:.34rem;text-transform:uppercase;color:var(--muted)}.roma-pill b{display:block;margin-top:2px;font-size:.46rem;overflow-wrap:anywhere}.roma-career-line{display:grid;grid-template-columns:auto 1fr 28px;gap:5px;align-items:center;margin-top:4px;font:600 .4rem Marcellus}.roma-career-rail{height:5px;border-radius:99px;overflow:hidden;background:rgba(70,54,34,.14)}.roma-career-rail i{display:block;height:100%;background:var(--roman2)}.choices{order:6!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:4px!important;padding:0!important;overflow:visible!important;flex:0 0 auto!important}.choices.three{grid-template-columns:repeat(3,minmax(0,1fr))!important}.choice{min-height:56px!important;border-radius:11px!important;padding:6px 8px!important}.choice strong{font-size:.64rem!important;line-height:1.08!important}.choice .desc{display:block!important;font-size:.48rem!important;line-height:1.13!important}.tag{font-size:.33rem!important;padding:1px 4px!important}.req{font-size:.35rem!important}.footerline{display:none!important}.roma-modal-back{position:fixed;inset:0;z-index:70;background:rgba(25,18,12,.72);display:grid;place-items:center;padding:12px}.roma-modal-back.hidden{display:none!important}.roma-modal{width:min(860px,97vw);max-height:90dvh;overflow:auto;background:#f1e7ce;border:1px solid #8e7653;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.35)}.roma-modal-head{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;background:#e2d0a9;padding:8px 10px;border-bottom:1px solid #a98c61;z-index:2}.roma-modal-head h3{margin:0;font:700 .9rem Marcellus}.roma-modal-head button{border:1px solid #9b825b;background:#f3e6c6;border-radius:7px}.roma-modal-body{padding:10px;font:.75rem/1.4 "Cormorant Garamond",serif}.roma-death{border-left:5px solid #8a3732!important}.logbody .primary{margin-bottom:7px}
+@media(max-width:720px){.app{padding:3px!important;gap:3px!important}.topbar{height:52px!important;min-height:52px!important;padding:4px 6px!important}.brand{font-size:.96rem!important}.brand small{font-size:.39rem!important;line-height:1.04!important}.roma-actions{gap:2px}.roma-actions a,.roma-actions button{font-size:.38rem!important;padding:4px!important}.roma-schip{padding:3px!important;min-height:27px!important;font-size:.34rem!important}.roma-schip span{font-size:.29rem!important}.roma-schip b{font-size:.39rem!important}.stat{padding:2px 3px!important}.stat b{font-size:.32rem!important}.bar{height:3px!important}.roma-enjeu{max-height:84px;padding:5px 7px!important}.roma-enjeu .eventhead h1{font-size:.96rem!important}.roma-enjeu .date,.roma-enjeu .chapter{font-size:.37rem!important}.roma-enjeu #eventContext{font-size:.51rem!important;line-height:1.13!important}.roma-map-context{min-height:114px!important;max-height:128px!important}.roma-map-context .mapwrap{min-height:114px!important}.roma-history-title{font-size:.37rem!important}.roma-history #eventHistory{font-size:.44rem!important;line-height:1.14!important}.roma-career{min-height:56px!important;padding:4px 5px!important}.roma-pill{font-size:.33rem!important;padding:3px!important}.roma-pill span{font-size:.27rem!important}.roma-pill b{font-size:.37rem!important}.roma-career-line{font-size:.32rem!important}.choice{min-height:50px!important;padding:5px 6px!important}.choice strong{font-size:.52rem!important}.choice .desc{font-size:.4rem!important}.tag{font-size:.27rem!important}.req{font-size:.29rem!important}}
+@media(max-width:720px) and (max-height:690px){.roma-map-context{min-height:92px!important;max-height:102px!important}.roma-map-context .mapwrap{min-height:92px!important}.roma-enjeu{max-height:68px!important}.roma-career{min-height:49px!important}.choice{min-height:43px!important}.choice .desc{font-size:.36rem!important}}
+</style>
+
+<style id="collection-welcome-v1">
+.overlay#start{--cw-accent:#d7b96f;--cw-title-color:#fff1d8;--cw-muted:#cdbc9b;--cw-button:#b04c39;--cw-button-border:#d48c6f;--cw-input-border:rgba(236,217,183,.38);--cw-ui:Marcellus,serif;--cw-title:Marcellus,serif;--cw-body:"Cormorant Garamond",Georgia,serif}.overlay#start .cw-controls{margin:18px 0 4px}.overlay#start .cw-field{color:#d7b96f}.overlay#start .cw-field input{background:rgba(255,255,255,.035);color:#f6ead2}.overlay#start .cw-sex button{background:rgba(255,255,255,.03)}
+.collection-welcome{position:relative;flex:1;min-height:0;display:grid;place-items:center;padding:clamp(10px,2.8vw,30px);overflow:auto;background:
+ radial-gradient(circle at 50% 10%,rgba(255,224,165,.09),transparent 32%),
+ linear-gradient(145deg,var(--cw-bg1,#21170f),var(--cw-bg2,#120e0b));color:var(--cw-text,#f3e7ca)}
+.collection-welcome .cw-card{width:min(760px,96vw);max-height:calc(100dvh - 18px);overflow:auto;border:1px solid var(--cw-border,rgba(220,191,128,.38));border-radius:clamp(20px,4vw,38px);padding:clamp(22px,5vw,40px);background:linear-gradient(145deg,var(--cw-card1,rgba(49,36,24,.97)),var(--cw-card2,rgba(27,21,15,.98)));box-shadow:0 28px 80px rgba(0,0,0,.46)}
+.cw-eyebrow{font:700 .68rem var(--cw-ui,Georgia,serif);letter-spacing:.23em;text-transform:uppercase;color:var(--cw-accent,#d4b36b);margin-bottom:10px}
+.cw-title{font:700 clamp(2.5rem,10vw,5.1rem)/.88 var(--cw-title,Georgia,serif);letter-spacing:.035em;margin:0 0 18px;color:var(--cw-title-color,#fff1d5)}
+.cw-lead{font:clamp(.98rem,2.1vw,1.24rem)/1.55 var(--cw-body,Georgia,serif);color:var(--cw-muted,#dfd0b5);margin:0 0 20px;max-width:46rem}
+.cw-rules{display:grid;grid-template-columns:1fr;gap:10px;margin:0 0 20px}.cw-rule{border:1px solid var(--cw-rule-border,rgba(229,202,153,.18));border-radius:18px;padding:13px 16px;background:rgba(255,255,255,.025)}
+.cw-rule b{display:block;font:700 .94rem/1.2 var(--cw-ui,Georgia,serif);color:var(--cw-rule-title,#f2dcae);margin-bottom:5px}.cw-rule span{display:block;font:.84rem/1.35 var(--cw-body,Georgia,serif);color:var(--cw-muted,#cdbd9f)}
+.cw-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end;margin:18px 0 4px}.cw-field{display:grid;gap:6px;font:700 .62rem var(--cw-ui,Georgia,serif);letter-spacing:.1em;text-transform:uppercase;color:var(--cw-accent,#d4b36b)}
+.cw-field input{width:100%;height:45px;border:1px solid var(--cw-input-border,rgba(235,211,164,.35));border-radius:12px;padding:0 13px;background:rgba(255,255,255,.055);color:var(--cw-title-color,#fff1d5);outline:none;font:1rem var(--cw-body,Georgia,serif)}.cw-field input::placeholder{color:rgba(240,225,196,.45)}
+.cw-sex{display:grid;grid-template-columns:repeat(3,44px);gap:6px}.cw-sex button{height:45px;border-radius:12px;border:1px solid var(--cw-input-border,rgba(235,211,164,.35));background:rgba(255,255,255,.04);color:#f6ead1;font-size:1.15rem;cursor:pointer}.cw-sex button.active{background:var(--cw-button,#b9503f);border-color:var(--cw-button-border,#db896e);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.cw-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.cw-primary,.cw-secondary{min-height:48px;border-radius:13px;padding:10px 18px;cursor:pointer;font:700 .86rem var(--cw-ui,Georgia,serif);text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.cw-primary{background:var(--cw-button,#b9503f);color:#fff4dc;border:1px solid var(--cw-button-border,#db896e)}.cw-secondary{background:transparent;color:var(--cw-title-color,#fff0d2);border:1px solid var(--cw-input-border,rgba(235,211,164,.35))}
+.cw-note{font:.68rem/1.35 var(--cw-body,Georgia,serif);color:var(--cw-muted,#cdbd9f);margin-top:11px}
+@media(max-width:720px){.collection-welcome{padding:7px}.collection-welcome .cw-card{width:100%;max-height:calc(100dvh - 14px);padding:24px 20px;border-radius:26px}.cw-eyebrow{font-size:.57rem}.cw-title{font-size:clamp(2.55rem,14vw,4.2rem);margin-bottom:16px}.cw-lead{font-size:1rem;line-height:1.48}.cw-rule{padding:12px 14px}.cw-rule b{font-size:.86rem}.cw-rule span{font-size:.78rem}.cw-controls{grid-template-columns:1fr;gap:9px}.cw-sex{grid-template-columns:repeat(3,1fr)}.cw-sex button{height:43px}.cw-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cw-actions .cw-primary:first-child{grid-column:1/-1}.cw-primary,.cw-secondary{min-height:46px;padding:9px 11px;font-size:.78rem}}
+@media(max-height:730px) and (max-width:720px){.collection-welcome .cw-card{padding:17px 16px}.cw-title{font-size:2.45rem;margin-bottom:10px}.cw-lead{font-size:.84rem;line-height:1.35;margin-bottom:12px}.cw-rules{gap:6px;margin-bottom:10px}.cw-rule{padding:8px 10px}.cw-rule b{font-size:.73rem}.cw-rule span{font-size:.67rem}.cw-controls{margin-top:10px}.cw-field input,.cw-sex button{height:39px}.cw-actions{margin-top:11px}.cw-primary,.cw-secondary{min-height:40px}}
+</style>
+<script id="collection-welcome-sex-v1">
+function selectGameGender(v){const i=document.getElementById('genderInput');if(i)i.value=v;document.querySelectorAll('.cw-sex button').forEach(b=>b.classList.toggle('active',b.dataset.gender===v))}
+</script>
+
+
+<style id="historical-map-assets-v1">
+.mapwrap{position:relative}.historic-base-map{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0;pointer-events:none}.mapwrap>svg{position:relative;z-index:1}.base-land{opacity:.16}.country-base{fill:transparent!important;stroke:rgba(70,55,38,.22)!important}
+</style>
+
+<style id="historical-map-assets-v1">
+.mapwrap{position:relative}.historic-base-map{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:0;pointer-events:none}.mapwrap>svg{position:relative;z-index:1}.base-land{opacity:.16}.country-base{fill:transparent!important;stroke:rgba(70,55,38,.22)!important}
+</style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
-    <div class="brand">ROMA ÆTERNA<small>ROME NE TOMBE QUE SI VOUS LA LAISSEZ TOMBER</small></div>
+    <div class="brand">ROMA ÆTERNA<small>De Marc Aurèle à 2026, faites survivre Rome sans figer l’Histoire.</small></div>
     <div class="spacer"></div>
     <span class="mini" id="routeBadge">Imperium Romanum</span>
     <span class="mini" id="capitalBadge">Capitale · Roma</span>
@@ -108,7 +146,7 @@ button{font:inherit}
         <div><div class="eyebrow">État du monde</div><h2 id="mapTitle">L’Empire en 180</h2></div>
         <div class="eyebrow" id="territoryCount">11 provinces</div>
       </div>
-      <div class="mapwrap">
+      <div class="mapwrap"><img id="historicBaseRoma" class="historic-base-map" src="assets/cartes/roma-aeterna/mediterranee-180.svg" alt="Fond cartographique historique"/>
         <svg viewBox="0 0 760 360" preserveAspectRatio="xMidYMid meet" aria-label="Carte géographique de l’Europe et de la Méditerranée">
 <rect width="760" height="360" fill="#a9c1c0"/>
 <g class="base-land">
@@ -152,6 +190,7 @@ button{font:inherit}
       <div class="rule"><b>Histoire conditionnelle</b><span>Pas de Charlemagne si la Gaule reste romaine. Pas de 1453 si les Ottomans n’encerclent jamais Constantinople.</span></div>
       <div class="rule"><b>Carte persistante</b><span>Les provinces perdues, fédérées, reconquises ou intégrées restent visibles jusqu’en 2026.</span></div>
     </div>
+    <div class="cw-controls roma-start-controls"><label class="cw-field">Nom<input id="nameInput" value="" placeholder="Votre nom" maxlength="40"></label><input type="hidden" id="genderInput" value="male"><div class="cw-field"><span>Sexe</span><div class="cw-sex" role="group" aria-label="Sexe du personnage"><button type="button" class="active" data-gender="male" onclick="selectGameGender('male')" title="Homme">♂️</button><button type="button" data-gender="female" onclick="selectGameGender('female')" title="Femme">♀️</button><button type="button" data-gender="nonbinary" onclick="selectGameGender('nonbinary')" title="Personnage non-binaire">⚧️</button></div></div></div>
     <div class="actions">
       <button class="primary" id="newGame">Commencer en 180</button>
       <button class="secondary hidden" id="resumeGame">Reprendre la partie</button>
@@ -494,7 +533,7 @@ E("constantinople1453",1453,"29 mai 1453","Constantinople en 1453","La date est 
   C("Lancer une offensive pour sécuriser définitivement l’Anatolie","Éloigner toute future menace de la capitale.",{army:-6,expansion:8,territories:{Anatolia:"roman"}},"anatolianReconquest1453",["Uchronie"]),
   C(territoryUsable("Italia",s)?"Déplacer le centre politique vers Rome tout en gardant Constantinople":"Conserver Constantinople comme capitale orientale","Rééquilibrer l’Empire à l’entrée de l’époque moderne sans choisir une capitale située hors du territoire contrôlé.",{capital:territoryUsable("Italia",s)?"Roma + Constantinopolis":"Constantinopolis",federal:7,cohesion:6},territoryUsable("Italia",s)?"dualCapital1453":"easternCapital1453",["Uchronie","Capitale"])
  ];
-},s=>eastAlive(s)||s.capital.includes("Constantinopolis")),
+},s=>eastAlive(s)),
 E("printing1455",1455,"années 1450","L’imprimerie bouleverse l’écrit","La reproduction mécanique des textes accélère la circulation des idées, du droit et des controverses religieuses. Un État héritier de Rome peut chercher à contrôler ou à exploiter cette révolution.","Vers 1450–1455, Gutenberg met au point à Mayence un système d’impression à caractères mobiles qui transforme durablement la culture écrite européenne.",[
  C("Créer des imprimeries impériales dans chaque grande province","Diffuser droit, administration et classiques.",{innovation:13,romanization:8,treasury:-4},"imperialPrinting",["Innovation"]),
  C("Laisser l’imprimerie aux villes et universités","L’innovation se diffusera mieux sans monopole.",{innovation:12,federal:6},"freePrinting",["Libéral"]),
@@ -683,15 +722,15 @@ function renderStats(){
  const items=[["Cohésion","cohesion"],["Armée","army"],["Trésor","treasury"],["Légitimité","legitimacy"],["Sénat","senate"],["Fédéral","federal"],["Tolérance","tolerance"],["Innovation","innovation"]];
  document.getElementById("stats").innerHTML=items.map(([n,k])=>`<div class="stat"><b><span>${n}</span><span>${Math.round(state[k])}</span></b><div class="bar"><i style="width:${state[k]}%"></i></div></div>`).join("");
 }
-function renderMap(){
- reconcileCapital(false);
+function renderMap(){  reconcileCapital(false);  const hb=document.getElementById("historicBaseRoma");if(hb){const y=state.year||180;hb.src=y>=1900?'assets/cartes/roma-aeterna/mediterranee-2026.svg':y>=1200?'assets/cartes/roma-aeterna/mediterranee-1453.svg':y>=650?'assets/cartes/roma-aeterna/mediterranee-800.svg':y>=476?'assets/cartes/roma-aeterna/mediterranee-476.svg':y>=395?'assets/cartes/roma-aeterna/mediterranee-395.svg':'assets/cartes/roma-aeterna/mediterranee-180.svg'};
  for(const r of REGIONS){const el=document.getElementById(r);if(el)el.setAttribute("class","region "+state.territories[r])}
- const n=romanCount(); document.getElementById("territoryCount").textContent=`${n} zone${n>1?"s":""} romaine${n>1?"s":""}`;
- document.getElementById("mapTitle").textContent=`Le monde romain en ${state.year}`;
- document.getElementById("capitalBadge").textContent=`Capitale · ${state.capital}`;
+ const n=romanCount();
+ const tc=document.getElementById("territoryCount");if(tc)tc.textContent=`${n} zone${n>1?"s":""} romaine${n>1?"s":""}`;
+ const mt=document.getElementById("mapTitle");if(mt)mt.textContent=`Le monde romain en ${state.year}`;
+ const cb=document.getElementById("capitalBadge");if(cb)cb.textContent=`Capitale · ${state.capital}`;
  let route=romeAlive()?(westAlive()&&eastAlive()?"Imperium Romanum":"Romania"):"Monde post-romain";
- document.getElementById("routeBadge").textContent=route;
- document.getElementById("seal").textContent=state.flags.republic?"SPQR":(romeAlive()?"☧":"ROMA");
+ const rb=document.getElementById("routeBadge");if(rb)rb.textContent=route;
+ const se=document.getElementById("seal");if(se)se.textContent=state.flags.republic?"SPQR":(romeAlive()?"☧":"ROMA");
 }
 function render(){
  const ev=nextEvent(); if(!ev){finish();return}
@@ -742,9 +781,9 @@ function choose(ev,c){
  toast(c.label);
  render();
 }
-function save(){localStorage.setItem(SAVE,JSON.stringify(state))}
+function save(){try{localStorage.setItem(SAVE,JSON.stringify(state));return true}catch(e){console.warn('Sauvegarde locale indisponible : la partie continue sans sauvegarde persistante.',e);return false}}
 function load(){try{const x=JSON.parse(localStorage.getItem(SAVE));if(x&&x.territories){state=x;reconcileCapital(false)}}catch(e){}}
-function reset(){state=freshState();localStorage.removeItem(SAVE)}
+function reset(){state=freshState();try{localStorage.removeItem(SAVE)}catch(e){}}
 function toast(t){const x=document.getElementById("toast");x.textContent=t;x.classList.remove("hidden");clearTimeout(window._tt);window._tt=setTimeout(()=>x.classList.add("hidden"),1100)}
 function renderLog(){
  const b=document.getElementById("logBody");
@@ -847,12 +886,72 @@ function finish(){
  document.getElementById("showLogEnd").onclick=()=>{renderLog();document.getElementById("logPanel").classList.remove("hidden")};
 }
 
-document.getElementById("newGame").onclick=()=>{reset();document.getElementById("start").classList.add("hidden");render()};
+document.getElementById("newGame").onclick=()=>{const nm=document.getElementById("nameInput")?.value.trim()||"";const g=document.getElementById("genderInput")?.value||"male";reset();state.name=nm||(g==="female"?"Conseillère":g==="nonbinary"?"Conseiller·ère":"Conseiller");state.gender=g;save();document.getElementById("start").classList.add("hidden");render()};
 document.getElementById("resumeGame").onclick=()=>{load();document.getElementById("start").classList.add("hidden");render()};
 document.getElementById("logBtn").onclick=()=>{renderLog();document.getElementById("logPanel").classList.toggle("hidden")};
 document.getElementById("closeLog").onclick=()=>document.getElementById("logPanel").classList.add("hidden");
-if(localStorage.getItem(SAVE))document.getElementById("resumeGame").classList.remove("hidden");
+try{if(localStorage.getItem(SAVE))document.getElementById("resumeGame").classList.remove("hidden")}catch(e){}
 renderStats();renderMap();
 </script>
+
+<script id="roma-harmonie-runtime-v8">
+(function(){
+ const top=document.querySelector('.topbar'),main=document.querySelector('.main'),visual=document.querySelector('.panel.visual'),gamep=document.querySelector('.panel.game');
+ const route=document.getElementById('routeBadge'),cap=document.getElementById('capitalBadge'),terr=document.getElementById('territoryCount'),stats=document.getElementById('stats'),mapwrap=document.querySelector('.mapwrap'),eventhead=document.querySelector('.eventhead'),copy=document.querySelector('.copy'),choicesEl=document.getElementById('choices'),footer=document.querySelector('.footerline');
+ // Header commun
+ let acts=document.createElement('div');acts.className='roma-actions';acts.innerHTML='<a href="index.html">← Uchronies</a><button type="button" onclick="openRomaMap()">Carte</button><button type="button" onclick="openRomaDossier()">Dossier</button><button type="button" onclick="openRomaJournal()">Journal ▾</button>';top.appendChild(acts);
+ // Structure verticale commune
+ const status=document.createElement('div');status.className='roma-status';status.innerHTML='<div class="roma-schip"><span>État</span><b id="romaState">Imperium Romanum</b></div><div class="roma-schip"><span>Souverain / gouvernement</span><b id="romaRuler">Empereur romain</b></div><div class="roma-schip"><span>Territoires</span><b id="romaTerritories">11 provinces</b></div><div class="roma-schip"><span>Tour</span><b id="romaTurn">1</b></div>';
+ const enjeu=document.createElement('div');enjeu.className='roma-enjeu';enjeu.appendChild(eventhead);const ctx=document.getElementById('eventContext');enjeu.appendChild(ctx);
+ const mc=document.createElement('div');mc.className='roma-map-context';mc.appendChild(mapwrap);const hist=document.createElement('div');hist.className='roma-history';hist.innerHTML='<div class="roma-history-title">Contexte historique — notre réalité</div>';hist.appendChild(document.getElementById('eventHistory'));mc.appendChild(hist);
+ const career=document.createElement('div');career.className='roma-career';career.innerHTML='<div class="roma-career-top"><div class="roma-pill"><span>Fonction</span><b id="romaOffice">Conseiller impérial</b></div><div class="roma-pill"><span>Capitale</span><b id="romaCapital">Roma</b></div><div class="roma-pill"><span>Profil</span><b id="romaProfile">Imperium</b></div></div><div class="roma-career-line"><span>Influence personnelle</span><div class="roma-career-rail"><i id="romaInfluenceBar"></i></div><b id="romaInfluence">45</b></div>';
+ main.innerHTML='';main.append(status,stats,enjeu,mc,career,choicesEl,footer);if(visual)visual.remove();if(gamep)gamep.remove();
+ // Modal standard
+ const mb=document.createElement('div');mb.id='romaModal';mb.className='roma-modal-back hidden';mb.innerHTML='<div class="roma-modal"><div class="roma-modal-head"><h3 id="romaModalTitle">—</h3><button onclick="closeRomaModal()">✕</button></div><div id="romaModalBody" class="roma-modal-body"></div></div>';document.body.appendChild(mb);
+ window.closeRomaModal=()=>mb.classList.add('hidden');function modal(t,b){document.getElementById('romaModalTitle').textContent=t;document.getElementById('romaModalBody').innerHTML=b;mb.classList.remove('hidden')}
+ window.openRomaMap=()=>modal('Carte de votre monde romain',`<div style="height:min(66vh,540px);border-radius:12px;overflow:hidden;background:#aac4c4">${mapwrap.innerHTML}</div>`);
+ window.openRomaDossier=()=>{if(!state)return;const held=REGIONS.filter(r=>state.territories[r]!=='lost');modal('Dossier de l’État',`<div class="endgrid"><div class="endbox"><h3>État</h3><ul><li>Capitale : <b>${state.capital}</b></li><li>Territoires romains ou fédérés : ${held.join(', ')||'aucun'}</li><li>Événements joués : ${state.played}</li><li>Divergence : ${state.flags.divergence}</li></ul></div><div class="endbox"><h3>Jauges</h3><ul>${[['Cohésion','cohesion'],['Armée','army'],['Trésor','treasury'],['Légitimité','legitimacy'],['Sénat','senate'],['Fédéral','federal'],['Tolérance','tolerance'],['Innovation','innovation']].map(([n,k])=>`<li>${n} : <b>${Math.round(state[k])}</b></li>`).join('')}</ul></div></div>`)};
+ window.openRomaJournal=()=>{renderLog();const b=document.getElementById('logBody');if(b&&!b.querySelector('.roma-new'))b.insertAdjacentHTML('afterbegin','<button class="primary roma-new" onclick="if(confirm(\'Commencer une nouvelle partie ?\')){try{localStorage.removeItem(SAVE)}catch(e){}location.reload()}">Nouvelle partie</button><p style="font-size:.68rem">Le danger personnel reste volontairement invisible.</p>');document.getElementById('logPanel').classList.remove('hidden')};
+ function ruler(){if(!state)return '—';if(state.flags?.republic)return 'Magistratures républicaines';if(!westAlive()&&eastAlive())return 'Basileus des Romains';if(state.flags?.constitutional)return 'Princeps constitutionnel';if(westAlive()||eastAlive())return 'Empereur / gouvernement romain';return 'États post-romains'}
+ function office(){if(!state)return 'Conseiller impérial';const i=state.influence??45,p=state.played||0;if(i>=78&&p>=35)return 'Premier conseiller de l’Empire';if(i>=65&&p>=24)return 'Préfet du prétoire';if(i>=55&&p>=12)return 'Comte du consistoire';return 'Conseiller impérial'}
+ function profile(){if(!state)return '—';const ps=profileScores();return ps.sort((a,b)=>b[1]-a[1])[0]?.[0]||'Romain'}
+ function updateChrome(){if(!state)return;state.influence=Number.isFinite(state.influence)?state.influence:45;state.office=state.office||office();document.getElementById('romaState').textContent=route?.textContent||'Imperium Romanum';document.getElementById('romaRuler').textContent=ruler();document.getElementById('romaTerritories').textContent=terr?.textContent||`${REGIONS.filter(r=>state.territories[r]!=='lost').length} provinces`;document.getElementById('romaTurn').textContent=`${state.played+1}/${events.length}`;document.getElementById('romaOffice').textContent=office();document.getElementById('romaCapital').textContent=state.capital;document.getElementById('romaProfile').textContent=profile();document.getElementById('romaInfluence').textContent=Math.round(state.influence);document.getElementById('romaInfluenceBar').style.width=clamp(state.influence)+'%';choicesEl.classList.toggle('three',choicesEl.children.length===3)}
+ const oldFresh=freshState;freshState=function(){const st=oldFresh();st.influence=45;st.office='Conseiller impérial';st.name='';st.gender='male';st.hiddenDanger=10;st.dead=false;st.finished=false;return st};
+ function rp(ev,c){const z=((c?.tags||[]).join(' ')+' '+(c?.label||'')+' '+(c?.desc||'')).toLowerCase();let r=.15;if(/guerre|armée|invasion|conquête|révolte|coup|siège|combat|répression|croisade|risqu/.test(z))r+=2.8;if(/paix|tolérance|fédér|compromis|diplom|autonomie/.test(z))r-=.7;const d=c?.delta||{};if((d.army||0)<=-7)r+=1.2;if((d.cohesion||0)<=-7)r+=.8;if((d.legitimacy||0)<=-7)r+=.7;return Math.max(0,r)}
+ function death(ev,c){state.hiddenDanger=Number.isFinite(state.hiddenDanger)?state.hiddenDanger:10;const r=rp(ev,c);state.hiddenDanger=clamp(state.hiddenDanger+r*1.35-(/paix|tolérance|compromis/i.test((c.tags||[]).join(' '))?1.3:0));let p=.0006+r*.006+Math.max(0,state.hiddenDanger-38)*.00011;if(state.cohesion<25)p+=.004;if(state.legitimacy<25)p+=.004;p=Math.min(.075,Math.max(0,p));if(Math.random()>=p)return false;state.dead=true;state.finished=true;state.death={date:ev.date,title:/guerre|armée|combat|siège|invasion/i.test((c.tags||[]).join(' ')+' '+c.label)?'Vous disparaissez dans une crise militaire':'Votre carrière s’achève dans une crise de l’Empire',why:`La décision « ${c.label} » vous expose personnellement au moment où l’État n’est plus capable de garantir votre sécurité.`};save();document.getElementById('ending').classList.remove('hidden');document.getElementById('endingCard').innerHTML=`<div class="romanmark">FIN PRÉMATURÉE · ${state.death.date}</div><h2>${state.death.title}</h2><p class="lead">${state.death.why}</p><div class="endbox roma-death"><h3>Votre trajectoire s’arrête ici</h3><p>Fonction : <b>${office()}</b>. Aucun indicateur de danger n’était visible pendant la partie.</p></div><div class="actions"><button class="primary" onclick="try{localStorage.removeItem(SAVE)}catch(e){}location.reload()">Rejouer depuis 180</button><a class="secondary" href="index.html" style="text-decoration:none">← Uchronies</a></div>`;return true}
+ const oldChoose=choose;choose=function(ev,c){if(state?.dead||state?.finished)return;if(death(ev,c))return;const d=c?.delta||{};state.influence=clamp((state.influence??45)+((d.legitimacy||0)+(d.senate||0)+(d.central||0)+(d.federal||0))/16);const x=oldChoose.apply(this,arguments);state.office=office();updateChrome();save();return x};
+ const oldRender=render;render=function(){if(state?.dead){return}const x=oldRender.apply(this,arguments);updateChrome();return x};
+ // Le bouton historique du journal utilise désormais le menu commun.
+ if(document.getElementById('logBtn'))document.getElementById('logBtn').onclick=openRomaJournal;
+ setTimeout(updateChrome,100);
+})();
+</script>
+<style id="epure-collection-v1">
+.stats{display:none!important}
+/* L'accueil est déjà le modèle visuel : on renforce seulement sa cohérence typographique. */
+#start .card h1{font-family:Marcellus,serif!important}#start .card .lead,#start .rule span{font-family:"Cormorant Garamond",serif!important}
+.roma-career{min-height:48px!important;padding:4px 6px!important}.roma-career-top{grid-template-columns:1.4fr .8fr .9fr!important}.roma-pill{padding:3px 4px!important}.roma-career-line{margin-top:3px!important}
+@media(max-width:720px){.roma-map-context{min-height:120px!important;max-height:134px!important}.roma-map-context .mapwrap{min-height:120px!important}.roma-career{min-height:45px!important}.roma-enjeu{max-height:90px!important}}
+:root{--journal-accent:#a84435}
+
+.journal-gauges{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:7px 0 12px}
+.journal-gauge{min-width:0;border:1px solid rgba(120,95,61,.3);border-radius:8px;background:rgba(255,250,238,.55);padding:6px 7px}
+.journal-gauge-head{display:flex;justify-content:space-between;gap:5px;font-size:.68rem;font-weight:700;line-height:1.1}.journal-gauge-head span{min-width:0;overflow-wrap:anywhere}
+.journal-gauge-rail{height:5px;margin-top:5px;background:rgba(100,80,55,.16);border-radius:99px;overflow:hidden}.journal-gauge-rail i{display:block;height:100%;border-radius:99px;background:var(--journal-accent,#6d5160)}
+.journal-section-title{margin:8px 0 4px;font-size:.77rem;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:520px){.journal-gauges{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}.journal-gauge{padding:5px 6px}.journal-gauge-head{font-size:.62rem}}
+
+</style><script id="epure-journal-roma-v1">
+(function(){
+ const gauges=[['Cohésion','cohesion'],['Armée','army'],['Trésor','treasury'],['Légitimité','legitimacy'],['Sénat','senate'],['Fédéral','federal'],['Tolérance','tolerance'],['Innovation','innovation']];
+ function gaugeHTML(){if(!state)return'';return `<div class="journal-section-title">Jauges</div><div class="journal-gauges">${gauges.map(([n,k])=>{const v=Math.round(Number(state[k]??0));return `<div class="journal-gauge"><div class="journal-gauge-head"><span>${n}</span><b>${v}</b></div><div class="journal-gauge-rail"><i style="width:${Math.max(0,Math.min(100,v))}%"></i></div></div>`}).join('')}</div>`}
+ window.openRomaJournal=function(){renderLog();const b=document.getElementById('logBody');if(!b)return;const old=b.querySelector('.epure-roma-gauges');if(old)old.remove();b.insertAdjacentHTML('afterbegin',`<div class="epure-roma-gauges">${gaugeHTML()}<button class="primary roma-new" onclick="if(confirm('Commencer une nouvelle partie ?')){try{localStorage.removeItem(SAVE)}catch(e){}location.reload()}">Nouvelle partie</button><div class="journal-section-title">Chronologie</div></div>`);document.getElementById('logPanel').classList.remove('hidden')};
+ const jb=[...document.querySelectorAll('.roma-actions button')].find(x=>/Journal/i.test(x.textContent));if(jb)jb.onclick=openRomaJournal;
+})();
+</script><style id="debug-coherence-clean-v1">.hidden{display:none!important}.choice:not(:disabled){pointer-events:auto!important}</style>
+<script id="debug-playability-v1">(function(){
+function vp(){if(typeof profileScores!=='function')return{score:0,label:'un Romain'};const b=profileScores()[0]||['Romain',0],M={'Antonin réformateur':'un réformateur antonin','Dioclétien organisateur':'un organisateur dioclétiénien','Constantinien':'un constantinien','Républicain sénatorial':'un républicain sénatorial','César militaire':'un césar militaire','Fédéraliste romain':'un fédéraliste romain'};return{score:b[1],label:M[b[0]]||('un '+String(b[0]).toLowerCase())}}window.endVoteProfileRoma=vp;
+window.startRomaGame=function(){const nm=document.getElementById('nameInput')?.value.trim()||'',g=document.getElementById('genderInput')?.value||'male';reset();state.name=nm||(g==='female'?'Conseillère':g==='nonbinary'?'Conseiller·ère':'Conseiller');state.gender=g;save();document.getElementById('start')?.classList.add('hidden');document.getElementById('ending')?.classList.add('hidden');render()};const ng=document.getElementById('newGame');if(ng)ng.onclick=window.startRomaGame;
+const of=window.finish;if(typeof of==='function')window.finish=function(){const r=of.apply(this,arguments);setTimeout(()=>{const card=document.getElementById('endingCard');if(!card)return;const box=[...card.querySelectorAll('.endbox')].find(b=>/Vous avez gouverné comme/i.test(b.textContent));if(box){const v=vp();box.innerHTML=`<h3>Profil de vote</h3><p>Vous avez voté à <strong>${v.score} %</strong> comme ${v.label}.</p>`}},0);return r};})();</script>
 </body>
 </html>
