@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="fr">
-<head>
+<html lang="fr"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>L’An I — 1789–1815</title>
@@ -939,7 +938,7 @@ function selectGameGender(v){const i=document.getElementById('genderInput');if(i
   .choice strong{font-size:.60rem!important;line-height:1.16!important}
 }
 </style>
-</head>
+<meta name="uchronie-format" content="1"><meta name="uchronie-id" content="lan1"><meta name="uchronie-title" content="L’An I"><meta name="uchronie-period" content="1789–1815"><meta name="uchronie-description" content="Entrez dans la Révolution française et faites bifurquer le destin politique du pays."><meta name="uchronie-tags" content="Révolution, Politique"><meta name="uchronie-cover" content="miniatures/lan1.jpg"></head>
 <body data-build="lan-i-v35">
 <div class="app">
 <header class="masthead">
@@ -3372,5 +3371,136 @@ function resetGame(){
 </style>
 <style id="debug-coherence-clean-v1">.coherence-line{display:none!important}#gameScreen.hidden,.game.hidden,.hidden{display:none!important}.choice:not(.locked){pointer-events:auto!important}</style>
 <script id="debug-playability-v1">(function(){const gs=document.getElementById('gameScreen'),ss=document.getElementById('startScreen');if(gs&&ss&&!ss.classList.contains('hidden'))gs.classList.add('hidden');})();</script>
-</body>
-</html>
+<!-- COLLECTION-V2 -->
+
+<style id="collection-v2-common">
+/* Grammaire commune : écran compact et lisible comme Le Siècle Rouge. */
+:root{--cv2-ui:Arial,Roboto,"Segoe UI",system-ui,sans-serif}
+.cv2-turn{position:fixed;right:9px;bottom:8px;z-index:12;padding:4px 7px;border-radius:999px;background:rgba(12,18,22,.78);color:#f7edd8;border:1px solid rgba(255,255,255,.24);font:700 .62rem/1 var(--cv2-ui);box-shadow:0 2px 8px rgba(0,0,0,.25);pointer-events:none}
+.cv2-jtitle{margin:11px 0 6px;font:800 .7rem/1.1 var(--cv2-ui);letter-spacing:.08em;text-transform:uppercase}
+.cv2-jgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:5px 0 10px}
+.cv2-jcard{min-width:0;border:1px solid rgba(100,80,55,.25);border-radius:8px;background:rgba(255,255,255,.32);padding:7px 8px;font:600 .72rem/1.3 var(--cv2-ui)}
+.cv2-jcard b{display:block;font-size:.58rem;text-transform:uppercase;letter-spacing:.06em;opacity:.68;margin-bottom:2px}.cv2-jcard span{overflow-wrap:anywhere}
+.cv2-gauges{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin:5px 0 10px}.cv2-gauge{border:1px solid rgba(100,80,55,.25);border-radius:8px;padding:6px;background:rgba(255,255,255,.28)}.cv2-grow{display:flex;justify-content:space-between;gap:5px;font:700 .66rem/1.1 var(--cv2-ui)}.cv2-rail{height:5px;background:rgba(60,50,40,.16);border-radius:99px;overflow:hidden;margin-top:5px}.cv2-rail i{display:block;height:100%;background:currentColor;opacity:.72}
+.cv2-end-extra{margin-top:12px}.cv2-end-extra h3{margin:12px 0 6px}.cv2-end-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.cv2-end-grid>div{border:1px solid rgba(100,80,55,.25);border-radius:8px;padding:8px;background:rgba(255,255,255,.25)}.cv2-end-grid b{display:block;font-size:.64rem;text-transform:uppercase;opacity:.7}.cv2-end-extra p{line-height:1.48}
+.cv2-profiles{display:grid;gap:4px}.cv2-profile{display:grid;grid-template-columns:1fr 46px;gap:7px;align-items:center;border-bottom:1px solid rgba(100,80,55,.18);padding:4px 0}.cv2-profile b{text-align:right}
+body.cv2-readable{--script:var(--cv2-ui)!important;--script-hand:var(--cv2-ui)!important}.cv2-aa.active{box-shadow:inset 0 0 0 2px rgba(70,130,190,.55)!important}
+@media(max-width:720px){
+ .cv2-turn{font-size:.56rem;right:6px;bottom:6px}.cv2-jcard{font-size:.68rem}.cv2-jgrid,.cv2-gauges{gap:4px}
+ /* Ne plus écraser les textes à 0,4–0,5 rem. */
+ .schip,.statuschip,.roma-schip{min-height:42px!important;padding:6px 7px!important}.schip span,.statuschip span,.roma-schip span{font-size:.54rem!important;line-height:1.05!important}.schip b,.statuschip b,.roma-schip b{font-size:.72rem!important;line-height:1.08!important}
+ .event h2,.event-title,.roma-enjeu .eventhead h1{font-size:clamp(1.18rem,5.2vw,1.55rem)!important;line-height:1.02!important}
+ .event p,.event-text,.roma-enjeu #eventContext{font-size:.76rem!important;line-height:1.28!important;max-height:none!important;-webkit-line-clamp:unset!important;display:block!important;overflow:visible!important}
+ .ctext,.historical-context-text,.roma-history #eventHistory{font-size:.68rem!important;line-height:1.28!important}
+ .choice b,.choice strong{font-size:.78rem!important;line-height:1.1!important}.choice span,.choice .choice-desc,.choice .desc{font-size:.62rem!important;line-height:1.18!important}
+ .tag{font-size:.43rem!important}.req{font-size:.5rem!important}
+}
+</style>
+
+<style id="collection-v2-lan1">
+/* Écran : État | Souverain | Fonction | Territoire ; jauges et carrière dans Journal. */
+.statusstrip{display:none!important}.scene-notes{display:none!important}.rev-state-strip{grid-template-columns:repeat(4,minmax(0,1fr))!important}.event-head{max-height:none!important}.scene-visual-context{flex:1 1 auto!important;min-height:175px!important;max-height:245px!important}.choices{flex:0 0 auto!important}.choice{min-height:72px!important}
+@media(max-width:720px){.masthead{height:64px!important;flex-basis:64px!important}.masthead h1{font-size:1.28rem!important}.subtitle{font-size:.63rem!important}.header-actions .iconbtn{font-size:.57rem!important;padding:6px 7px!important}.scene-visual-context{min-height:185px!important;max-height:225px!important}.scene-card,.historical-context{min-height:185px!important}.choice{min-height:70px!important;padding:8px!important}.choices.three{grid-template-columns:repeat(3,minmax(0,1fr))!important}.choices:not(.three){grid-template-columns:1fr 1fr!important}.outcome{font-size:.61rem!important}}
+body.cv2-readable .intro,body.cv2-readable .event-text,body.cv2-readable .choice strong,body.cv2-readable .choice span,body.cv2-readable .modal-body,body.cv2-readable .summarybox{font-family:var(--cv2-ui)!important;font-style:normal!important}
+</style>
+
+<script id="collection-v2-common-js">
+(function(){
+ window.cv2Hash=window.cv2Hash||function(x){let h=2166136261;for(let i=0;i<String(x).length;i++){h^=String(x).charCodeAt(i);h=Math.imul(h,16777619)}return Math.abs(h>>>0)};
+ window.cv2Tier=window.cv2Tier||function(key){const n=cv2Hash(key)%100;if(n<30)return['Facile',50+(n%8)];if(n<50)return['Moyen',58+(n%8)];if(n<65)return['Difficile',66+(n%8)];if(n<70)return['Très difficile',75+(n%8)];return null};
+ window.cv2ReorderWelcome=window.cv2ReorderWelcome||function(root=document){const a=root.querySelector('.cw-actions')||root.querySelector('#start .actions');if(!a)return;const kids=[...a.children],start=kids.find(x=>/Commencer/i.test(x.textContent)),idx=kids.find(x=>/Index/i.test(x.textContent)),resume=kids.find(x=>/Reprendre/i.test(x.textContent));if(start)a.appendChild(start);if(idx)a.appendChild(idx);if(resume)a.appendChild(resume)};
+ window.cv2TurnBadge=window.cv2TurnBadge||function(current=1){let b=document.getElementById('cv2Turn');if(!b){b=document.createElement('div');b.id='cv2Turn';b.className='cv2-turn';document.body.appendChild(b)}const n=Math.max(1,Number(current)||1);b.textContent=n<=50?`Décision ${n}/50`:`Scène méritée +${n-50}`};
+ window.cv2AddAa=window.cv2AddAa||function(host,cls='ib'){if(!host||host.querySelector('.cv2-aa'))return;const b=document.createElement('button');b.className=cls+' cv2-aa';b.textContent='Aa';b.title='Basculer vers une police plus lisible';b.onclick=()=>{document.body.classList.toggle('cv2-readable');b.classList.toggle('active');try{localStorage.setItem('uchronies-readable',document.body.classList.contains('cv2-readable')?'1':'0')}catch(e){}};host.appendChild(b);try{if(localStorage.getItem('uchronies-readable')==='1'){document.body.classList.add('cv2-readable');b.classList.add('active')}}catch(e){}};
+ window.cv2ProfileRows=window.cv2ProfileRows||function(rows){return `<div class="cv2-profiles">${rows.sort((a,b)=>b[1]-a[1]).map(([n,v],i)=>`<div class="cv2-profile"><span>${i+1}. ${n}</span><b>${Math.round(v)}%</b></div>`).join('')}</div>`};
+ document.addEventListener('DOMContentLoaded',()=>cv2ReorderWelcome());
+})();
+</script>
+
+<script id="collection-v2-lan1-js">
+(function(){
+ const host=document.querySelector('.header-actions');if(host){[...host.querySelectorAll('button')].filter(b=>/Dossier/i.test(b.textContent)).forEach(b=>b.remove());const j=[...host.querySelectorAll('button')].find(b=>/Journal/i.test(b.textContent));if(j)j.textContent='Journal';cv2AddAa(host,'iconbtn')}
+ const strip=document.getElementById('revStateStrip');if(strip){strip.innerHTML=`<div class="statuschip"><span>État</span><b id="revStateName">—</b></div><div class="statuschip"><span>Souverain / pouvoir</span><b id="revRuler">—</b></div><div class="statuschip"><span>Fonction</span><b id="revFunction">—</b></div><div class="statuschip"><span>Territoire</span><b id="revTerritory">France</b></div><b id="revTurn" hidden></b>`}
+ // Les premières décisions restent libres ; ensuite 70% du pool générable suit 30/20/15/5.
+ generatedRequirement=function(ev,c,idx){if(c.req)return c.req;if(state&&state.turn<5)return null;if((c.tags||[]).includes('Historique'))return null;const tier=cv2Tier(`${ev.id}|${c.flag||c.t}|${idx}`);if(!tier)return null;const tags=(c.tags||[]).join(' ').toLowerCase();let stat='influence';if(/armée|militaire|guerre|conquête|offensive/.test(tags))stat='army';else if(/monarch|roi|couronne|autorité|ordre|central/.test(tags))stat='authority';else if(/fédér|province|décentral|commune/.test(tags))stat='province';else if(/démocr|élection|suffrage|référendum|libéral|liberté|droit/.test(tags))stat='democracy';else if(/social|populaire|subsistance/.test(tags))stat='social';let min=tier[1];const y=Number(String(ev.date||'').match(/17\d{2}|18\d{2}/)?.[0]||0);if(y&&y<=1792)min=Math.min(min,tier[0]==='Facile'?54:tier[0]==='Moyen'?60:min);return {[stat]:min,_cv2:tier[0]}};
+ const oldEff=effectiveRequirement;effectiveRequirement=function(ev,c,idx){if(state&&state.turn<5)return null;return c.req||generatedRequirement(ev,c,idx)};
+ // Louis XVI abdique réellement : Louis XVII règne, Provence régente.
+ const oldPeople=updatePeopleStatus;updatePeopleStatus=function(eventId,flag){const r=oldPeople.apply(this,arguments);if(flag==='varennesRegency'){state.flags.louisXVIIRegency=true;if(state.people?.louisXVI)state.people.louisXVI.status='Abdiqué';if(state.people?.louisXVIII)state.people.louisXVIII.status='Régent de Louis XVII'}return r};
+ const oldRevRuler=window.revRuler; // souvent local au patch précédent ; garde-fou ci-dessous dans chrome.
+ function rulerV2(){const f=state?.flags||{};if(f.playerKing)return state.name||'Votre dynastie';if(f.playerEmperor)return state.name||'Empereur';if(f.playerFirstConsul)return state.name||'Premier consul';if(f.napoleonicEmpire)return'Napoléon Ier';if(f.bourbonRestoration1814||f.historicalRestoration1815||f.supportBourbons1815)return'Louis XVIII';if(f.louisXVIIRegency||f.varennesRegency)return'Louis XVII · régence du comte de Provence';if(f.monarchyContinuity||/Monarchie|Royaume/.test(state?.regime||''))return'Louis XVI / Couronne';return /Consulat/.test(state?.regime||'')?'Premier consul':'Souveraineté nationale'}
+ function earned(){const f=state?.flags||{},a=[];if(f.conquestSavoieNice)a.push('Savoie','Nice');if(f.conquestBelgiumRhine)a.push('Belgique','Rhin');if(f.conquestPiedmontLiguria)a.push('Piémont','Ligurie');if(f.conquestItalyAdriatic)a.push('Genève','Toscane','Rome','Illyrie');if(f.conquestHolland)a.push('Hollande');if(f.conquestCatalonia)a.push('Catalogne');if(f.bourbonRestoration1814||f.historicalRestoration1815||f.supportBourbons1815||f.waterlooBattle)return[];return a}
+ function chrome(){if(!state)return;const q=id=>document.getElementById(id);if(q('revStateName'))q('revStateName').textContent=state.regime||'France';if(q('revRuler'))q('revRuler').textContent=rulerV2();if(q('revFunction'))q('revFunction').textContent=state.role||'Député';const t=earned();if(q('revTerritory'))q('revTerritory').textContent=t.length?`France + ${t.length}`:'France';cv2TurnBadge((state.turn||0)+1)}
+ if(typeof renderEvent==='function'){const o=renderEvent;renderEvent=function(){const r=o.apply(this,arguments);setTimeout(chrome,0);return r}}
+ if(typeof renderStats==='function'){const o=renderStats;renderStats=function(){const r=o.apply(this,arguments);setTimeout(chrome,0);return r}}
+ // Référendums : résultat enregistré, affiché et répercuté dans les scores/branches.
+ if(!Array.isArray(state?.referenda)&&state)state.referenda=[];
+ function resolveRef(ev,c){if(!state||!c)return;const hit=/referendum/i.test(String(c.flag||''))||(c.tags||[]).some(t=>/référendum/i.test(t));if(!hit)return;if(!Array.isArray(state.referenda))state.referenda=[];const key=`${ev.id}|${c.flag}|${state.turn}`;if(state.referenda.some(x=>x.key===key))return;let yes=48+(state.democracy-50)*.18+(state.influence-50)*.12+(state.province-50)*.08+(state.order-50)*.05;const f=String(c.flag||'');if(/Republic/i.test(f))yes+=(state.rev-50)*.12-(state.royalPower-50)*.10;if(/king|Crown/i.test(f))yes+=(state.royalPower-50)*.12-(state.rev-50)*.08;yes=Math.max(24,Math.min(78,Math.round(yes+(cv2Hash(key)%13)-6)));const no=100-yes,approved=yes>=50;state.referenda.push({key,date:ev.date,question:c.t,yes,no,approved});if(approved){state.influence=clamp(state.influence+4);state.order=clamp(state.order+3);state.flags[f+'Approved']=true}else{state.influence=clamp(state.influence-4);state.order=clamp(state.order-2);state.flags[f+'Rejected']=true;if(f==='referendumRepublic1792')state.royalPower=clamp(state.royalPower+8)}const text=`Référendum : ${yes}% oui · ${no}% non — ${approved?'proposition approuvée':'proposition rejetée'}.`;state.log.push({date:ev.date,text});const out=document.getElementById('outcome');if(out){out.classList.remove('hidden');out.textContent=text}saveGame(true)}
+ if(typeof choose==='function'){const o=choose;choose=function(i){const ev=currentEvent(),c=ev?.choices?.[i];const r=o.apply(this,arguments);if(c&&state?.alive!==false)resolveRef(ev,c);setTimeout(chrome,0);return r}}
+ // Journal unique : jauges + dossier + carrière + chronologie + référendums.
+ openJournal=function(){if(!state)return;const gauges=[['Influence','influence'],['Armée','army'],['Autorité','authority'],['Démocratie','democracy'],['Ordre','order'],['Fédéralisme','federal'],['Social','social'],['Monarchisme','royalPower']];const gh=`<div class="cv2-jtitle">Jauges</div><div class="cv2-gauges">${gauges.map(([n,k])=>`<div class="cv2-gauge"><div class="cv2-grow"><span>${n}</span><b>${Math.round(state[k]||0)}</b></div><div class="cv2-rail"><i style="width:${state[k]||0}%"></i></div></div>`).join('')}</div>`;const refs=(state.referenda||[]).map(x=>`<div class="journalitem"><b>${x.date}</b> — ${x.yes}% oui / ${x.no}% non : ${x.approved?'adopté':'rejeté'}</div>`).join('')||'<p>Aucun référendum résolu.</p>';openModal('Journal',`${gh}<div class="cv2-jtitle">Dossier & carrière</div><div class="cv2-jgrid"><div class="cv2-jcard"><b>Fonction</b><span>${state.role}</span></div><div class="cv2-jcard"><b>Régime</b><span>${state.regime}</span></div><div class="cv2-jcard"><b>Relations</b><span>${relationSummary()}</span></div><div class="cv2-jcard"><b>Rapport de force</b><span>${powerSummary()}</span></div></div><div class="cv2-jtitle">Référendums</div>${refs}<div class="cv2-jtitle">Chronologie</div>${state.log.slice().reverse().map(x=>`<div class="journalitem"><b>${x.date}</b> — ${genderedText(x.text||'')}</div>`).join('')}<p><button class="btn" onclick="closeModal();resetGame()">Nouvelle partie</button></p>`)};
+ // Fin : ajoute carte finale et classement complet des profils si absents.
+ if(typeof finishGame==='function'){const o=finishGame;finishGame=function(reason){const r=o.apply(this,arguments);if(reason==='mort')return r;setTimeout(()=>{const v=document.getElementById('endingView');if(!v||v.querySelector('.cv2-end-extra'))return;const fut=project2026();const map=document.getElementById('harmonyRevMap')?.innerHTML||'';const rows=['plaine','gironde','montagne','royal'].map(k=>[({plaine:'Plaine',gironde:'Girondin',montagne:'Montagnard',royal:'Royaliste'})[k],Math.round((state.voteProfile?.[k]?.total||0)/(state.voteProfile?.[k]?.weight||1))]);const x=document.createElement('div');x.className='cv2-end-extra';x.innerHTML=`<h3>Carte de la France et de ses territoires</h3><div class="summarybox">${map||'<p>La carte finale reprend les territoires effectivement acquis et conservés.</p>'}</div><h3>Carrière finale</h3><p>${state.name} termine la période comme <strong>${state.role}</strong>.</p><h3>Profil de vote — cohérences décroissantes</h3>${cv2ProfileRows(rows)}`;v.appendChild(x)},0);return r}}
+ chrome();
+})();
+</script>
+
+
+<style id="v5-siecle-layout-lan1">
+/* Gabarit mobile calé sur Le Siècle Rouge, sans changer la palette révolutionnaire. */
+#dossierBtn{display:none!important}.scene-notes,.statusstrip{display:none!important}
+.rev-state-strip{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:5px!important}
+.rev-state-strip .statuschip{min-width:0!important;min-height:52px!important;padding:7px 9px!important;border-radius:9px!important;text-align:left!important;display:block!important}
+.rev-state-strip .statuschip span{font-size:.52rem!important;letter-spacing:.08em!important}.rev-state-strip .statuschip b{font-size:.82rem!important;line-height:1.08!important;margin-top:3px!important;display:block!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+.event-head{border-radius:22px!important;padding:12px 18px!important;max-height:none!important;overflow:auto!important}.event-title{font-size:clamp(1.45rem,4vw,2.15rem)!important;line-height:1!important}.event-text{font-size:.88rem!important;line-height:1.34!important;display:block!important;overflow:visible!important;-webkit-line-clamp:unset!important}
+.scene-visual-context{display:grid!important;grid-template-columns:1fr 1fr!important;gap:5px!important;flex:1 1 auto!important;min-height:190px!important;max-height:285px!important}.scene-card,.historical-context{min-height:190px!important;border-radius:20px!important}.historical-context-text{font-size:.8rem!important;line-height:1.34!important}.historical-context-title{font-size:.58rem!important}
+.choices{gap:6px!important}.choices.three{grid-template-columns:repeat(3,minmax(0,1fr))!important}.choices:not(.three){grid-template-columns:1fr 1fr!important}.choice{min-height:82px!important;border-radius:17px!important;padding:10px 11px!important}.choice strong{font-size:.9rem!important;line-height:1.1!important}.choice span{font-size:.68rem!important;line-height:1.2!important}.choice.locked{opacity:.48!important;filter:grayscale(.45)!important}.outcome{display:none!important}
+#cv2Turn{font-size:.56rem!important}
+@media(max-width:720px){
+ .masthead{height:61px!important;flex-basis:61px!important;padding:5px 8px!important}.masthead h1{font-size:1.15rem!important}.subtitle{display:block!important;font-size:.55rem!important;line-height:1.1!important;white-space:normal!important}.header-actions{gap:3px!important}.header-actions .iconbtn{font-size:.49rem!important;padding:6px!important;border-radius:10px!important}
+ .rev-state-strip .statuschip{min-height:49px!important;padding:6px!important}.rev-state-strip .statuschip span{font-size:.48rem!important}.rev-state-strip .statuschip b{font-size:.72rem!important}
+ .event-head{padding:10px 13px!important;border-radius:20px!important}.event-title{font-size:1.55rem!important}.event-text{font-size:.78rem!important;line-height:1.28!important}
+ .scene-visual-context{min-height:205px!important;max-height:250px!important}.scene-card,.historical-context{min-height:205px!important}.historical-context-text{font-size:.72rem!important;line-height:1.3!important}.historical-context-title{font-size:.52rem!important}
+ .choice{min-height:83px!important;padding:10px 9px!important}.choice strong{font-size:.82rem!important}.choice span{font-size:.63rem!important}.tag{font-size:.41rem!important}
+}
+@media(max-width:720px) and (max-height:700px){.scene-visual-context{min-height:155px!important;max-height:190px!important}.scene-card,.historical-context{min-height:155px!important}.choice{min-height:68px!important}.event-text{font-size:.72rem!important}}
+</style>
+<script id="v5-lan1-header">
+(function(){
+ const host=document.querySelector('.header-actions'); if(host){[...host.querySelectorAll('button')].filter(b=>/Dossier|Jauges|Chronologie/i.test(b.textContent)).forEach(b=>b.remove());const j=[...host.querySelectorAll('button')].find(b=>/Journal/i.test(b.textContent));if(j){j.textContent='Journal';j.title='Jauges, dossier, carrière et chronologie'}}
+})();
+</script>
+
+<script id="v5-welcome-order">
+(function(){
+ function reorder(){const a=document.querySelector('.cw-actions,.start-actions');if(!a)return;const kids=[...a.children],start=kids.find(x=>/Commencer/i.test(x.textContent)),idx=kids.find(x=>/Index/i.test(x.textContent)),resume=kids.find(x=>/Reprendre/i.test(x.textContent));if(start)a.appendChild(start);if(idx)a.appendChild(idx);if(resume)a.appendChild(resume)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',reorder);else reorder();
+})();
+</script>
+
+
+<style id="v5-final-common">
+.v5-final-summary{margin:12px 0 18px;padding:12px;border:1px solid rgba(105,83,55,.28);border-radius:14px;background:rgba(255,255,255,.16)}.v5-final-summary h3{margin:15px 0 7px}.v5-final-summary .v5-lead{font-size:.92rem;line-height:1.5}.v5-final-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.v5-final-grid>div{border:1px solid rgba(100,80,55,.25);border-radius:9px;background:rgba(255,255,255,.25);padding:8px}.v5-final-grid b{display:block;font-size:.62rem;text-transform:uppercase;letter-spacing:.05em;opacity:.72;margin-bottom:3px}.v5-flag{width:min(420px,100%);margin:7px auto}.v5-flag svg{display:block;width:100%;height:auto;filter:drop-shadow(0 4px 8px rgba(0,0,0,.16))}.v5-map{height:310px;border-radius:12px;overflow:hidden;background:#abc1c1;border:1px solid rgba(80,70,55,.3)}.v5-map svg{width:100%;height:100%;display:block}.v5-important{display:grid;gap:5px}.v5-important>div{border-left:4px solid currentColor;background:rgba(255,255,255,.22);padding:6px 8px;border-radius:5px;font-size:.72rem;line-height:1.28}.v5-profiles{display:grid;gap:4px}.v5-profile{display:grid;grid-template-columns:1fr 46px;gap:7px;border-bottom:1px solid rgba(100,80,55,.18);padding:5px 0}.v5-profile b{text-align:right}.v5-country p{line-height:1.5!important}.v5-journal-btn{margin-top:10px}
+@media(max-width:720px){.v5-final-summary{padding:9px}.v5-final-grid{grid-template-columns:1fr 1fr}.v5-map{height:250px}.v5-final-summary .v5-lead{font-size:.82rem}.v5-country p{font-size:.78rem!important}}
+</style>
+<script id="v5-final-helpers">
+window.v5Esc=window.v5Esc||function(s){return String(s??'').replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[m]))};
+window.v5Important=window.v5Important||function(log,max=12){const a=Array.isArray(log)?log:[];if(!a.length)return[];const score=x=>{const t=JSON.stringify(x).toLowerCase();let n=1;if(/guerre|constitution|république|monarch|empire|union|indépend|conqu|annex|réforme|élection|traité|dissol|président|roi|empereur|fédér|social/.test(t))n+=3;if(/historique|uchronie/.test(t))n++;return n};const ranked=a.map((x,i)=>({x,i,s:score(x)})).sort((a,b)=>b.s-a.s||a.i-b.i).slice(0,Math.min(max,a.length)).sort((a,b)=>a.i-b.i);return ranked.map(z=>z.x)};
+window.v5Profiles=window.v5Profiles||function(rows){return `<div class="v5-profiles">${rows.map(([n,v])=>[n,Math.max(0,Math.min(100,Math.round(Number(v)||0)))]).sort((a,b)=>b[1]-a[1]).map(([n,v],i)=>`<div class="v5-profile"><span>${i+1}. ${n}</span><b>${v}%</b></div>`).join('')}</div>`};
+</script>
+
+<script id="v5-final-lan1">
+(function(){if(typeof finishGame!=='function')return;const old=finishGame;finishGame=function(reason){const r=old.apply(this,arguments);if(reason==='mort')return r;setTimeout(()=>{const host=document.getElementById('endingView');if(!host||host.querySelector('.v5-final-summary'))return;host.querySelectorAll('.cv2-end-extra,.vote-summary-final').forEach(x=>x.remove());const f=project2026(),logs=v5Important(state.log||[],12);const map=document.getElementById('harmonyRevMap')?.innerHTML||'<svg viewBox="0 0 800 400"><rect width="800" height="400" fill="#abc1c1"/><text x="400" y="205" text-anchor="middle">Carte finale disponible dans Journal</text></svg>';const flag=/Monarchie|Royaume|Empire/.test(f.name||'')?`<svg viewBox="0 0 360 220"><rect width="360" height="220" fill="#f5e7c6"/><g fill="#31518a"><path d="M0 0h120v220H0z"/><path d="M240 0h120v220H240z"/></g><path d="M180 62l16 30 34 5-25 24 6 34-31-16-31 16 6-34-25-24 34-5z" fill="#c49a40"/></svg>`:`<svg viewBox="0 0 360 220"><rect width="120" height="220" fill="#244d8b"/><rect x="120" width="120" height="220" fill="#f5f1e8"/><rect x="240" width="120" height="220" fill="#b22f3b"/></svg>`;const paras=(typeof futurePortrait2026==='function'?futurePortrait2026(f):[f.text]).slice(0,7);const rows=['plaine','gironde','montagne','royal'].map(k=>[({plaine:'Plaine',gironde:'Girondin',montagne:'Montagnard',royal:'Royaliste'})[k],Math.round((state.voteProfile?.[k]?.total||0)/(state.voteProfile?.[k]?.weight||1))]);const x=document.createElement('section');x.className='v5-final-summary';x.innerHTML=`<h3>${v5Esc(f.name||'France')} en 2026</h3><p class="v5-lead">Deux cent trente-sept ans après les États généraux, la France issue de vos votes a trouvé sa forme. La carte, les institutions, les guerres, les conquêtes et les compromis que vous avez construits déterminent maintenant le pays de 2026.</p><h3>10 à 12 décisions déterminantes</h3><div class="v5-important">${logs.map(z=>`<div><b>${v5Esc(z.date||'')}</b> — ${v5Esc(z.text||z.choice||z.event||'Décision')}</div>`).join('')}</div><h3>Drapeau</h3><div class="v5-flag">${flag}</div><h3>Carte</h3><div class="v5-map">${map}</div><h3>Institutions</h3><div class="v5-final-grid"><div><b>Chef de l’État</b>${v5Esc(f.head||'Chef de l’État français')}</div><div><b>Constitution</b>${v5Esc(f.constitution||'Constitution issue de votre chronologie')}</div><div><b>Parlement</b>${v5Esc(f.parliament||'Assemblée(s) nationale(s)')}</div><div><b>Territoire(s)</b>${v5Esc(f.territory||'France et territoires conservés')}</div><div><b>Devise</b>${v5Esc(f.motto||'Liberté, Égalité, Fraternité')}</div><div><b>Carrière finale</b>${v5Esc(state.role||'Responsable politique')}</div></div><div class="v5-country"><h3>Votre ${v5Esc(f.name||'France')} en 2026 :</h3>${paras.map(p=>`<p>${p}</p>`).join('')}</div><h3>Profil de vote — cohérences décroissantes</h3>${v5Profiles(rows)}<p><button class="btn v5-journal-btn" onclick="openJournal()">Journal complet</button></p>`;host.appendChild(x)},60);return r}}
+)();
+</script>
+
+<script id="v6-playability-guard">
+(function(){
+ const base=effectiveRequirement;
+ effectiveRequirement=function(ev,c,idx){const req=base(ev,c,idx);if(meetsRequirement(req))return req;const order=choiceOrderFor(ev),any=ev.choices.some((x,i)=>meetsRequirement(base(ev,x,i)));return !any&&idx===order[0]?null:req};
+})();
+</script>
+<script id="autonomous-catalog-v8">(function(){window.__DYNAMIC_SCENE_POOL=()=>{const all=[...events,...Object.values(altEvents)].filter(e=>e&&Array.isArray(e.choices));return{autonomous:true,total:all.length,choices:all.reduce((n,e)=>n+e.choices.length,0),played:50}}})();</script>
+<script id="dynamic-queue-cap-v7">(function(){function cap(){if(!state||!Array.isArray(state.queue)||state.queue.length<=50)return;const src=state.queue.slice(),out=[];for(let i=0;i<50;i++){const id=src[Math.round(i*(src.length-1)/49)];if(id&&!out.includes(id))out.push(id)}for(const id of src)if(out.length<50&&!out.includes(id))out.push(id);state.queue=out.slice(0,50);state.idx=0}const old=startGame;startGame=function(){const r=old.apply(this,arguments);cap();renderEvent();saveGame(true);return r}})();</script>
+<script id="dynamic-hard-turn-cap-v7">(function(){const old=nextEvent;nextEvent=function(){if(state&&state.turn>=50){finishGame('survived');return}return old.apply(this,arguments)}})();</script>
+
+
+</body></html>
