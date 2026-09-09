@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-09-09T18:52:27.814Z",
+  "updatedAt": "2026-09-09T19:45:31.649Z",
   "games": [
     {
       "id": "13-sous-la-couronne",
@@ -81,7 +81,7 @@
       "published": true,
       "order": 50,
       "addedAt": "2026-09-03T00:00:00.000Z",
-      "updatedAt": "2026-09-09T18:52:27.814Z"
+      "updatedAt": "2026-09-09T19:45:31.649Z"
     },
     {
       "id": "siecle-rouge-v15",
